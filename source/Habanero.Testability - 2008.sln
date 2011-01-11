@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability", "Habanero.Testability\Habanero.Testability.2008.csproj", "{89F76B54-7059-4863-86D3-3D0CA11CAA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Tests", "Habanero.Testability.Tests\Habanero.Testability.Tests.2008.csproj", "{9AFB16D0-E291-418E-947F-E47081038239}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Testers", "Habanero.Testability.Testers\Habanero.Testability.Testers.2008.csproj", "{B4146E78-FC64-421A-BB2A-95818EF32EB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Testers.Tests", "Habanero.Testability.Testers.Tests\Habanero.Testability.Testers.Tests.2008.csproj", "{1EA1C82F-EDFD-4B17-9514-AA8BA9C61C37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Tests.Base", "Habanero.Testability.Tests.Base\Habanero.Testability.Tests.Base.2008.csproj", "{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Helpers", "Habanero.Testability.Helpers\Habanero.Testability.Helpers.2008.csproj", "{B0BBF7BB-9F01-4871-82D9-781E069AD210}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4146E78-FC64-421A-BB2A-95818EF32EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4146E78-FC64-421A-BB2A-95818EF32EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4146E78-FC64-421A-BB2A-95818EF32EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4146E78-FC64-421A-BB2A-95818EF32EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA1C82F-EDFD-4B17-9514-AA8BA9C61C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA1C82F-EDFD-4B17-9514-AA8BA9C61C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA1C82F-EDFD-4B17-9514-AA8BA9C61C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA1C82F-EDFD-4B17-9514-AA8BA9C61C37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0BBF7BB-9F01-4871-82D9-781E069AD210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0BBF7BB-9F01-4871-82D9-781E069AD210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0BBF7BB-9F01-4871-82D9-781E069AD210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0BBF7BB-9F01-4871-82D9-781E069AD210}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

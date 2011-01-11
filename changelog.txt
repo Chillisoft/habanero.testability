@@ -1,0 +1,5 @@
+Habanero Testability Change log
+
+v1.1 - 10 September 2010
+
+First public release
