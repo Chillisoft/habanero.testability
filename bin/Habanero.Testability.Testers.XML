@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Habanero.Testability.Testers</name>
+    </assembly>
+    <members>
+        <member name="T:Habanero.Testability.Testers.BOTester">
+            <summary>
+            This is a specialised Tester for testing Habanero.<see cref="T:Habanero.Base.IPropDef"/> 
+            This tester provides methods for testing the basic attributes of a <see cref="T:Habanero.Base.IPropDef"/>
+            such as ShouldBeCompulsory.
+            </summary>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldHaveDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> does not have a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldNotHaveDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> has a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldHaveDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> does not have a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+            <param name="defaultValue">The default value for this property.</param>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldNotHaveDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> has a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldBeCompulsory(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> does not have a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldNotBeCompulsory(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> does not have a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+        </member>
+        <member name="M:Habanero.Testability.Testers.BOTester`1.ShouldHaveReadWriteRule(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},Habanero.Base.PropReadWriteRule)">
+            <summary>
+            Raises <see cref="T:NUnit.Framework.AssertionException"/> if the prop identified by
+            <paramref name="propExpression"/> does not have a default value set.
+            Does nothing otherwise
+            </summary>
+            <param name="propExpression"></param>
+            <param name="expectedReadWriteRule">The expected ReadWriteRule</param>
+        </member>
+        <member name="T:Habanero.Testability.Testers.PropDefTester">
+            <summary>
+            This is a specialised Tester for testing Habanero.<see cref="T:Habanero.Base.IPropDef"/> 
+            This tester provides methods for testing the basic attributes of a <see cref="T:Habanero.Base.IPropDef"/>
+            such as ShouldBeCompulsory.
+            </summary>
+        </member>
+        <member name="T:Habanero.Testability.Testers.BOPropTester">
+            <summary>
+            This is a specialised Tester for testing Habanero.<see cref="T:Habanero.Base.IPropDef"/> 
+            This tester provides methods for testing the basic attributes of a <see cref="T:Habanero.Base.IPropDef"/>
+            such as ShouldBeCompulsory.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,6 @@
+Habanero Testability Change log
+
+v1.1 - 10 September 2010
+
+First public release.
+Built against Habanero Core 2.5.0 and Smooth Habanero 1.2
