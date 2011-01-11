@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability", "Habanero.Testability\Habanero.Testability.csproj", "{89F76B54-7059-4863-86D3-3D0CA11CAA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Tests", "Habanero.Testability.Tests\Habanero.Testability.Tests.csproj", "{9AFB16D0-E291-418E-947F-E47081038239}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F76B54-7059-4863-86D3-3D0CA11CAA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFB16D0-E291-418E-947F-E47081038239}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
