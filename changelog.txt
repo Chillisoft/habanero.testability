@@ -1,0 +1,20 @@
+Habanero Faces Change log
+
+v1.0.1 - 19 July 2010
+
+Features
+- Added the ability to CreateManySavedBusinessObjects to the BOTestFactory
+- Added WithOne, WithTwo, WithMany, WithOutSingleRelationships to the Factory.
+- Made a WithMany on the BOTestFactory such that easy to create multiple children object for an BusinessObject.
+Fixes
+- Fixed Bug #521 a minor bug where the RandomString Get where the MaxLength was -1 generated an Error 
+- Fixed Failing RandomValueGen Test
+- Added Tests for GetRandomInt
+- Added PropDefFake.cs
+- Refactored ValidValueGeneratorRegistry.cs
+- Removed references to Habanero.Smooth from Testability
+
+v1.0.0 - 10 May 2010
+
+Major Changes
+- First Version release
