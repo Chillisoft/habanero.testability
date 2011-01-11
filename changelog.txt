@@ -1,0 +1,14 @@
+Habanero Testability Change log
+
+v1.2 - 3 December 2010
+Built against Habanero Core 2.5.1 and Smooth Habanero 1.4
+
+#929 - Need Ability to Return the PropDefTester from the BOTester so that it is easier to do all prop tests in a single test method
+#933 - Testers Unique Constraint: Add Testers for Simple Unique Constraint
+#937 - Testers Relationship: Need to Create Tester methods for testing single Relationship
+#972 - Tester: Test when Set Property via reflection mapped to a non existent prop or relationship
+
+v1.1 - 10 September 2010
+
+First public release.
+Built against Habanero Core 2.5.0 and Smooth Habanero 1.2
