@@ -45,8 +45,8 @@ end
 
 exec :checkout_smooth do |cmd| #command to check out smooth source using SVN
 	cmd.path_to_command = "../../../../Utilities/BuildServer/Subversion/bin/svn.exe"
-	cmd.parameters %q(checkout "http://delicious:8080/svn/habanero/Habanero Community/SmoothHabanero/branches/v1.5/" "temp/Smooth1.5/" --username chilli --password chilli --non-interactive)
-	# %q(...) is used to encase the parameters in a quote, necessary  because of the space in 'Habanero Community'
+	cmd.parameters %q(checkout "http://delicious:8080/svn/habanero/HabaneroCommunity/SmoothHabanero/branches/v1.5/" "temp/Smooth1.5/" --username chilli --password chilli --non-interactive)
+	# %q(...) is used to encase the parameters in a quote, necessary  because of the space in 'HabaneroCommunity'
 end
 
 msbuild :msdo_smooth do |msb| #builds smooth with msbuild
@@ -64,7 +64,7 @@ msbuild :msdo_smooth do |msb| #builds smooth with msbuild
 	end
   
     task :clean_testability do #deletes bin folder before build
-	FileUtils.rm_rf 'temp/Habanero Community/Habanero.Testability/branches/v1.3_HabV2.6/bin'
+	FileUtils.rm_rf 'temp/HabaneroCommunity/Habanero.Testability/branches/v1.3_HabV2.6/bin'
 end
 
 msbuild :msdo_testability do |msb| #builds testability with msbuild
