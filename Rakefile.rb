@@ -10,7 +10,7 @@ task :do_smooth => [:checkout_smooth,:copy_dlls_to_smooth_lib,:clean_smooth,:msd
 
 task :do_faces => [:checkout_faces,:copy_dlls_to_faces_lib,:clean_faces,:msdo_faces]
 
-task :do_testability => [:copy_dlls_to_testability_lib,:clean_testability,:msdo_testability,:commit_lib]
+task :do_testability => [:copy_dlls_to_testability_lib,:clean_testability,:msdo_testability,:run_nunit,:commit_lib]
 
 #Global($) Constants(begin with capital letter in ruby) for easier configuration of the script
 
