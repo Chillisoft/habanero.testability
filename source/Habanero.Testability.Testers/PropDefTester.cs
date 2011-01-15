@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Habanero.Base;
+using Habanero.BO;
 using Habanero.BO.ClassDefinition;
 using Habanero.Testability.Helpers;
+using Habanero.Util;
 using NUnit.Framework;
 
 namespace Habanero.Testability.Testers
@@ -31,6 +34,7 @@ namespace Habanero.Testability.Testers
             if (propDef == null) throw new ArgumentNullException("propDef");
             PropDef = propDef;
         }
+
         /// <summary>
         /// Should have a rule this Assert does not specify what rule just that it has a Rule
         /// </summary>
@@ -39,6 +43,69 @@ namespace Habanero.Testability.Testers
             var errMessage = BaseMessage + " should have Rules set";
             this.PropDef.PropRules.ShouldNotBeEmpty(errMessage);
         }
+
+        /// <summary>
+        /// Should have a rule of the specified type e.g. <see cref="PropRuleDate"/>.
+        /// Note_ this Test does not test that the min, max values etc are correct for the
+        /// rule merely that there is a rule of that type.
+        /// </summary>
+        public void ShouldHaveRule<TRuleType>() where TRuleType: IPropRule
+        {
+            var ruleType = typeof(TRuleType);
+            var errMessage = BaseMessage +" should have a rule of type '" + ruleType + "'";
+            var matchingRule = GetRuleOfType<TRuleType>();
+            matchingRule.ShouldNotBeNull(errMessage);
+        }
+
+        private IPropRule GetRuleOfType<TRuleType>() where TRuleType : IPropRule
+        {
+            return this.PropDef.PropRules.FirstOrDefault(rule => rule.IsOfType<TRuleType>());
+        }
+
+        /// <summary>
+        /// Should have a rule of the specified type e.g. <see cref="PropRuleDate"/>.
+        /// Note_ this Test does not test that the min, max values etc are correct for the
+        /// rule merely that there is a rule of that type.
+        /// </summary>
+        public void ShouldHaveRule<TRuleType>(string min, string max) where TRuleType : IPropRuleComparable<DateTime>, IPropRule
+        {
+            this.ShouldHaveRule<TRuleType>();
+
+            var message = BaseMessage + " the PropRule of type '" + typeof(TRuleType);
+            var propRule = GetRuleOfType<TRuleType>() as IPropRuleComparable<DateTime>;
+
+            if (!string.IsNullOrEmpty(min) && propRule != null)
+            {
+                var expectedMinDate = DateTimeUtilities.ParseToDate(min);
+                Assert.AreEqual(expectedMinDate, propRule.MinValue, message + "' MinValue Should Be '" + min + "'");
+            }
+            if (!string.IsNullOrEmpty(max) && propRule != null)
+            {
+                var expectedMaxDate = GetLastMillisecondOfDay(max);
+                Assert.AreEqual(expectedMaxDate, propRule.MaxValue, message + "' MaxValue Should Be '" + min + "'");
+            }
+        }
+
+        private static DateTime GetLastMillisecondOfDay(string max)
+        {
+            return DateTimeUtilities.ParseToDate(max).AddDays(1).AddMilliseconds(-1);
+        }
+
+        /// <summary>
+        /// Should have a rule of the specified type e.g. <see cref="PropRuleDate"/>.
+        /// Note_ this Test does not test that the min, max values etc are correct for the
+        /// rule merely that there is a rule of that type.
+        /// </summary>
+        public void ShouldHaveRule<TRuleType, T>(T? min, T? max) where TRuleType : IPropRuleComparable<T>, IPropRule where T : struct
+        {
+            this.ShouldHaveRule<TRuleType>();
+
+            var message = BaseMessage + " the PropRule of type '" + typeof(TRuleType);
+            var propRule = GetRuleOfType<TRuleType>() as IPropRuleComparable<T>;
+            if (min != null && propRule != null) Assert.AreEqual(min, propRule.MinValue, message + "' MinValue Should Be '" + min + "'");
+            if (max != null && propRule != null) Assert.AreEqual(max, propRule.MaxValue, message + "' MaxValue Should Be '" + min + "'");
+        }
+
         /// <summary>
         /// Should have a default value this Assert does not specify what the default value should be 
         /// but merely assserts that there is one.
@@ -106,6 +173,16 @@ namespace Habanero.Testability.Testers
     ///</summary>
     public static class PropDefExtensions
     {
+        /// <summary>
+        /// Checks if the PropRule is of the correct Type
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <returns></returns>
+        public static bool IsOfType<TRuleType>(this IPropRule rule) where TRuleType: IPropRule
+        {
+            return rule.GetType() == typeof(TRuleType);
+        }
+
         /// <summary>
         /// Asserts that the property Def is set up as compulsory
         /// </summary>

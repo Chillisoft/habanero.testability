@@ -216,6 +216,205 @@ namespace Habanero.Testability.Testers.Tests
             }
         }
 
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenHas_ShouldAssertTrue()
+        {
+            //---------------Set up test pack-------------------
+            var propDef = new PropDefFake();
+            propDef.AddPropRule(GetPropRuleDate());
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+            tester.ShouldHaveRule<PropRuleDate>();
+            //---------------Test Result -----------------------
+            Assert.IsTrue(true, "If it has got here then passed");
+        }
+
+        [Test]
+        public void Test_ShouldHavPropRuleDate_WhenNotHas_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            propDef.AddPropRule(MockRepository.GenerateMock<IPropRule>());
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsNotInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+            try
+            {
+                tester.ShouldHaveRule<PropRuleDate>();
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+                //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}' should have a rule of type ",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+            }
+        }
+
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenSpecifyMinAndMaxDate_WhenRuleMatches_ShouldAssertTrue()
+        {
+            //---------------Set up test pack-------------------
+            var propDef = new PropDefFake();
+            var minDate = DateTime.Today;
+            var maxDate = DateTime.Today.AddDays(3);
+            propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+
+            var expectedMaxDate = maxDate.AddDays(1).AddMilliseconds(-1);//Rule automatically moves it to the last millisecond of the Day.
+            tester.ShouldHaveRule<PropRuleDate, DateTime>(minDate, expectedMaxDate);
+            //---------------Test Result -----------------------
+            Assert.IsTrue(true, "If it has got here then passed");
+        }
+
+
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenSpecifyMinAndMaxDate_WhenMinDoesNotMatch_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            var minDate = DateTime.Today;
+            DateTime? maxDate = null;
+            propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+            try
+            {
+                tester.ShouldHaveRule<PropRuleDate, DateTime>(minDate.AddDays(-1), maxDate);
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}'",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+                StringAssert.Contains("MinValue Should Be ", ex.Message);
+
+            }
+        }
+
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenSpecifyMinAndMaxDate_WhenMaxDoesNotMatch_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            DateTime? minDate = null;
+            var maxDate = DateTime.Today.AddDays(3);
+            propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+            try
+            {
+                tester.ShouldHaveRule<PropRuleDate, DateTime>(minDate, maxDate.AddDays(-1));
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}'",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+                StringAssert.Contains("MaxValue Should Be ", ex.Message);
+
+            }
+        }
+
+        
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenSpecifyMinAndMaxString_WhenRuleMatches_ShouldAssertTrue()
+        {
+            //---------------Set up test pack-------------------
+            var propDef = new PropDefFake();
+            String minDate = "Today";
+            String maxDate = "Tomorrow";
+            propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+
+            var expectedMaxDate = maxDate;
+            tester.ShouldHaveRule<PropRuleDate>(minDate, expectedMaxDate);
+            //---------------Test Result -----------------------
+            Assert.IsTrue(true, "If it has got here then passed");
+        }
+
+
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenSpecifyMinAndMaxString_WhenMinDoesNotMatch_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            var minDate = "Today";
+            string maxDate = null;
+            propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+            try
+            {
+                tester.ShouldHaveRule<PropRuleDate>("Tomorrow", maxDate);
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}'",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+                StringAssert.Contains("MinValue Should Be ", ex.Message);
+
+            }
+        }
+
+        [Test]
+        public void Test_ShouldHavePropRuleDate_WhenSpecifyMinAndMaxString_WhenMaxDoesNotMatch_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            String minDate = "";
+            var maxDate = "Tomorrow";
+            propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
+            //---------------Execute Test ----------------------
+            try
+            {
+                tester.ShouldHaveRule<PropRuleDate>(minDate, "Today");
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}'",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+                StringAssert.Contains("MaxValue Should Be ", ex.Message);
+
+            }
+        }
 
         [Test]
         public void Test_ShouldHaveDefault_WhenHasDefault_ShouldAssertTrue()
@@ -570,6 +769,35 @@ namespace Habanero.Testability.Testers.Tests
         private static IPropDef GetMockPropDef()
         {
             return MockRepository.GenerateStub<IPropDef>();
+        }
+
+        private static PropRuleDate GetPropRuleDate()
+        {
+            var propRuleDate = new PropRuleDate("", "")
+            {
+                Parameters =
+                    new Dictionary<string, object> { { "min", "Today" }, { "max", "Tomorrow" } }
+            };
+            return propRuleDate;
+        }
+
+        private static IPropRule GetPropRuleDate(DateTime? minDate, DateTime? maxDate)
+        {
+            var propRuleDate = new PropRuleDate("", "")
+            {
+                Parameters =
+                    new Dictionary<string, object> { { "min", minDate }, { "max", maxDate } }
+            };
+            return propRuleDate;
+        }
+        private static IPropRule GetPropRuleDate(string minDate, string maxDate)
+        {
+            var propRuleDate = new PropRuleDate("", "")
+            {
+                Parameters =
+                    new Dictionary<string, object> { { "min", minDate }, { "max", maxDate } }
+            };
+            return propRuleDate;
         }
     }
     // ReSharper restore InconsistentNaming
