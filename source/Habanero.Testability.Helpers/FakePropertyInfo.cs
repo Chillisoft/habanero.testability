@@ -23,27 +23,72 @@ using Rhino.Mocks;
 
 namespace Habanero.Testability.Helpers
 {
+    /// <summary>
+    /// Fake PropertyInfo for testing reflection code e.g. binding, Smooth, testability.
+    /// </summary>
     public class FakePropertyInfo : PropertyInfo
     {
         private readonly Type _declaringType;
         private readonly string _propName;
         private readonly Type _propType;
         private Type _reflectedType;
-
-        public FakePropertyInfo(string propName, Type propType)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propName"></param>
+        /// <param name="propType"></param>
+        /// <param name="declaringType"></param>
+        public FakePropertyInfo(string propName, Type propType, Type declaringType)
         {
             _propName = propName;
             _propType = propType;
-        }
-        public FakePropertyInfo(Type declaringType)
-        {
             _declaringType = declaringType;
+
         }
-        public FakePropertyInfo()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propName"></param>
+        /// <param name="propType"></param>
+        public FakePropertyInfo(string propName, Type propType)
+            : this(propName, propType, GetMockType())
         {
-            _declaringType = MockRepository.GenerateMock<Type>();
-            _propType = MockRepository.GenerateMock<Type>();
-            _propName = RandomStringGen.GetRandomString();
+
+        }
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="declaringType"></param>
+        public FakePropertyInfo(Type declaringType)
+            : this(GetRandomString(), GetMockType(), declaringType)
+        {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public FakePropertyInfo()
+            : this(GetRandomString(), GetMockType(), GetMockType())
+        {
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propName"></param>
+        public FakePropertyInfo(string propName)
+            : this(propName, GetMockType(), GetMockType())
+        {
+
+        }
+
+        private static Type GetMockType()
+        {
+            return MockRepository.GenerateMock<Type>();
+        }
+
+        private static string GetRandomString()
+        {
+            return RandomStringGen.GetRandomString();
         }
 
         public override object[] GetCustomAttributes(bool inherit)
@@ -106,6 +151,10 @@ namespace Habanero.Testability.Helpers
         {
             get { return _reflectedType; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reflectedType"></param>
         public void SetReflectedType(Type reflectedType)
         {
             _reflectedType = reflectedType;
