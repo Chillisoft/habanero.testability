@@ -18,10 +18,9 @@
 // ---------------------------------------------------------------------------------
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Habanero.Smooth.Test
+namespace Habanero.Testability.Helpers
 {
     /// <summary>
     /// This class is used by Reflection you cannot construct an instance of Property Info directly.
