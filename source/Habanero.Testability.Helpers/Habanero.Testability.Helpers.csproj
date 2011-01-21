@@ -74,7 +74,6 @@
     <Compile Include="FakeBusinessObjectCollection.cs" />
     <Compile Include="FakePropertyInfo.cs" />
     <Compile Include="GeneralTestingExtensions.cs" />
-    <Compile Include="Guard.cs" />
     <Compile Include="HabaneroLoggerFactoryStub.cs" />
     <Compile Include="PropDefFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
