@@ -98,35 +98,35 @@ namespace Habanero.Testability.Tests.Base
 		{
 			get
 			{
-                return (string)base.GetPropertyValue("NonCompulsoryString2");
+				return (string)base.GetPropertyValue("NonCompulsoryString2");
 			}
 			set
 			{
-                base.SetPropertyValue("NonCompulsoryString2", value);
+				base.SetPropertyValue("NonCompulsoryString2", value);
 			}
 		}
-        [AutoMapDefault("SomeDefaultValue")]
+		[AutoMapDefault("SomeDefaultValue")]
 		public virtual string NonCompulsoryDefaultProp
 		{
 			get
 			{
-                return (string)base.GetPropertyValue("NonCompulsoryDefaultProp");
+				return (string)base.GetPropertyValue("NonCompulsoryDefaultProp");
 			}
 			set
 			{
-                base.SetPropertyValue("NonCompulsoryDefaultProp", value);
+				base.SetPropertyValue("NonCompulsoryDefaultProp", value);
 			}
 		}
-        [AutoMapReadWriteRule(PropReadWriteRule.WriteNotNew)]
+		[AutoMapReadWriteRule(PropReadWriteRule.WriteNotNew)]
 		public virtual string WriteNotNewProp
 		{
 			get
 			{
-                return (string)base.GetPropertyValue("WriteNotNewProp");
+				return (string)base.GetPropertyValue("WriteNotNewProp");
 			}
 			set
 			{
-                base.SetPropertyValue("WriteNotNewProp", value);
+				base.SetPropertyValue("WriteNotNewProp", value);
 			}
 		}
 		public virtual Guid? FakeBOWithAllPropsMappedID
@@ -513,25 +513,25 @@ namespace Habanero.Testability.Tests.Base
 		public DateTime ReadWriteRuleReadOnly { get; set; }
 
 		[AutoMapReadWriteRule(PropReadWriteRule.WriteNotNew)]
-        public DateTime ReadWriteRuleWriteNotNew
-        {
-            get
-            {
-                return (DateTime)base.GetPropertyValue("ReadWriteRuleWriteNotNew");
-            }
-            set { base.SetPropertyValue("ReadWriteRuleWriteNotNew", value); }
-        }
+		public DateTime ReadWriteRuleWriteNotNew
+		{
+			get
+			{
+				return (DateTime)base.GetPropertyValue("ReadWriteRuleWriteNotNew");
+			}
+			set { base.SetPropertyValue("ReadWriteRuleWriteNotNew", value); }
+		}
 
 
 		[AutoMapReadWriteRule(PropReadWriteRule.ReadWrite)]
-        public DateTime ReadWriteRuleReadWrite
-        {
-            get
-            {
-                return (DateTime)base.GetPropertyValue("ReadWriteRuleReadWrite");
-            }
-            set { base.SetPropertyValue("ReadWriteRuleReadWrite", value); }
-        }
+		public DateTime ReadWriteRuleReadWrite
+		{
+			get
+			{
+				return (DateTime)base.GetPropertyValue("ReadWriteRuleReadWrite");
+			}
+			set { base.SetPropertyValue("ReadWriteRuleReadWrite", value); }
+		}
 
 		public String ReadWriteRuleDefault { get; set; }
 	}

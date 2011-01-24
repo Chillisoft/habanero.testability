@@ -6,9 +6,9 @@ using NUnit.Framework;
 namespace Habanero.Testability.Testers
 {
     /// <summary>
-    /// This is a specialised Tester for testing Habanero.<see cref="IRelationshipDef"/> 
-    /// This tester provides methods for testing the basic attributes of a <see cref="IRelationshipDef"/>
-    /// such as ShouldBeIsCompulsory.
+    /// This is a specialised Tester for testing Habanero.<see cref="ISingleRelationshipDef"/> 
+    /// This tester provides methods for testing the basic attributes of a <see cref="ISingleRelationshipDef"/>
+    /// such as ShouldHaveRelationshipType and ShouldBeOneToOne{}.
     /// If any of these Asserts fail then an <see cref="AssertionException"/>. is thrown.
     /// Else the Assert executes without an Exception
     /// </summary>

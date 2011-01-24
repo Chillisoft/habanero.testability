@@ -71,6 +71,8 @@
       <Link>Properties\AssemblyInfoShared.cs</Link>
     </Compile>
     <Compile Include="BOTester.cs" />
+    <Compile Include="BOTester_Generic.cs" />
+    <Compile Include="MultipleRelDefTester.cs" />
     <Compile Include="PropDefTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleRelDefTester.cs" />

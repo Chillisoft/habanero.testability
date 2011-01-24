@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="TestBOTester.cs" />
     <Compile Include="TestBOTesterGeneric.cs" />
+    <Compile Include="TestMultipleRelDefTester.cs" />
     <Compile Include="TestPropDefTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSingleRelDefTester.cs" />

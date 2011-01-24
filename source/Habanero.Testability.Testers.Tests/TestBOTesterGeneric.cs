@@ -56,6 +56,24 @@ namespace Habanero.Testability.Testers.Tests
             var tester = boTester.GetSingleRelationshipTester(bo1 => bo1.SingleRelMapped);
             //---------------Test Result -----------------------
             Assert.IsNotNull(tester);
+            Assert.IsInstanceOf<SingleRelDefTester>(tester);
+            Assert.AreEqual(relationshipName, tester.RelationshipName);
+        }
+        [Test]
+        public void Test_GetMultipleRelationshipTester_WithLambda_WhenHasRelDef_ShouldReturnTesterForRelDef()
+        {
+            //---------------Set up test pack-------------------
+            SetupClassDef<FakeBOWithManyRelationship>();
+            SetupClassDef<RelatedFakeBo>();
+            const string relationshipName = "RelatedFakeBos";
+            var boTester = CreateGenericTester<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            Assert.IsNotNull(boTester);
+            //---------------Execute Test ----------------------
+            var tester = boTester.GetMultipleRelationshipTester(bo1 => bo1.RelatedFakeBos);
+            //---------------Test Result -----------------------
+            Assert.IsNotNull(tester);
+            Assert.IsInstanceOf<MultipleRelDefTester>(tester);
             Assert.AreEqual(relationshipName, tester.RelationshipName);
         }
 
@@ -66,7 +84,7 @@ namespace Habanero.Testability.Testers.Tests
             const string propertyName = "GetterNotMapped";
             SetupClassDefWithAddProperty<FakeBOWithIncorrectMappings>();
             var newValue = GetRandomString();
-            BOTester<FakeBOWithIncorrectMappings> boTester = (BOTester<FakeBOWithIncorrectMappings>)CreateGenericTester<FakeBOWithIncorrectMappings>();
+            BOTester<FakeBOWithIncorrectMappings> boTester = CreateGenericTester<FakeBOWithIncorrectMappings>();
             FakeBOWithIncorrectMappings bo = (FakeBOWithIncorrectMappings)boTester.BusinessObject;
             bo.GetterNotMapped = newValue;
             //---------------Assert Precondition----------------
@@ -226,7 +244,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             SetupClassDef<BOFakeWithDefault>();
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
 
             //---------------Assert Precondition----------------
 
@@ -242,7 +260,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             SetupClassDefWithAddProperty<BOFakeWithDefault>();
             const string propName = "DefaultProp";
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             //---------------Assert Precondition----------------
             //---------------Test Result -----------------------
             try
@@ -263,7 +281,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             SetupClassDef<BOFakeWithDefault>();
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -281,7 +299,7 @@ namespace Habanero.Testability.Testers.Tests
             const string propName = "NonDefaultProp";
             IPropDef propDef = classDef.GetPropDef(propName);
             const string defaultValueString = "SomeOtherValue";
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             //---------------Assert Precondition----------------
             Assert.IsNullOrEmpty(propDef.DefaultValueString);
             Assert.AreNotEqual(defaultValueString, propDef.DefaultValueString);
@@ -304,7 +322,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             IClassDef classDef = SetupClassDef<BOFakeWithDefault>();
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             const string propName = "NonDefaultProp";
             const string defaultValueString = "SomeValue";
             IPropDef propDef = classDef.GetPropDef(propName);
@@ -322,7 +340,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             SetupClassDefWithAddProperty<BOFakeWithDefault>();
             const string propName = "DefaultProp";
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             const string defaultValueString = "SomeOtherValue"; 
             //---------------Assert Precondition----------------
             //---------------Test Result -----------------------
@@ -344,7 +362,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             IClassDef classDef = SetupClassDef<BOFakeWithDefault>();
-            BOTester<BOFakeWithDefault> boTester = (BOTester<BOFakeWithDefault>)CreateGenericTester<BOFakeWithDefault>();
+            BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             const string propName = "DefaultProp";
             const string defaultValueString = "SomeValue";
             IPropDef propDef = classDef.GetPropDef(propName);
@@ -362,7 +380,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             SetupClassDef<BOFakeWithCompulsory>();
-            BOTester<BOFakeWithCompulsory> boTester = (BOTester<BOFakeWithCompulsory>)CreateGenericTester<BOFakeWithCompulsory>();
+            BOTester<BOFakeWithCompulsory> boTester = CreateGenericTester<BOFakeWithCompulsory>();
             var propertyInfo = ReflectionUtilities.GetPropertyInfo<BOFakeWithCompulsory, object>(bo => bo.CompulsoryProp);
             var propertyWrapper = propertyInfo.ToPropertyWrapper();
             //---------------Assert Precondition----------------
@@ -378,7 +396,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             SetupClassDef<BOFakeWithCompulsory>();
-            BOTester<BOFakeWithCompulsory> boTester = (BOTester<BOFakeWithCompulsory>)CreateGenericTester<BOFakeWithCompulsory>();
+            BOTester<BOFakeWithCompulsory> boTester = CreateGenericTester<BOFakeWithCompulsory>();
             const string propName = "NonCompulsoryProp";
             var propertyInfo = ReflectionUtilities.GetPropertyInfo<BOFakeWithCompulsory, object>(bo => bo.NonCompulsoryProp);
             var propertyWrapper = propertyInfo.ToPropertyWrapper();
@@ -403,7 +421,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             SetupClassDef<BOFakeWithCompulsory>();
-            BOTester<BOFakeWithCompulsory> boTester = (BOTester<BOFakeWithCompulsory>)CreateGenericTester<BOFakeWithCompulsory>();
+            BOTester<BOFakeWithCompulsory> boTester = CreateGenericTester<BOFakeWithCompulsory>();
             var propertyInfo = ReflectionUtilities.GetPropertyInfo<BOFakeWithCompulsory, object>(bo => bo.NonCompulsoryProp);
             var propertyWrapper = propertyInfo.ToPropertyWrapper();
             //---------------Assert Precondition----------------
@@ -419,7 +437,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             SetupClassDef<BOFakeWithCompulsory>();
-            BOTester<BOFakeWithCompulsory> boTester = (BOTester<BOFakeWithCompulsory>)CreateGenericTester<BOFakeWithCompulsory>();
+            BOTester<BOFakeWithCompulsory> boTester = CreateGenericTester<BOFakeWithCompulsory>();
             const string propName = "CompulsoryProp";
             var propertyInfo = ReflectionUtilities.GetPropertyInfo<BOFakeWithCompulsory, object>(bo => bo.CompulsoryProp);
             var propertyWrapper = propertyInfo.ToPropertyWrapper();
@@ -444,7 +462,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             IClassDef classDef = SetupClassDef<FakeBOWithReadWriteRuleProp>();
-            BOTester<FakeBOWithReadWriteRuleProp> boTester = (BOTester<FakeBOWithReadWriteRuleProp>)CreateGenericTester<FakeBOWithReadWriteRuleProp>();
+            BOTester<FakeBOWithReadWriteRuleProp> boTester = CreateGenericTester<FakeBOWithReadWriteRuleProp>();
             const string propName = "ReadWriteRuleReadOnly";
             var propertyInfo = ReflectionUtilities.GetPropertyInfo<FakeBOWithReadWriteRuleProp, object>(bo => bo.ReadWriteRuleReadOnly);
             var propertyWrapper = propertyInfo.ToPropertyWrapper();
@@ -462,7 +480,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             IClassDef classDef = SetupClassDef<FakeBOWithReadWriteRuleProp>();
-            BOTester<FakeBOWithReadWriteRuleProp> boTester = (BOTester<FakeBOWithReadWriteRuleProp>)CreateGenericTester<FakeBOWithReadWriteRuleProp>();
+            BOTester<FakeBOWithReadWriteRuleProp> boTester = CreateGenericTester<FakeBOWithReadWriteRuleProp>();
             const string propName = "ReadWriteRuleReadOnly";
             var propertyInfo =
                 ReflectionUtilities.GetPropertyInfo<FakeBOWithReadWriteRuleProp, object>(bo => bo.ReadWriteRuleReadOnly);
