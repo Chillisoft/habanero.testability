@@ -36,15 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Habanero.Base, Version=2.4.0.255, Culture=neutral, PublicKeyToken=1fb6a9c86f815c07, processorArchitecture=MSIL">
+    <Reference Include="Habanero.Base">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Habanero.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Habanero.BO, Version=2.4.0.255, Culture=neutral, PublicKeyToken=b7599514c88df7f1, processorArchitecture=MSIL">
+    <Reference Include="Habanero.BO">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Habanero.BO.dll</HintPath>
     </Reference>
-    <Reference Include="Habanero.Smooth, Version=1.1.0.255, Culture=neutral, PublicKeyToken=c8a289c9d9f7993b, processorArchitecture=MSIL">
+    <Reference Include="Habanero.Smooth">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Habanero.Smooth.dll</HintPath>
     </Reference>
