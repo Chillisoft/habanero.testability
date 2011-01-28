@@ -118,6 +118,7 @@ namespace Habanero.Testability.Helpers
         }
     }
     public delegate void MethodThatThrows();
+#pragma warning disable 1591
     public static class GeneralTestingExtensions
     {
         public static void ShouldBeFalse(this bool condition)
@@ -257,6 +258,11 @@ namespace Habanero.Testability.Helpers
             return actual;
         }
 
+        public static void ShouldContain<T>(this T[] actual, T expected)
+        {
+            ShouldContain((IList)actual, expected);
+        }
+
         public static void ShouldNotContain(this IList actual, object expected)
         {
             Assert.That(actual, Has.None.Member(expected));
@@ -266,7 +272,10 @@ namespace Habanero.Testability.Helpers
         {
             actual.Contains(expected).ShouldBeFalse(message);
         }
+
+
         public static void ShouldNotContain<T>(this IEnumerable<T> actual, T expected)
+
         {
             actual.Contains(expected).ShouldBeFalse("Should not contain '" + expected + "'");
         }
@@ -294,9 +303,14 @@ namespace Habanero.Testability.Helpers
             actual.Keys.Contains(key).ShouldBeFalse();
         }
 
-        public static void ShouldContain<T>(this T[] actual, T expected)
+
+        public static void ShouldNotContain<T>(this IEnumerable<T> actual, IEnumerable<T> expected, string message)
         {
-            ShouldContain((IList)actual, expected);
+            foreach (var expectedItem in expected)
+            {
+                T item = expectedItem;
+                ShouldNotContain(actual, x => x.Equals(item), "Should Not Contain : " + expectedItem + Environment.NewLine + message);
+            }
         }
 
         public static void ShouldBeEmpty<T>(this List<T> actual, string message)
@@ -497,6 +511,7 @@ namespace Habanero.Testability.Helpers
                 return element;
             }*/
     }
+    #pragma warning restore 1591
     // ReSharper restore UnusedMember.Global
 
 }
