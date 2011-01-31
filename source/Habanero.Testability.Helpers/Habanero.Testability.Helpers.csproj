@@ -76,6 +76,8 @@
     <Compile Include="FakePropertyInfo.cs" />
     <Compile Include="FakeType.cs" />
     <Compile Include="GeneralTestingExtensions.cs" />
+    <Compile Include="HabaneroConsoleLogger.cs" />
+    <Compile Include="HabaneroConsoleLoggerFactory.cs" />
     <Compile Include="HabaneroLoggerFactoryStub.cs" />
     <Compile Include="PropDefFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
