@@ -203,7 +203,7 @@ namespace Habanero.Testability.Tests
             //---------------Assert Precondition----------------
             Assert.IsNull(prop.Value);
             //---------------Execute Test ----------------------
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO2>();
             factory.SetValueFor(bo => bo.NonCompulsoryString, expectedValue);
             factory.SetPropValueToValidValue(prop);
             //---------------Test Result -----------------------
@@ -1398,10 +1398,10 @@ namespace Habanero.Testability.Tests
         public void Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryProp_ShouldSetNonCompulsoryPropValue()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO2>();
             factory.SetValueFor(bo => bo.NonCompulsoryString);
             //---------------Execute Test ----------------------
-            FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
+            var validBusinessObject = factory.CreateSavedBusinessObject();
             //---------------Test Result -----------------------
             Assert.IsNotNullOrEmpty(validBusinessObject.NonCompulsoryString);
         }
@@ -1515,9 +1515,9 @@ namespace Habanero.Testability.Tests
         public void Test_GetValidValueGenerator_WhenSetValidValueGenerator_ShouldRetCustomGen()
         {
             //---------------Set up test pack-------------------
-            var type = typeof (FakeBO);
+            var type = typeof (FakeBO2);
             ClassDef.ClassDefs.Add(type.MapClass());
-            var boTestFactory = new BOTestFactory<FakeBO>();
+            var boTestFactory = new BOTestFactory<FakeBO2>();
             boTestFactory.SetValidValueGenerator(bo => bo.NonCompulsoryString, typeof (ValidValueGeneratorGuid));
 
             IClassDef classDef = ClassDef.ClassDefs[type];
@@ -1536,9 +1536,9 @@ namespace Habanero.Testability.Tests
         public void Test_GetValidValueGenerator_WhenSetValidValueGenerator_ShouldRetCustomGen_WithParameter()
         {
             //---------------Set up test pack-------------------
-            var type = typeof(FakeBO);
+            var type = typeof(FakeBO2);
             ClassDef.ClassDefs.Add(type.MapClass());
-            var boTestFactory = new BOTestFactory<FakeBO>();
+            var boTestFactory = new BOTestFactory<FakeBO2>();
             var parameter = RandomValueGen.GetRandomString();
             boTestFactory.SetValidValueGenerator(bo => bo.NonCompulsoryString, typeof(ValidValueGeneratorWithParameterWithFake), parameter);
 
@@ -1560,9 +1560,9 @@ namespace Habanero.Testability.Tests
             ()
         {
             //---------------Set up test pack-------------------
-            var type = typeof (FakeBO);
+            var type = typeof (FakeBO2);
             ClassDef.ClassDefs.Add(type.MapClass());
-            var boTestFactory = new BOTestFactory<FakeBO>();
+            var boTestFactory = new BOTestFactory<FakeBO2>();
             boTestFactory.SetValidValueGenerator(bo => bo.NonCompulsoryString, typeof (ValidValueGeneratorGuid));
 
             IClassDef classDef = ClassDef.ClassDefs[type];
@@ -1572,7 +1572,7 @@ namespace Habanero.Testability.Tests
             //---------------Assert Precondition----------------    
             Assert.IsInstanceOf<ValidValueGeneratorGuid>(boTestFactory.GetValidValueGenerator(def));
             //---------------Execute Test ----------------------
-            ValidValueGenerator generator = new BOTestFactory<FakeBO>().GetValidValueGenerator(def);
+            ValidValueGenerator generator = new BOTestFactory<FakeBO2>().GetValidValueGenerator(def);
             //---------------Test Result -----------------------
             Assert.IsNotNull(generator);
             Assert.IsInstanceOf<ValidValueGeneratorGuid>(generator);
@@ -1584,9 +1584,9 @@ namespace Habanero.Testability.Tests
             ()
         {
             //---------------Set up test pack-------------------
-            var type = typeof (FakeBO);
+            var type = typeof (FakeBO2);
             ClassDef.ClassDefs.Add(type.MapClass());
-            var boTestFactory = new BOTestFactory<FakeBO>();
+            var boTestFactory = new BOTestFactory<FakeBO2>();
             boTestFactory.SetValidValueGenerator(bo => bo.NonCompulsoryString,
                                                  typeof (ValidValueGeneratorIncrementalInt));
 
@@ -1598,7 +1598,7 @@ namespace Habanero.Testability.Tests
             Assert.IsInstanceOf<ValidValueGeneratorIncrementalInt>(boTestFactory.GetValidValueGenerator(def));
             //---------------Execute Test ----------------------
             int firstValue = (int) boTestFactory.GetValidValueGenerator(def).GenerateValidValue();
-            var secondValue = new BOTestFactory<FakeBO>().GetValidValueGenerator(def).GenerateValidValue();
+            var secondValue = new BOTestFactory<FakeBO2>().GetValidValueGenerator(def).GenerateValidValue();
             //---------------Test Result -----------------------
             Assert.AreEqual(firstValue + 1, secondValue);
         }
