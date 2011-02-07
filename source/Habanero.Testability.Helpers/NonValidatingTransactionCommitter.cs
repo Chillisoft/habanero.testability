@@ -7,8 +7,15 @@ using Habanero.BO;
 
 namespace Habanero.Testability.Helpers
 {
+    /// <summary>
+    /// A Transaction Committer for a <see cref="DataStoreInMemory"/> that does not Validate the BusinessObject before persisting it
+    /// </summary>
     public class NonValidatingTransactionCommitter : TransactionCommitterInMemory
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataStoreInMemory"></param>
         public NonValidatingTransactionCommitter(DataStoreInMemory dataStoreInMemory)
             : base(dataStoreInMemory)
         {
@@ -35,10 +42,16 @@ namespace Habanero.Testability.Helpers
     /// </summary>
     public class NonValidatingDataAccessorInMemory : DataAccessorInMemory
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public NonValidatingDataAccessorInMemory()
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataStore"></param>
         public NonValidatingDataAccessorInMemory(DataStoreInMemory dataStore)
             : base(dataStore)
         {
@@ -55,7 +68,9 @@ namespace Habanero.Testability.Helpers
             return new NonValidatingTransactionCommitter(_dataStore);
         }
     }
-
+    /// <summary>
+    /// Wraps a BO in a <see cref="TransactionalBusinessObject"/> but does not call validate the BO when IsValid is called.
+    /// </summary>
     public class NonValidatingTransactionalBusinessObject : TransactionalBusinessObject
     {
         protected internal NonValidatingTransactionalBusinessObject(IBusinessObject businessObject)
