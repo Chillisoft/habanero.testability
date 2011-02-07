@@ -10,6 +10,9 @@ namespace Habanero.Testability.Helpers
     {
         private readonly string _contextName;
 
+        ///<summary>
+        ///</summary>
+        ///<param name="contextName"></param>
         public HabaneroConsoleLogger(string contextName)
         {
             _contextName = contextName;
@@ -17,16 +20,25 @@ namespace Habanero.Testability.Helpers
 
         #region Implementation of IHabaneroLogger
 
+        ///<summary>
+        ///</summary>
+        ///<param name="message"></param>
         public void Log(string message)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(ContextName + " : " + message);
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="message"></param>
+        ///<param name="logCategory"></param>
         public void Log(string message, LogCategory logCategory)
         {
-            Console.WriteLine(logCategory + " : " + message);
+            Console.WriteLine(ContextName + " : " + logCategory + " : " + message);
         }
 
+        ///<summary>
+        ///</summary>
         public string ContextName
         {
             get { return _contextName; }
