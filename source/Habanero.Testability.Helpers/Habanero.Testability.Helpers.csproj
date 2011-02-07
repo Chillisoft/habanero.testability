@@ -79,6 +79,7 @@
     <Compile Include="HabaneroConsoleLogger.cs" />
     <Compile Include="HabaneroConsoleLoggerFactory.cs" />
     <Compile Include="HabaneroLoggerFactoryStub.cs" />
+    <Compile Include="NonValidatingTransactionCommitter.cs" />
     <Compile Include="PropDefFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleRelDefFake.cs" />

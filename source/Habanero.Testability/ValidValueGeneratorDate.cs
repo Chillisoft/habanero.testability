@@ -10,6 +10,10 @@ namespace Habanero.Testability
     /// </summary>
     public class ValidValueGeneratorDate : ValidValueGenerator, IValidValueGeneratorNumeric
     {
+        /// <summary>
+        /// Construct a Valid Value Generator with a PropDef
+        /// </summary>
+        /// <param name="propDef"></param>
         public ValidValueGeneratorDate(IPropDef propDef) : base(propDef)
         {
         }
