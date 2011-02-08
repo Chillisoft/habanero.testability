@@ -1,5 +1,6 @@
 ﻿using System;
 using Habanero.Base;
+using Habanero.Base.Logging;
 
 namespace Habanero.Testability.Helpers
 {
@@ -35,6 +36,21 @@ namespace Habanero.Testability.Helpers
         public void Log(string message, LogCategory logCategory)
         {
             Console.WriteLine(ContextName + " : " + logCategory + " : " + message);
+        }
+
+        public void Log(Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Log(string message, Exception exception)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Log(string message, Exception exception, LogCategory logCategory)
+        {
+            throw new NotImplementedException();
         }
 
         ///<summary>

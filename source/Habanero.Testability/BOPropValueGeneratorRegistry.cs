@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Habanero.Base;
 using Habanero.Base.Exceptions;
+using Habanero.Base.Logging;
 
 namespace Habanero.Testability
 {

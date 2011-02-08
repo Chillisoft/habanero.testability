@@ -1,4 +1,6 @@
-﻿using Habanero.Base;
+﻿using System;
+using Habanero.Base;
+using Habanero.Base.Logging;
 
 namespace Habanero.Testability.Helpers
 {
@@ -12,6 +14,11 @@ namespace Habanero.Testability.Helpers
         public IHabaneroLogger GetLogger(string contextName)
         {
             return new HabaneroConsoleLogger(contextName);
+        }
+
+        public IHabaneroLogger GetLogger(Type type)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
