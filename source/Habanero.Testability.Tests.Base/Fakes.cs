@@ -750,7 +750,43 @@ namespace Habanero.Testability.Tests.Base
 				return (string)base.GetPropertyValue("Description");
 			}
 		}
-	} 
+    }
+
+
+    public class FakeLListBOWithIntID : BusinessObject
+    {
+        protected override IClassDef ConstructClassDef()
+        {
+            return BuildAutoMappedClassDef();
+        }
+
+        public static IClassDef BuildAutoMappedClassDef()
+        {
+            AllClassesAutoMapper.ClassDefCol = ClassDef.ClassDefs;
+            var classDef = typeof(FakeLListBOWithIntID).MapClass();
+            classDef.PrimaryKeyDef.IsGuidObjectID = false;
+            return classDef;
+        }
+
+        [AutoMapPrimaryKey]
+        [AutoMapAutoIncrementing]
+        public virtual int? PKNumber
+        {
+            get
+            {
+                return (int?)base.GetPropertyValue("PKNumber");
+            }
+        }
+
+        [AutoMapCompulsory]
+        public virtual string Description
+        {
+            get
+            {
+                return (string)base.GetPropertyValue("Description");
+            }
+        }
+    } 
 	// ReSharper restore UnusedMember.Global
 	// ReSharper restore ClassNeverInstantiated.Global
 	// ReSharper restore UnusedAutoPropertyAccessor.Global
