@@ -20,9 +20,11 @@ namespace Habanero.Testability.Tests
             BORegistry.DataAccessor = new DataAccessorInMemory();
             AllClassesAutoMapper.ClassDefCol = ClassDef.ClassDefs;
             ClassDef.ClassDefs.Add(typeof(FakeLListBO).MapClass());
+            ClassDef.ClassDefs.Add(FakeLListBOWithIntID.BuildAutoMappedClassDef());
         }
+
         [Test]
-        public void Test_GenerateValue_WhenPropTypeString_ShouldRetItemInList()
+        public void Test_GenerateValidValue_WhenPropTypeString_ShouldRetItemInList()
         {
             //---------------Set up test pack-------------------
             Type propertyType = typeof(string);
@@ -48,7 +50,7 @@ namespace Habanero.Testability.Tests
         }
 
         [Test]
-        public void Test_GenerateValue_WhenPropTypeGuid_ShouldReturnItemInListAsGuid()
+        public void Test_GenerateValidValue_WhenPropTypeGuid_ShouldReturnItemInListAsGuid()
         {
             //---------------Set up test pack-------------------
             Type guidPropType = typeof(Guid);
@@ -73,7 +75,7 @@ namespace Habanero.Testability.Tests
             Assert.IsInstanceOf(guidPropType, value, value + " should be of type guid");
         }
         [Test]
-        public void Test_GenerateValueLList_WhenLookupListNull_ShouldRetNull()
+        public void Test_GenerateValidValue_WhenLookupListNull_ShouldRetNull()
         {
             //---------------Set up test pack-------------------
             Type propertyType = typeof(string);
@@ -90,7 +92,7 @@ namespace Habanero.Testability.Tests
         }
 
         [Test]
-        public void  Test_GenerateValuedValue_WhenBOLList_AndNoItemsInList_ShouldCreateAnItem()
+        public void Test_GenerateValidValue_WhenBOLList_AndNoItemsInList_ShouldCreateAnItem()
         {
             //---------------Set up test pack-------------------
 
@@ -99,14 +101,40 @@ namespace Habanero.Testability.Tests
             {
                 PropertyType = propertyType
             };
-            def.LookupList = new BusinessObjectLookupList(typeof (FakeLListBO));
+            def.LookupList = new BusinessObjectLookupList(typeof(FakeLListBO));
+            def.LookupList.TimeOut = 0;
             //---------------Assert Precondition----------------
             Assert.IsInstanceOf<BusinessObjectLookupList>(def.LookupList);
             Assert.AreEqual(0, def.LookupList.GetLookupList().Count);
             //---------------Execute Test ----------------------
             object generateValidValue = new ValidValueGeneratorLookupList(def).GenerateValidValue();
             //---------------Test Result -----------------------
+            Assert.AreEqual(1, def.LookupList.GetLookupList().Count);
             Assert.IsNotNull(generateValidValue);
+            Assert.IsInstanceOf(propertyType, generateValidValue, generateValidValue + " should be of type guid");
+        }
+
+        [Test]
+        public void Test_GenerateValidValue_WhenBOLList_AndNoItemsInList_AndIntPK_ShouldReturnCreatedItemValue_BUGFIX_1612()
+        {
+            //---------------Set up test pack-------------------
+
+            Type propertyType = typeof(int);
+            IPropDef def = new PropDefFake
+            {
+                PropertyType = propertyType
+            };
+            def.LookupList = new BusinessObjectLookupList(typeof(FakeLListBOWithIntID));
+            def.LookupList.TimeOut = 0;
+            //---------------Assert Precondition----------------
+            Assert.IsInstanceOf<BusinessObjectLookupList>(def.LookupList);
+            Assert.AreEqual(0, def.LookupList.GetLookupList().Count);
+            //---------------Execute Test ----------------------
+            object generateValidValue = new ValidValueGeneratorLookupList(def).GenerateValidValue();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(1, def.LookupList.GetLookupList().Count);
+            Assert.IsNotNull(generateValidValue);
+            Assert.IsInstanceOf(propertyType, generateValidValue, generateValidValue + " should be of type guid");
         }
     }
 }

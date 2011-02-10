@@ -19,7 +19,7 @@
                 BusinessObjectLookupList boLList = (BusinessObjectLookupList) lookupList;
                 var boTestFactory = BOTestFactoryRegistry.Instance.Resolve(boLList.BoType);
                 IBusinessObject businessObject = boTestFactory.CreateSavedBusinessObject();
-                generateValidValue = businessObject.ID.ToString();
+                generateValidValue = businessObject.ID.GetAsValue();
             }
             object value;
             
