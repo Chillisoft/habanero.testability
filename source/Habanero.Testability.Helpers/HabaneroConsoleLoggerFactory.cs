@@ -11,14 +11,22 @@ namespace Habanero.Testability.Helpers
     {
         #region Implementation of IHabaneroLoggerFactory
 
+        ///<summary>
+        ///</summary>
+        ///<param name="contextName"></param>
+        ///<returns></returns>
         public IHabaneroLogger GetLogger(string contextName)
         {
             return new HabaneroConsoleLogger(contextName);
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="type"></param>
+        ///<returns></returns>
         public IHabaneroLogger GetLogger(Type type)
         {
-            throw new NotImplementedException();
+            return new HabaneroConsoleLogger(type == null? "": type.FullName);
         }
 
         #endregion
