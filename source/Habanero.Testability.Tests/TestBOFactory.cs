@@ -12,6 +12,7 @@ namespace Habanero.Testability.Tests
     using NUnit.Framework;
     using System;
 
+    // ReSharper disable InconsistentNaming
     [TestFixture]
     public class TestBOFactory
     {
@@ -53,7 +54,7 @@ namespace Habanero.Testability.Tests
         public void Test_CreateBusinessObject()
         {
             //---------------Set up test pack-------------------
-            BOFactory factory = new BOFactory();
+            var factory = new BOFactory();
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------

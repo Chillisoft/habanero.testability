@@ -18,7 +18,7 @@ namespace Habanero.Testability
     public class ValidValueGeneratorRegistry
     {
         private readonly Dictionary<Type, Type> _validValueGenTypes = new Dictionary<Type, Type>();
-        private static readonly ValidValueGeneratorRegistry _boValidValueRegistry = new ValidValueGeneratorRegistry();
+        private static ValidValueGeneratorRegistry _boValidValueRegistry;
         /// <summary>
         /// Construct ValidValueGenRegistry
         /// </summary>
@@ -46,7 +46,6 @@ namespace Habanero.Testability
                 this._validValueGenTypes.Remove(boType);
             }
         }
-
 
         /// <summary>
         /// Registeres a specific type <typeparamref name="TValidValuGenType"/> of <see cref="ValidValueGenerator"/> for the specified 
@@ -113,6 +112,7 @@ namespace Habanero.Testability
             }
         }
 
+        private static readonly object _padlock = new object();
         /// <summary>
         /// Returns the Singleton Registry Instance
         /// </summary>
@@ -120,7 +120,10 @@ namespace Habanero.Testability
         {
             get
             {
-                return _boValidValueRegistry;
+                lock (_padlock)
+                {
+                    return _boValidValueRegistry ?? (_boValidValueRegistry = new ValidValueGeneratorRegistry());
+                }
             }
         }
     }
