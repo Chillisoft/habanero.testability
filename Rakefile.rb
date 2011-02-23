@@ -9,7 +9,7 @@ require 'albacore'
 # deeper in the repo you will need to add another ..
 bs = File.dirname(__FILE__)
 bs = File.join(bs, "..") if bs.index("branches") != nil
-bs = File.join(bs, "../../../HabaneroCommunity/BuildScripts")
+bs = File.join(bs, "../../HabaneroCommunity/BuildScripts")
 $:.unshift(File.expand_path(bs)) unless
     $:.include?(bs) || $:.include?(File.expand_path(bs))
 
