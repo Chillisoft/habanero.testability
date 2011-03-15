@@ -42,6 +42,7 @@ namespace Habanero.Testability
         {
             _boType = boType;
             SetCompulsorySingleRelationships = true;
+            //new TestSession
             this.BOFactory = new BOFactory();
         }
 

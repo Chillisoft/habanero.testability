@@ -80,6 +80,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="TestSession.cs" />
     <Compile Include="ValidValueGeneratorFromBOList.cs" />
     <Compile Include="ExtensionMethods\TestabilityExtensions.cs" />
     <Compile Include="TestFixture.cs" />

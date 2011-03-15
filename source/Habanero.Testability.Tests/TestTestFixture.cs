@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace Habanero.Testability.Tests
 {
+    // ReSharper disable InconsistentNaming
     [TestFixture]
     public class TestTestFixture
     {

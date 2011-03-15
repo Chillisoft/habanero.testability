@@ -12,6 +12,7 @@ namespace Habanero.Testability.Tests
     using System;
     using System.Linq;
 
+    // ReSharper disable InconsistentNaming
     [TestFixture]
     public class TestBOTestFactory_NonGeneric
     {
@@ -32,8 +33,8 @@ namespace Habanero.Testability.Tests
             AllClassesAutoMapper.ClassDefCol.Clear();
             ClassDefCol classDefCol = typeof(FakeBO).MapClasses(type => type.Name != "Unmapped");
             ClassDef.ClassDefs.Add(classDefCol);
-
         }
+
         [SetUp]
         public void Setup()
         {

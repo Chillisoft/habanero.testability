@@ -85,6 +85,7 @@
     <Compile Include="TestBOTestFactory_NonGeneric.cs" />
     <Compile Include="TestBOPropValueGeneratorRegistry.cs" />
     <Compile Include="TestTestFixture.cs" />
+    <Compile Include="TestTestSession.cs" />
     <Compile Include="TestValidValueGeneratorFromList.cs" />
     <Compile Include="TestValidValueGeneratorIncrementalInt.cs" />
     <Compile Include="TestValidValueGeneratorLong.cs" />
