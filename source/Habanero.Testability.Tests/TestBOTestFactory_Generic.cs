@@ -1833,7 +1833,6 @@ namespace Habanero.Testability.Tests
             var fakeBO = boTestFactory
                 .WithValueForAllProps()
                 .WithValue(bo => bo.NonCompulsoryString, expectedNonCompulsoryStringValue )
-                .SetValidValueGenerator((mapped => mapped.NonCompulsoryString, typeof(MyGenerator))
                 .CreateValidBusinessObject();
             //---------------Test Result -----------------------
             Assert.AreEqual("SomeDefaultValue", fakeBO.NonCompulsoryDefaultProp, "Should be set to Registerd Value");
