@@ -64,25 +64,24 @@ namespace Habanero.Testability.Testers
 
         /// <summary>
         /// Should have a rule of the specified type e.g. <see cref="PropRuleDate"/>.
-        /// Note_ this Test does not test that the min, max values etc are correct for the
-        /// rule merely that there is a rule of that type.
+        /// This is necessary for the case when you have your rule defined as string e.g. minDate == "Today"
         /// </summary>
-        public void ShouldHaveRule<TRuleType>(string min, string max) where TRuleType : IPropRuleComparable<DateTime>, IPropRule
+        public void ShouldHaveRuleDate(string minDate, string maxDate)
         {
-            this.ShouldHaveRule<TRuleType>();
+            this.ShouldHaveRule<PropRuleDate>();
 
-            var message = BaseMessage + " the PropRule of type '" + typeof(TRuleType);
-            var propRule = GetRuleOfType<TRuleType>() as IPropRuleComparable<DateTime>;
+            var message = BaseMessage + " the PropRule of type '" + typeof(PropRuleDate);
+            var propRule = GetRuleOfType<PropRuleDate>() as PropRuleDate;
 
-            if (!string.IsNullOrEmpty(min) && propRule != null)
+            if (!string.IsNullOrEmpty(minDate) && propRule != null)
             {
-                var expectedMinDate = DateTimeUtilities.ParseToDate(min);
-                Assert.AreEqual(expectedMinDate, propRule.MinValue, message + "' MinValue Should Be '" + min + "'");
+                var expectedMinDate = DateTimeUtilities.ParseToDate(minDate);
+                Assert.AreEqual(expectedMinDate, propRule.MinValue, message + "' MinValue Should Be '" + minDate + "'");
             }
-            if (!string.IsNullOrEmpty(max) && propRule != null)
+            if (!string.IsNullOrEmpty(maxDate) && propRule != null)
             {
-                var expectedMaxDate = GetLastMillisecondOfDay(max);
-                Assert.AreEqual(expectedMaxDate, propRule.MaxValue, message + "' MaxValue Should Be '" + min + "'");
+                var expectedMaxDate = GetLastMillisecondOfDay(maxDate);
+                Assert.AreEqual(expectedMaxDate, propRule.MaxValue, message + "' MaxValue Should Be '" + minDate + "'");
             }
         }
 
@@ -93,8 +92,6 @@ namespace Habanero.Testability.Testers
 
         /// <summary>
         /// Should have a rule of the specified type e.g. <see cref="PropRuleDate"/>.
-        /// Note_ this Test does not test that the min, max values etc are correct for the
-        /// rule merely that there is a rule of that type.
         /// </summary>
         public void ShouldHaveRule<TRuleType, T>(T? min, T? max) where TRuleType : IPropRuleComparable<T>, IPropRule where T : struct
         {

@@ -352,7 +352,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Execute Test ----------------------
 
             var expectedMaxDate = maxDate;
-            tester.ShouldHaveRule<PropRuleDate>(minDate, expectedMaxDate);
+            tester.ShouldHaveRuleDate(minDate, expectedMaxDate);
             //---------------Test Result -----------------------
             Assert.IsTrue(true, "If it has got here then passed");
         }
@@ -373,7 +373,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Execute Test ----------------------
             try
             {
-                tester.ShouldHaveRule<PropRuleDate>("Tomorrow", maxDate);
+                tester.ShouldHaveRuleDate("Tomorrow", maxDate);
                 Assert.Fail("Expected to throw an AssertionException");
             }
             //---------------Test Result -----------------------
@@ -402,7 +402,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Execute Test ----------------------
             try
             {
-                tester.ShouldHaveRule<PropRuleDate>(minDate, "Today");
+                tester.ShouldHaveRuleDate(minDate, "Today");
                 Assert.Fail("Expected to throw an AssertionException");
             }
             //---------------Test Result -----------------------
