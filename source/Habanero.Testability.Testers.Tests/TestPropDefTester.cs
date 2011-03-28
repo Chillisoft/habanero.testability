@@ -498,7 +498,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}'",
+                var expected = string.Format("The Property '{0}' for class '{1}'",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
                 StringAssert.Contains("MaxValue Should Be '" + expectedMaxInt, ex.Message);
