@@ -417,6 +417,95 @@ namespace Habanero.Testability.Testers.Tests
         }
 
         [Test]
+        public void ShouldHaveRule_WithMinandMax_WhenHas_WhenMinAndMaxMatchRule_ShouldAssertTrue()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            const int minInt = 22;
+            const int maxInt = 999;
+            propDef.AddPropRule(GetPropRuleInt(minInt, maxInt));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            Assert.IsInstanceOf<PropRuleInteger>(propDef.PropRules[0]) ;
+            var propRule = propDef.PropRules[0] as IPropRuleComparable<int>;
+            Assert.IsNotNull(propRule);
+            Assert.AreEqual(minInt, propRule.MinValue);
+            Assert.AreEqual(maxInt, propRule.MaxValue);
+            //---------------Execute Test ----------------------
+            tester.ShouldHaveRule<PropRuleInteger, int>(minInt, maxInt);
+            //---------------Test Result -----------------------
+            Assert.IsTrue(true, "If it has got here then passed");
+        }
+
+        [Test]
+        public void ShouldHaveRule_WithMinAndMax_WhenMinNotMatch_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            const int actualMinInt = 22;
+            const int expectedMinInt = 25;
+            const int maxInt = 999;
+            propDef.AddPropRule(GetPropRuleInt(actualMinInt, maxInt));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            var propRule = propDef.PropRules[0] as IPropRuleComparable<int>;
+            Assert.IsNotNull(propRule);
+            Assert.AreEqual(actualMinInt, propRule.MinValue);
+            Assert.AreEqual(maxInt, propRule.MaxValue);
+            //---------------Execute Test ----------------------
+            try
+            {
+                
+                tester.ShouldHaveRule<PropRuleInteger, int>(expectedMinInt, maxInt);
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}'",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+                StringAssert.Contains("MinValue Should Be '" + expectedMinInt, ex.Message);
+
+            }
+        }
+
+        [Test]
+        public void ShouldHaveRule_WithMinAndMax_WhenMaxNotMatch_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef propDef = new PropDefFake();
+            const int actualMaxInt = 22;
+            const int expectedMaxInt = 25;
+            const int minInt = 1;
+            propDef.AddPropRule(GetPropRuleInt(minInt, actualMaxInt));
+            PropDefTester tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.AreEqual(1, propDef.PropRules.Count);
+            var propRule = propDef.PropRules[0] as IPropRuleComparable<int>;
+            Assert.IsNotNull(propRule);
+            Assert.AreEqual(actualMaxInt, propRule.MaxValue);
+            Assert.AreEqual(minInt, propRule.MinValue);
+            //---------------Execute Test ----------------------
+            try
+            {
+
+                tester.ShouldHaveRule<PropRuleInteger, int>(minInt, expectedMaxInt);
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                string expected = string.Format("The Property '{0}' for class '{1}'",
+                                                propDef.PropertyName, propDef.ClassName);
+                StringAssert.Contains(expected, ex.Message);
+                StringAssert.Contains("MaxValue Should Be '" + expectedMaxInt, ex.Message);
+
+            }
+        }
+        [Test]
         public void Test_ShouldHaveDefault_WhenHasDefault_ShouldAssertTrue()
         {
             //---------------Set up test pack-------------------
@@ -789,6 +878,15 @@ namespace Habanero.Testability.Testers.Tests
                     new Dictionary<string, object> { { "min", minDate }, { "max", maxDate } }
             };
             return propRuleDate;
+        }
+        private static IPropRule GetPropRuleInt(int ? minInt, int? maxInt)
+        {
+            var propRuleInt = new PropRuleInteger("", "")
+            {
+                Parameters =
+                    new Dictionary<string, object> { { "min", minInt }, { "max", maxInt } }
+            };
+            return propRuleInt;
         }
         private static IPropRule GetPropRuleDate(string minDate, string maxDate)
         {

@@ -100,7 +100,7 @@ namespace Habanero.Testability.Testers
             var message = BaseMessage + " the PropRule of type '" + typeof(TRuleType);
             var propRule = GetRuleOfType<TRuleType>() as IPropRuleComparable<T>;
             if (min != null && propRule != null) Assert.AreEqual(min, propRule.MinValue, message + "' MinValue Should Be '" + min + "'");
-            if (max != null && propRule != null) Assert.AreEqual(max, propRule.MaxValue, message + "' MaxValue Should Be '" + min + "'");
+            if (max != null && propRule != null) Assert.AreEqual(max, propRule.MaxValue, message + "' MaxValue Should Be '" + max + "'");
         }
 
         /// <summary>
