@@ -56,7 +56,7 @@ namespace Habanero.Testability
         /// <param name="parameter">An additional parameter to pass to the constructor of the generator</param>
         public virtual void Register(ISingleValueDef propDef, Type validValuGenType, object parameter = null)
         {
-            _logger.Log("Register valid value gen for PropDef : " + propDef.PropertyName);
+            _logger.Log("Register valid value gen for PropDef : " + propDef.PropertyName, LogCategory.Debug);
             string boTypeName = GetClassType(propDef);
             ValidateGeneratorType(validValuGenType, boTypeName);
             lock (_lockProp)

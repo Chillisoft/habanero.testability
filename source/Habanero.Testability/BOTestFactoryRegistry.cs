@@ -118,7 +118,7 @@ namespace Habanero.Testability
             {
                 throw new ArgumentNullException("typeOfBO");
             }
-            _logger.Log("Resolve TestFactory For '" + typeOfBO.Name + "'");
+            _logger.Log("Resolve TestFactory For '" + typeOfBO.Name + "'", LogCategory.Debug);
             lock (_lockProp)
             {
                 if (this._boTestFactoryInstances.ContainsKey(typeOfBO))
