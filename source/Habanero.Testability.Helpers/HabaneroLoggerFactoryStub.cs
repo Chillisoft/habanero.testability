@@ -36,11 +36,6 @@ namespace Habanero.Testability.Helpers
     ///</summary>
     public class HabaneroLoggerStub : IHabaneroLogger
     {
-        public void Log(string message)
-        {
-
-        }
-
         public void Log(string message, LogCategory logCategory)
         {
 

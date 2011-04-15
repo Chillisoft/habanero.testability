@@ -56,6 +56,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -81,6 +82,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="TestSession.cs" />
+    <Compile Include="ValidValidGeneratorImage.cs" />
     <Compile Include="ValidValueGeneratorFromBOList.cs" />
     <Compile Include="ExtensionMethods\TestabilityExtensions.cs" />
     <Compile Include="TestFixture.cs" />

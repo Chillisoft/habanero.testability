@@ -37,6 +37,7 @@ namespace Habanero.Testability
             this.Register<DateTime, ValidValueGeneratorDate>();
             this.Register<double, ValidValueGeneratorDouble>();
             this.Register<long, ValidValueGeneratorLong>();
+            this.Register<System.Drawing.Image, ValidValidGeneratorImage>();
         }
 
         private void ClearPreviousInstances(Type boType)
