@@ -272,7 +272,7 @@ namespace Habanero.Testability
             }
             var classType = relationshipDef.PropertyType;
             var boTestFactory = BOTestFactoryRegistry.Instance.Resolve(classType);
-            return boTestFactory.CreateSavedBusinessObject();
+            return boTestFactory.CreateValidBusinessObject();
         }
         /// <summary>
         /// Returns a valid prop value for <paramref name="propDef"/>

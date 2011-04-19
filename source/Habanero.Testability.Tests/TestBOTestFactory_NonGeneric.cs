@@ -96,7 +96,7 @@ namespace Habanero.Testability.Tests
             Assert.IsNotNull(relatedBO);
         }
         [Test]
-        public void Test_CreateValidBusinessObject_ShouldReturnBOWithRelatedBOSaved()
+        public void Test_CreateValidBusinessObject_ShouldReturnBOWithRelatedBONotSaved()
         {
             //---------------Set up test pack-------------------
             BOTestFactory factory = CreateBOTestFactory();
@@ -105,7 +105,7 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             var relatedBO = businessObject.CompulsoryRelationship;
             Assert.IsNotNull(relatedBO);
-            Assert.IsFalse(relatedBO.Status.IsNew);
+            Assert.IsTrue(relatedBO.Status.IsNew);
         }
 
         [Test]
@@ -447,7 +447,7 @@ namespace Habanero.Testability.Tests
         }
 
         [Test]
-        public void Test_GetValidRelationshipValue_ShouldRetSavedRelatedBO()
+        public void Test_GetValidRelationshipValue_ShouldCreateRelatedBO()
         {
             //---------------Set up test pack-------------------
             BOTestFactory boTestFactory = new BOTestFactory(typeof(FakeBO));
@@ -461,7 +461,7 @@ namespace Habanero.Testability.Tests
             IBusinessObject validRelationshipValue = boTestFactory.GetValidRelationshipValue(relationshipDef as ISingleValueDef);
             //---------------Test Result -----------------------
             Assert.IsNotNull(validRelationshipValue);
-            Assert.IsFalse(validRelationshipValue.Status.IsNew);
+            Assert.IsTrue(validRelationshipValue.Status.IsNew);
         }
 
         [Test]

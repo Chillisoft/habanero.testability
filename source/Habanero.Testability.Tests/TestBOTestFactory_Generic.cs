@@ -162,7 +162,7 @@ namespace Habanero.Testability.Tests
             //---------------Execute Test ----------------------
             factory.CreateValidBusinessObject();
             //---------------Test Result -----------------------
-            fakeBOTestFactory.AssertWasCalled(testFactory => ((BOTestFactory) testFactory).CreateSavedBusinessObject());
+            fakeBOTestFactory.AssertWasCalled(testFactory => ((BOTestFactory) testFactory).CreateValidBusinessObject());
         }
 
         [Test]
