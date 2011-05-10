@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Habanero.Base;
+using Habanero.BO;
 using Habanero.BO.ClassDefinition;
 
 namespace Habanero.Testability.CF
@@ -299,6 +300,28 @@ namespace Habanero.Testability.CF
             where TBusinessObject : class, IBusinessObject, new()
         {
             var propertyName = GetPropertyName(relationshipExpression);
+            return WithMany<TBusinessObject>(expectedNoOfCreatedChildObjects, propertyName);
+        }*/
+
+
+        /// <summary>
+        /// Set up the factory to create many children business objects.
+        /// </summary>
+        /// <typeparam name="TBusinessObject"></typeparam>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public BOTestFactory<T> WithMany<TBusinessObject>(string propertyName)
+            where TBusinessObject : class, IBusinessObject, new()
+        {
+            return WithMany<TBusinessObject>(propertyName, MANY);
+        }
+        /// <summary>
+        /// set up the factory to create many children business objects.
+        /// </summary>
+        /// <typeparam name="TBusinessObject"></typeparam>
+        public BOTestFactory<T> WithMany<TBusinessObject>(string propertyName, int expectedNoOfCreatedChildObjects)
+            where TBusinessObject : class, IBusinessObject, new()
+        {
             IList<TBusinessObject> bos = new List<TBusinessObject>();
             var boTBusinessObjectFactory = BOTestFactoryRegistry.Instance.Resolve<TBusinessObject>();
             for (int i = 0; i < expectedNoOfCreatedChildObjects; i++)
@@ -308,7 +331,30 @@ namespace Habanero.Testability.CF
             }
             _defaultValueRegistry.Register(propertyName, bos);
             return this;
-        }*/
+        }
+
+        /// <summary>
+        /// set up the factory to create one child business object.
+        /// </summary>
+        /// <typeparam name="TBusinessObject"></typeparam>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public BOTestFactory<T> WithOne<TBusinessObject>(string propertyName)
+            where TBusinessObject : class, IBusinessObject, new()
+        {
+            return WithMany<TBusinessObject>(propertyName, 1);
+        }
+        /// <summary>
+        /// set up the factory to create two children business objects.
+        /// </summary>
+        /// <typeparam name="TBusinessObject"></typeparam>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public BOTestFactory<T> WithTwo<TBusinessObject>(string propertyName)
+            where TBusinessObject : class, IBusinessObject, new()
+        {
+            return WithMany<TBusinessObject>(propertyName, 2);
+        }
         /// <summary>
         /// Sets a value generator for all the PropDefs that would not necessarily have had a value set
         /// e.g. the propdef is not compulsory and does not have a default value set using

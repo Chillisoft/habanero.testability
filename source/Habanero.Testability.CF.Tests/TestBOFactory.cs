@@ -2,8 +2,8 @@
 using Habanero.BO.ClassDefinition;
 using Habanero.Smooth;
 using Habanero.Testability.CF;
+using Habanero.Testability.CF.Tests.Base;
 using Habanero.Testability.Helpers;
-using Habanero.Testability.Tests.Base;
 using Rhino.Mocks;
 
 namespace Habanero.Testability.Tests

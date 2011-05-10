@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using Habanero.Smooth;
 using Habanero.Testability.CF;
+using Habanero.Testability.CF.Tests.Base;
 using Habanero.Testability.Helpers;
-using Habanero.Testability.Tests.Base;
 
 namespace Habanero.Testability.Tests
 {
@@ -18,11 +18,13 @@ namespace Habanero.Testability.Tests
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     // ReSharper disable InconsistentNaming
     [TestFixture]
     public class TestBOTestFactory_Generic
     {
         private const int MANY = 3;
+
         private static PropRuleDate CreatePropRuleDateTime(DateTime min, DateTime max)
         {
             return TestUtilsFactory.CreatePropRuleDateTime(min, max);
@@ -68,7 +70,6 @@ namespace Habanero.Testability.Tests
             ClassDef.ClassDefs.Add(classDefCol);
             ClassDef.ClassDefs.Add(FakeBOCompositeKeyAndManyRel.LoadDefaultClassDef());
             ClassDef.ClassDefs.Add(FakeBOCompositeKeySingleRel.LoadDefaultClassDef());
-
         }
 
         [Test]
@@ -145,6 +146,7 @@ namespace Habanero.Testability.Tests
             Assert.IsNotNull(relatedFakeBo);
             Assert.IsTrue(relatedFakeBo.Status.IsValid());
         }
+
         /*No AssertWasNotCalled in CF
                 [Test]
                 public void Test_CreateValidBusinessObject_ShouldUseRegisteredFactoryWhenRequired()
@@ -192,6 +194,7 @@ namespace Habanero.Testability.Tests
             Assert.IsNotNull(prop.Value);
             Assert.IsInstanceOf(typeof (string), prop.Value);
         }
+
 /*//TODO brett 10 May 2011: CF
         [Test]
         public void Test_SetPropValueToValidValue_WhenHasValue_AndValueRegistered_ShouldSetToRegisteredValue()
@@ -464,6 +467,7 @@ namespace Habanero.Testability.Tests
             Assert.AreSame(origionalString, bo.CompulsoryString);
             Assert.AreSame(origionalRel, bo.CompulsoryRelationship);
         }
+
 /*No linq.Expression in CF
         [TestCase(ComparisonOperator.LessThanOrEqual), TestCase(ComparisonOperator.LessThan)]
         public void Test_FixInterPropRules_WhenDecimal_WhenInvalid_ShouldUpdateToValidValues(ComparisonOperator op)
@@ -935,6 +939,7 @@ namespace Habanero.Testability.Tests
             Assert.IsInstanceOf<RelatedFakeBo>(validCompulsoryRelationship);
         }
         */
+
         [Test]
         public void
             Test_GetValidRelationshipValue_WhenCreateFactoryWithBusinessObject_WhenUseNameString_ShouldRetRelatedObject()
@@ -1005,220 +1010,221 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.AreSame(relatedBO, boWithRelationship.SingleRelationship);
         }
-        /*No linq.Expression in CF
-                [Test]
-                public void Test_SetValueFor_WithRelationship_ShouldCreateWithRelationshipSet()
-                {
-                    //---------------Set up test pack-------------------
-                    RelatedFakeBo relatedBO = new RelatedFakeBo();
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.SetValueFor(alert => alert.SingleRelationship, relatedBO);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(relatedBO, boWithRelationship.SingleRelationship);
-                }
 
-                [Test]
-                public void Test_SetValueFor_WithProperty_ShouldCreateWithPropertySet()
-                {
-                    //---------------Set up test pack-------------------
-                    const string expectedPropValue = "SomeValue";
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.SetValueFor(boWRels => boWRels.SomeProp, expectedPropValue);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedPropValue, boWithRelationship.SomeProp);
-                }
+        [Test]
+        public void Test_SetValueFor_WithRelationship_ShouldCreateWithRelationshipSet()
+        {
+            //---------------Set up test pack-------------------
+            RelatedFakeBo relatedBO = new RelatedFakeBo();
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.SetValueFor("SingleRelationship", relatedBO);
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreSame(relatedBO, boWithRelationship.SingleRelationship);
+        }
 
-                [Test]
-                public void Test_WithMany_ManyRelationship_ShouldCreateEntryInDefaultValueRegistry()
-                {
-                    //---------------Set up test pack-------------------
-                    const int expectedNoOfCreatedChildObjects = 3;
-                    var boWithRelFactory = new GenericBOTestFactorySpy<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithMany(boWRels => boWRels.RelatedFakeBos);
-                    //---------------Test Result -----------------------
-                    var boDefaultValueRegistry = boWithRelFactory.GetBODefaultValueRegistry();
-                    IList lists = (IList) boDefaultValueRegistry.Resolve("RelatedFakeBos");
-                    Assert.AreEqual(expectedNoOfCreatedChildObjects, lists.Count);
-                }
+        [Test]
+        public void Test_SetValueFor_WithProperty_ShouldCreateWithPropertySet()
+        {
+            //---------------Set up test pack-------------------
+            const string expectedPropValue = "SomeValue";
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.SetValueFor("SomeProp", expectedPropValue);
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedPropValue, boWithRelationship.SomeProp);
+        }
 
-                [Test]
-                public void Test_WithMany_ShouldCreate3RelatedObjects()
-                {
-                    //---------------Set up test pack-------------------
-                    //For testing I consider 3 to be many i.e. there may be special cases where the 
-                    // test can handle one or even two objects but most algorithms that work on 3
-                    // items will work on n items.
-                    const int expectedNoOfCreatedChildObjects = 3;
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithMany(boWRels => boWRels.RelatedFakeBos);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
-                }
+        [Test]
+        public void Test_WithMany_ManyRelationship_ShouldCreateEntryInDefaultValueRegistry()
+        {
+            //---------------Set up test pack-------------------
+            const int expectedNoOfCreatedChildObjects = 3;
+            var boWithRelFactory = new GenericBOTestFactorySpy<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithMany<RelatedFakeBo>("RelatedFakeBos");
+            //---------------Test Result -----------------------
+            var boDefaultValueRegistry = boWithRelFactory.GetBODefaultValueRegistry();
+            IList lists = (IList) boDefaultValueRegistry.Resolve("RelatedFakeBos");
+            Assert.AreEqual(expectedNoOfCreatedChildObjects, lists.Count);
+        }
 
-                [Test]
-                public void Test_WithMany_ShouldReturnFactory()
-                {
-                    //---------------Set up test pack-------------------
-                    var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    var returnedFactory = expectedFactory.WithMany(boWRels => boWRels.RelatedFakeBos);
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedFactory, returnedFactory);
-                }
+        [Test]
+        public void Test_WithMany_ShouldCreate3RelatedObjects()
+        {
+            //---------------Set up test pack-------------------
+            //For testing I consider 3 to be many i.e. there may be special cases where the 
+            // test can handle one or even two objects but most algorithms that work on 3
+            // items will work on n items.
+            const int expectedNoOfCreatedChildObjects = 3;
+            var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithMany<RelatedFakeBo>("RelatedFakeBos");
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
+        }
 
-                [Test]
-                public void Test_WithMany_WhenSpecifiedNo_ShouldCreateSpecifiedRelatedObjects()
-                {
-                    //---------------Set up test pack-------------------
-                    const int expectedNoOfCreatedChildObjects = 5;
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithMany(boWRels => boWRels.RelatedFakeBos, expectedNoOfCreatedChildObjects);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
-                }
+        [Test]
+        public void Test_WithMany_ShouldReturnFactory()
+        {
+            //---------------Set up test pack-------------------
+            var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var returnedFactory = expectedFactory.WithMany<RelatedFakeBo>("RelatedFakeBos");
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedFactory, returnedFactory);
+        }
 
-                [Test]
-                public void Test_WithMany_WhenOtherRel_ShouldCreateSpecifiedRelatedObjects()
-                {
-                    //---------------Set up test pack-------------------
-                    const int expectedNoOfCreatedChildObjects = 4;
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithMany(boWRels => boWRels.OtherRelatedFakeBos, expectedNoOfCreatedChildObjects);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.OtherRelatedFakeBos.Count);
-                }
+        [Test]
+        public void Test_WithMany_WhenSpecifiedNo_ShouldCreateSpecifiedRelatedObjects()
+        {
+            //---------------Set up test pack-------------------
+            const int expectedNoOfCreatedChildObjects = 5;
+            var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithMany<RelatedFakeBo>("RelatedFakeBos", expectedNoOfCreatedChildObjects);
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
+        }
 
-                [Test]
-                public void Test_WithMany_WhenOtherRel_WhenCompositeKey_ShouldCreateSpecifiedRelatedObjects_WithFKSet()
-                {
-                    //---------------Set up test pack-------------------
-                    var boWithRelFactory = new BOTestFactory<FakeBOCompositeKeyAndManyRel>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithOne(boWRels => boWRels.RelatedFakeBos);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreEqual(1, boWithRelationship.RelatedFakeBos.Count);
-                    var relatedFakeBo = boWithRelationship.RelatedFakeBos[0];
-                    Assert.AreEqual(boWithRelationship.GetPropertyValue("OrganisationID"),
-                                    relatedFakeBo.GetPropertyValue("OrganisationID"));
-                    Assert.AreEqual(boWithRelationship.GetPropertyValue("Name"), relatedFakeBo.GetPropertyValue("Name"));
-                }
+        [Test]
+        public void Test_WithMany_WhenOtherRel_ShouldCreateSpecifiedRelatedObjects()
+        {
+            //---------------Set up test pack-------------------
+            const int expectedNoOfCreatedChildObjects = 4;
+            var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithMany<RelatedFakeBo>("OtherRelatedFakeBos", expectedNoOfCreatedChildObjects);
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.OtherRelatedFakeBos.Count);
+        }
 
-                [Test]
-                public void Test_WithMany_WithSpecifiedNo_ShouldReturnFactory()
-                {
-                    //---------------Set up test pack-------------------
-                    var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    var returnedFactory = expectedFactory.WithMany(boWRels => boWRels.RelatedFakeBos, 6);
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedFactory, returnedFactory);
-                }
+        [Test]
+        public void Test_WithMany_WithSpecifiedNo_ShouldReturnFactory()
+        {
+            //---------------Set up test pack-------------------
+            var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var returnedFactory = expectedFactory.WithMany<RelatedFakeBo>("RelatedFakeBos", 6);
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedFactory, returnedFactory);
+        }
 
-                [Test]
-                public void Test_WithOne_ShouldCreateOneRelatedObjects()
-                {
-                    //---------------Set up test pack-------------------
-                    //For testing I consider 3 to be many i.e. there may be special cases where the 
-                    // test can handle one or even two objects but most algorithms that work on 3
-                    // items will work on n items.
-                    const int expectedNoOfCreatedChildObjects = 1;
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithOne(boWRels => boWRels.RelatedFakeBos);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
-                }
+        [Test]
+        public void Test_WithOne_WhenOtherRel_WhenCompositeKey_ShouldCreateSpecifiedRelatedObjects_WithFKSet()
+        {
+            //---------------Set up test pack-------------------
+            var boWithRelFactory = new BOTestFactory<FakeBOCompositeKeyAndManyRel>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithOne<FakeBOCompositeKeySingleRel>("RelatedFakeBos");
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(1, boWithRelationship.RelatedFakeBos.Count);
+            var relatedFakeBo = boWithRelationship.RelatedFakeBos[0];
+            Assert.AreEqual(boWithRelationship.GetPropertyValue("OrganisationID"),
+                            relatedFakeBo.GetPropertyValue("OrganisationID"));
+            Assert.AreEqual(boWithRelationship.GetPropertyValue("Name"), relatedFakeBo.GetPropertyValue("Name"));
+        }
 
-                [Test]
-                public void Test_WithOne_WithSpecifiedNo_ShouldReturnFactory()
-                {
-                    //---------------Set up test pack-------------------
-                    var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    var returnedFactory = expectedFactory.WithOne(boWRels => boWRels.RelatedFakeBos);
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedFactory, returnedFactory);
-                }
+        [Test]
+        public void Test_WithOne_ShouldCreateOneRelatedObjects()
+        {
+            //---------------Set up test pack-------------------
+            //For testing I consider 3 to be many i.e. there may be special cases where the 
+            // test can handle one or even two objects but most algorithms that work on 3
+            // items will work on n items.
+            const int expectedNoOfCreatedChildObjects = 1;
+            var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithOne<RelatedFakeBo>("RelatedFakeBos");
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
+        }
 
-                [Test]
-                public void Test_WithTwo_ShouldCreateOneRelatedObjects()
-                {
-                    //---------------Set up test pack-------------------
-                    //For testing I consider 3 to be many i.e. there may be special cases where the 
-                    // test can handle one or even two objects but most algorithms that work on 3
-                    // items will work on n items.
-                    const int expectedNoOfCreatedChildObjects = 2;
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithTwo(boWRels => boWRels.RelatedFakeBos);
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
-                }
+        [Test]
+        public void Test_WithOne_WithSpecifiedNo_ShouldReturnFactory()
+        {
+            //---------------Set up test pack-------------------
+            var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var returnedFactory = expectedFactory.WithOne<RelatedFakeBo>("RelatedFakeBos");
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedFactory, returnedFactory);
+        }
 
-                [Test]
-                public void Test_WithTwo_WithSpecifiedNo_ShouldReturnFactory()
-                {
-                    //---------------Set up test pack-------------------
-                    var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    var returnedFactory = expectedFactory.WithTwo(boWRels => boWRels.RelatedFakeBos);
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedFactory, returnedFactory);
-                }
-        */
-                [Test]
-                public void Test_WithOutSingleRelationships_ShouldNotSetCompulsorySingleRels()
-                {
-                    //---------------Set up test pack-------------------
-                    var boWithRelFactory = new BOTestFactory<FakeBO>();
-                    //---------------Assert Precondition----------------
-                    var initialBO = boWithRelFactory.CreateValidBusinessObject();
-                    Assert.IsNotNull(initialBO.CompulsoryRelationship);
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.WithOutSingleRelationships();
-                    var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.IsNull(boWithRelationship.CompulsoryRelationship);
-                }
+        [Test]
+        public void Test_WithTwo_ShouldCreateOneRelatedObjects()
+        {
+            //---------------Set up test pack-------------------
+            //For testing I consider 3 to be many i.e. there may be special cases where the 
+            // test can handle one or even two objects but most algorithms that work on 3
+            // items will work on n items.
+            const int expectedNoOfCreatedChildObjects = 2;
+            var boWithRelFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithTwo<RelatedFakeBo>("RelatedFakeBos");
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(expectedNoOfCreatedChildObjects, boWithRelationship.RelatedFakeBos.Count);
+        }
 
-                [Test]
-                public void Test_WithOutSingleRelationships_ShouldReturnFactory()
-                {
-                    //---------------Set up test pack-------------------
-                    var expectedFactory = new BOTestFactory<FakeBO>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    BOTestFactory<FakeBO> returnedFactory = expectedFactory.WithOutSingleRelationships();
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedFactory, returnedFactory);
-                }
+        [Test]
+        public void Test_WithTwo_WithSpecifiedNo_ShouldReturnFactory()
+        {
+            //---------------Set up test pack-------------------
+            var expectedFactory = new BOTestFactory<FakeBOWithManyRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var returnedFactory = expectedFactory.WithTwo<RelatedFakeBo>("RelatedFakeBos");
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedFactory, returnedFactory);
+        }
+
+        [Test]
+        public void Test_WithOutSingleRelationships_ShouldNotSetCompulsorySingleRels()
+        {
+            //---------------Set up test pack-------------------
+            var boWithRelFactory = new BOTestFactory<FakeBO>();
+            //---------------Assert Precondition----------------
+            var initialBO = boWithRelFactory.CreateValidBusinessObject();
+            Assert.IsNotNull(initialBO.CompulsoryRelationship);
+            //---------------Execute Test ----------------------
+            boWithRelFactory.WithOutSingleRelationships();
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.IsNull(boWithRelationship.CompulsoryRelationship);
+        }
+
+        [Test]
+        public void Test_WithOutSingleRelationships_ShouldReturnFactory()
+        {
+            //---------------Set up test pack-------------------
+            var expectedFactory = new BOTestFactory<FakeBO>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            BOTestFactory<FakeBO> returnedFactory = expectedFactory.WithOutSingleRelationships();
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedFactory, returnedFactory);
+        }
+
         /*No linq.Expression in CF
                 [Test]
                 public void Test_SetValueFor_WithLambda_GetPropertyValue_ShouldReturnSetValue()
@@ -1235,37 +1241,39 @@ namespace Habanero.Testability.Tests
                     Assert.AreSame(expectedPropValue, actualValue);
                 }
         */
-                [Test]
-                public void Test_SetValueFor_WithName_GetPropertyValue_ShouldReturnSetValue()
-                {
-                    //---------------Set up test pack-------------------
-                    const string expectedPropValue = "SomeValue";
-                    const string propertyName = "SomeProp";
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.SetValueFor(propertyName, expectedPropValue);
-                    var actualValue = boWithRelFactory.GetValidPropValue(propertyName);
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedPropValue, actualValue);
-                }
 
-                [Test]
-                public void Test_SetValueFor_WithName_WhenRelationship_ShouldReturnSetValue()
-                {
-                    //---------------Set up test pack-------------------
-                    var expectedRelationshipValue = new RelatedFakeBo();
+        [Test]
+        public void Test_SetValueFor_WithName_GetPropertyValue_ShouldReturnSetValue()
+        {
+            //---------------Set up test pack-------------------
+            const string expectedPropValue = "SomeValue";
+            const string propertyName = "SomeProp";
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.SetValueFor(propertyName, expectedPropValue);
+            var actualValue = boWithRelFactory.GetValidPropValue(propertyName);
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedPropValue, actualValue);
+        }
 
-                    const string relationshipName = "SingleRelationship";
-                    var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                    //---------------Assert Precondition----------------
-                    //---------------Execute Test ----------------------
-                    boWithRelFactory.SetValueFor(relationshipName, expectedRelationshipValue);
-                    var actualValue = boWithRelFactory.GetValidRelationshipValue(relationshipName);
-                    //---------------Test Result -----------------------
-                    Assert.AreSame(expectedRelationshipValue, actualValue);
-                }
-                /*No linq.Expression in CF
+        [Test]
+        public void Test_SetValueFor_WithName_WhenRelationship_ShouldReturnSetValue()
+        {
+            //---------------Set up test pack-------------------
+            var expectedRelationshipValue = new RelatedFakeBo();
+
+            const string relationshipName = "SingleRelationship";
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            boWithRelFactory.SetValueFor(relationshipName, expectedRelationshipValue);
+            var actualValue = boWithRelFactory.GetValidRelationshipValue(relationshipName);
+            //---------------Test Result -----------------------
+            Assert.AreSame(expectedRelationshipValue, actualValue);
+        }
+
+        /*No linq.Expression in CF
                         [Test]
                         public void Test_SetValueFor_WithLambda_WhenRelationship_ShouldReturnSetValue()
                         {
@@ -1367,119 +1375,125 @@ namespace Habanero.Testability.Tests
                             Assert.AreEqual(randomString, bo.ReflectiveProp);
                         }
                 */
-                [Test]
-                public void Test_CreateSavedBusinessObject_ShouldReturnSavedValidBO()
-                {
-                    //---------------Set up test pack-------------------
-                    BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
-                    //---------------Execute Test ----------------------
-                    FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.IsNotNull(validBusinessObject);
-                    Assert.IsTrue(validBusinessObject.Status.IsValid());
-                    Assert.IsFalse(validBusinessObject.Status.IsNew);
-                }
 
-                [Test]
-                public void Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryPropValue()
-                {
-                    //---------------Set up test pack-------------------
-                    BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
-                    //---------------Execute Test ----------------------
-                    FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.IsNullOrEmpty(validBusinessObject.NonCompulsoryString);
-                }
+        [Test]
+        public void Test_CreateSavedBusinessObject_ShouldReturnSavedValidBO()
+        {
+            //---------------Set up test pack-------------------
+            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            //---------------Execute Test ----------------------
+            FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.IsNotNull(validBusinessObject);
+            Assert.IsTrue(validBusinessObject.Status.IsValid());
+            Assert.IsFalse(validBusinessObject.Status.IsNew);
+        }
+
+        [Test]
+        public void Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryPropValue()
+        {
+            //---------------Set up test pack-------------------
+            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            //---------------Execute Test ----------------------
+            FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.IsNullOrEmpty(validBusinessObject.NonCompulsoryString);
+        }
+
         /*No linq.Expression in CF
-                /// <summary>
-                /// <see cref="Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryPropValue"/>
-                /// </summary>
-                [Test]
-                public void Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryProp_ShouldSetNonCompulsoryPropValue()
-                {
-                    //---------------Set up test pack-------------------
-                    var factory = new BOTestFactory<FakeBO2>();
-                    factory.SetValueFor(bo => bo.NonCompulsoryString);
-                    //---------------Execute Test ----------------------
-                    var validBusinessObject = factory.CreateSavedBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.IsNotNullOrEmpty(validBusinessObject.NonCompulsoryString);
-                }
+                
         */
-                /// <summary>
-                /// <see cref="Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryRel_ShouldSetNonCompulsoryRelationship"/>
-                /// </summary>
-                [Test]
-                public void Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryRelationship()
-                {
-                    //---------------Set up test pack-------------------
-                    BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
-                    //---------------Execute Test ----------------------
-                    FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
-                    //---------------Test Result -----------------------
-                    Assert.IsNull(validBusinessObject.NonCompulsoryRelationship);
-                }
-                /*No linq.Expression in CF
-                        /// <summary>
-                        /// <see cref="Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryRelationship"/>
-                        /// </summary>
-                        [Test]
-                        public void Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryRel_ShouldSetNonCompulsoryRelationship()
-                        {
-                            //---------------Set up test pack-------------------
-                            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
-                            factory.SetValueFor(bo => bo.NonCompulsoryRelationship);
-                            //---------------Execute Test ----------------------
-                            FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
-                            //---------------Test Result -----------------------
-                            Assert.IsNotNull(validBusinessObject.NonCompulsoryRelationship);
-                        }
 
-                        [Test]
-                        public void Test_UpdateCompulsoryProps_WhenSetValueFor_ShouldSetValuesToRegisteredValue()
-                        {
-                            //---------------Set up test pack-------------------
-                            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                            var bo = boWithRelFactory.CreateDefaultBusinessObject();
-                            var expectedRelationshipValue = new RelatedFakeBo();
-                            //---------------Assert Precondition----------------
-                            Assert.IsTrue(bo.BoolPropWithDefault.GetValueOrDefault());
-                            //---------------Execute Test ----------------------
-                            boWithRelFactory.SetValueFor(alert => alert.BoolPropWithDefault, false);
-                            boWithRelFactory.SetValueFor(alert => alert.SingleRelationship, expectedRelationshipValue);
-                            boWithRelFactory.UpdateCompulsoryProperties(bo);
-                            //---------------Test Result -----------------------
-                            Assert.IsFalse(bo.BoolPropWithDefault.GetValueOrDefault());
-                            Assert.AreSame(expectedRelationshipValue, bo.SingleRelationship);
-                        }
-        */
-                        [Test]
-                        public void Test_CreateManySavedBusinessObjects_ShouldCreate3()
-                        {
-                            //---------------Set up test pack-------------------
-                            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                            //---------------Assert Precondition----------------
+        /// <summary>
+        /// <see cref="Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryPropValue"/>
+        /// </summary>
+        [Test]
+        public void Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryProp_ShouldSetNonCompulsoryPropValue()
+        {
+            //---------------Set up test pack-------------------
+            var factory = new BOTestFactory<FakeBO2>();
+            factory.SetValueFor("NonCompulsoryString");
+            //---------------Execute Test ----------------------
+            var validBusinessObject = factory.CreateSavedBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.IsNotNullOrEmpty(validBusinessObject.NonCompulsoryString);
+        }
 
-                            //---------------Execute Test ----------------------
-                            var bos = boWithRelFactory.CreateManySavedBusinessObject();
-                            //---------------Test Result -----------------------
-                            Assert.AreEqual(3, bos.Count, "For the puroposes of testability Many is considered tobe 3");
-                        }
+        /// <summary>
+        /// <see cref="Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryRel_ShouldSetNonCompulsoryRelationship"/>
+        /// </summary>
+        [Test]
+        public void Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryRelationship()
+        {
+            //---------------Set up test pack-------------------
+            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            //---------------Execute Test ----------------------
+            FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.IsNull(validBusinessObject.NonCompulsoryRelationship);
+        }
 
-                        [Test]
-                        public void Test_CreateManySavedBusinessObjects_WithSpecifiedNo_ShouldCreateSpecifiedNo()
-                        {
-                            //---------------Set up test pack-------------------
-                            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
-                            const int noToCreate = 5;
-                            //---------------Assert Precondition----------------
-                            //---------------Execute Test ----------------------
-                            var bos = boWithRelFactory.CreateManySavedBusinessObject(noToCreate);
-                            //---------------Test Result -----------------------
-                            Assert.AreEqual(noToCreate, bos.Count, "For the puroposes of testability Many is considered tobe 3");
-                            Assert.IsFalse(bos[0].Status.IsNew);
-                            Assert.IsFalse(bos[0].Status.IsDirty);
-                        }
+        /// <summary>
+        /// <see cref="Test_CreateSavedBusinessObject_ShouldNotSetNonCompulsoryRelationship"/>
+        /// </summary>
+        [Test]
+        public void Test_CreateSavedBusinessObject_WhenSetValueForNonCompulsoryRel_ShouldSetNonCompulsoryRelationship()
+        {
+            //---------------Set up test pack-------------------
+            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            factory.SetValueFor("NonCompulsoryRelationship");
+            //---------------Execute Test ----------------------
+            FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.IsNotNull(validBusinessObject.NonCompulsoryRelationship);
+        }
+
+        [Test]
+        public void Test_UpdateCompulsoryProps_WhenSetValueFor_ShouldSetValuesToRegisteredValue()
+        {
+            //---------------Set up test pack-------------------
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            var bo = boWithRelFactory.CreateDefaultBusinessObject();
+            var expectedRelationshipValue = new RelatedFakeBo();
+            //---------------Assert Precondition----------------
+            Assert.IsTrue(bo.BoolPropWithDefault.GetValueOrDefault());
+            //---------------Execute Test ----------------------
+            boWithRelFactory.SetValueFor("BoolPropWithDefault", false);
+            boWithRelFactory.SetValueFor("SingleRelationship", expectedRelationshipValue);
+            boWithRelFactory.UpdateCompulsoryProperties(bo);
+            //---------------Test Result -----------------------
+            Assert.IsFalse(bo.BoolPropWithDefault.GetValueOrDefault());
+            Assert.AreSame(expectedRelationshipValue, bo.SingleRelationship);
+        }
+
+        [Test]
+        public void Test_CreateManySavedBusinessObjects_ShouldCreate3()
+        {
+            //---------------Set up test pack-------------------
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            //---------------Assert Precondition----------------
+
+            //---------------Execute Test ----------------------
+            var bos = boWithRelFactory.CreateManySavedBusinessObject();
+            //---------------Test Result -----------------------
+            Assert.AreEqual(3, bos.Count, "For the puroposes of testability Many is considered tobe 3");
+        }
+
+        [Test]
+        public void Test_CreateManySavedBusinessObjects_WithSpecifiedNo_ShouldCreateSpecifiedNo()
+        {
+            //---------------Set up test pack-------------------
+            var boWithRelFactory = new BOTestFactory<FakeBOWithRelationship>();
+            const int noToCreate = 5;
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var bos = boWithRelFactory.CreateManySavedBusinessObject(noToCreate);
+            //---------------Test Result -----------------------
+            Assert.AreEqual(noToCreate, bos.Count, "For the puroposes of testability Many is considered tobe 3");
+            Assert.IsFalse(bos[0].Status.IsNew);
+            Assert.IsFalse(bos[0].Status.IsDirty);
+        }
+
 /*No linq.Expression in CF
 
         [Test]
@@ -1758,12 +1772,13 @@ namespace Habanero.Testability.Tests
             AssertAllParentsHaveManyChildren(fakeParents);
         }
         */
+
         [Test]
         public void Test_WithValuesForAllProps_ShouldConstructBoWithValuesForNonCompulsoryProps()
         {
             //---------------Set up test pack-------------------
             var boTestFactory = new BOTestFactory<FakeBOWithAllPropsMapped>();
-            
+
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -1774,6 +1789,7 @@ namespace Habanero.Testability.Tests
             Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString, "Should have set value");
             Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2, "Should have set value");
         }
+
         /*No linq.Expression in CF
         [Test]
         public void Test_WithValuesForAllProps_WhenValueIsRegisterd_ShouldConstructWithRegisteredValue()
@@ -1829,12 +1845,13 @@ namespace Habanero.Testability.Tests
             Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2, "Should have set value");
         }
          * */
+
         [Test]
         public void Test_WithValuesForAllProps_PropIsWriteNotNew_ShouldNotSetValueForProp()
         {
             //---------------Set up test pack-------------------
             var boTestFactory = new BOTestFactory<FakeBOWithAllPropsMapped>();
-            
+
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -1853,6 +1870,7 @@ namespace Habanero.Testability.Tests
             }
         }
     }
+
     // ReSharper restore InconsistentNaming
     public class ValidValueGeneratorNameFake : ValidValueGeneratorName
     {
@@ -1860,6 +1878,7 @@ namespace Habanero.Testability.Tests
         {
         }
     }
+
     public class ValidValueGeneratorFake : ValidValueGenerator
     {
         public ValidValueGeneratorFake(ISingleValueDef singleValueDef) : base(singleValueDef)
@@ -1876,7 +1895,8 @@ namespace Habanero.Testability.Tests
     {
         public string ExtraParameter { get; set; }
 
-        public ValidValueGeneratorWithParameterWithFake(ISingleValueDef singleValueDef, string extraParameter) : base(singleValueDef)
+        public ValidValueGeneratorWithParameterWithFake(ISingleValueDef singleValueDef, string extraParameter)
+            : base(singleValueDef)
         {
             ExtraParameter = extraParameter;
         }

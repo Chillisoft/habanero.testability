@@ -5,11 +5,10 @@ using Habanero.BO;
 using Habanero.BO.ClassDefinition;
 using Habanero.BO.Loaders;
 using Habanero.Smooth;
-using Habanero.Testability.CF;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ClassNeverInstantiated.Global
-namespace Habanero.Testability.Tests.Base
+namespace Habanero.Testability.CF.Tests.Base
 {
 	public class BOTestFactoryFakeBO : BOTestFactory<FakeBO>
 	{
@@ -679,7 +678,7 @@ namespace Habanero.Testability.Tests.Base
 		{
 			XmlClassLoader itsLoader = new XmlClassLoader(new DtdLoader(), new DefClassFactory());
 			IClassDef itsClassDef = itsLoader.LoadClass(@"
-			  <class name=""FakeBOCompositeKeyAndManyRel"" assembly=""Habanero.Testability.Tests.Base"">
+			  <class name=""FakeBOCompositeKeyAndManyRel"" assembly=""Habanero.Testability.CF.Tests.Base"">
 				<property name=""Name"" compulsory=""true""/>
 				<property name=""SomeProp""/>
 				<property name=""OrganisationID"" compulsory=""true"" />
@@ -687,7 +686,7 @@ namespace Habanero.Testability.Tests.Base
 				  <prop name=""OrganisationID"" />
 				  <prop name=""Name"" />
 				</primaryKey>
-				<relationship name=""RelatedFakeBos"" type=""multiple"" relatedClass=""FakeBOCompositeKeySingleRel"" relatedAssembly=""Habanero.Testability.Tests.Base"">
+				<relationship name=""RelatedFakeBos"" type=""multiple"" relatedClass=""FakeBOCompositeKeySingleRel"" relatedAssembly=""Habanero.Testability.CF.Tests.Base"">
 				  <relatedProperty property=""OrganisationID"" relatedProperty=""OrganisationID"" />
 				  <relatedProperty property=""Name"" relatedProperty=""Name"" />
 				</relationship>
@@ -711,7 +710,7 @@ namespace Habanero.Testability.Tests.Base
 		{
 			XmlClassLoader itsLoader = new XmlClassLoader(new DtdLoader(), new DefClassFactory());
 			IClassDef itsClassDef = itsLoader.LoadClass(@"
-			  <class name=""FakeBOCompositeKeySingleRel"" assembly=""Habanero.Testability.Tests.Base"">
+			  <class name=""FakeBOCompositeKeySingleRel"" assembly=""Habanero.Testability.CF.Tests.Base"">
 				<property name=""Name"" compulsory=""true""/>
 				<property name=""OrganisationID"" compulsory=""true"" />
 				<property name=""AnotherPKProp"" compulsory=""true"" />
@@ -721,7 +720,7 @@ namespace Habanero.Testability.Tests.Base
 				  <prop name=""Name"" />
 				  <prop name=""AnotherPKProp"" />
 				</primaryKey>
-				<relationship name=""FakeBO"" type=""single"" relatedClass=""FakeBOCompositeKeyAndManyRel"" relatedAssembly=""Habanero.Testability.Tests.Base"">
+				<relationship name=""FakeBO"" type=""single"" relatedClass=""FakeBOCompositeKeyAndManyRel"" relatedAssembly=""Habanero.Testability.CF.Tests.Base"">
 				  <relatedProperty property=""OrganisationID"" relatedProperty=""OrganisationID"" />
 				  <relatedProperty property=""Name"" relatedProperty=""Name"" />
 				</relationship>

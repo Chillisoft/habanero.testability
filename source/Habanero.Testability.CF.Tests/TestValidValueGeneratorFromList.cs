@@ -6,8 +6,8 @@ using Habanero.BO;
 using Habanero.BO.ClassDefinition;
 using Habanero.Smooth;
 using Habanero.Testability.CF;
+using Habanero.Testability.CF.Tests.Base;
 using Habanero.Testability.Helpers;
-using Habanero.Testability.Tests.Base;
 using NUnit.Framework;
 
 namespace Habanero.Testability.Tests
