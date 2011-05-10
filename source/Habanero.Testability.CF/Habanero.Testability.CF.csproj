@@ -32,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <DocumentationFile>bin\Debug\Habanero.Testability.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Habanero.Testability.CF.XML</DocumentationFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
