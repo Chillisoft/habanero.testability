@@ -176,7 +176,11 @@ namespace Habanero.Testability
             return SetValueFor(propertyName);
         }
 
-        private BOTestFactory<T> SetValueFor(string propertyName)
+		/// <summary>
+		/// Sets the builder to ensure that when it generates a BO it
+		/// will generated a value for the property identified by the <paramref name="propertyName"/>
+		/// </summary>
+		public BOTestFactory<T> SetValueFor(string propertyName)
         {
             var propDef = GetPropDef(typeof(T), propertyName, false);
             if (propDef != null)

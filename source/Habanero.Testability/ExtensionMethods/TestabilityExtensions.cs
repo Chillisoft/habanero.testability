@@ -19,5 +19,15 @@ namespace Habanero.Testability
             factory.SetValueFor(expression);
             return factory;
         }
+        public static BOTestFactory<T> WithValue<T, TPropType>(this BOTestFactory<T> factory, string propertyName, TPropType value) where T : class, IBusinessObject
+        {
+			factory.SetValueFor(propertyName, value);
+            return factory;
+        }
+        public static BOTestFactory<T> WithValueFor<T, TPropType>(this BOTestFactory<T> factory, string propertyName) where T : class, IBusinessObject
+        {
+			factory.SetValueFor(propertyName);
+            return factory;
+        }
     }
 }
