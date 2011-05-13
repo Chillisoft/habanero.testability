@@ -536,6 +536,17 @@ namespace Habanero.Testability.Tests.Base
 		public String ReadWriteRuleDefault { get; set; }
 	}
 	
+    public class FakeBOWithSuperClassWithUCProp : FakeBOSuperClassWithUCProp
+    {
+        
+    }
+
+    public class FakeBOSuperClassWithUCProp : BusinessObject
+    {
+        [AutoMapUniqueConstraint("UC_Fake")]
+        public string UCProp { get; set; }
+    }
+
 	public class FakeBOWithUniqueConstraint : BusinessObject
 	{
 		[AutoMapUniqueConstraint("UC1")]

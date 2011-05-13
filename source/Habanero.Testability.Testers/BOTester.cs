@@ -331,8 +331,9 @@ namespace Habanero.Testability.Testers
             string message = string.Format(" '{0}' is not part of a Unique Constraint since there are no Unique Constraints Defined on the Class '{1}'"
                 , propName, classDef.ClassName);
 
-            classDef.KeysCol.ShouldNotBeEmpty(message);
-            IEnumerable<IKeyDef> simpleUniqueConstraints = classDef.KeysCol.Where(def => def.Count == 1);
+            KeyDefCol keyDefCol = classDef.KeyDefColIncludingInheritance;
+            keyDefCol.ShouldNotBeEmpty(message);
+            IEnumerable<IKeyDef> simpleUniqueConstraints = keyDefCol.Where(def => def.Count == 1);
             foreach (IKeyDef keyDef in simpleUniqueConstraints)
             {
                 foreach (IPropDef propDef in keyDef)

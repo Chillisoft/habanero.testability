@@ -734,6 +734,23 @@ namespace Habanero.Testability.Testers.Tests
             }
         }
 
+        [Test]
+        public void Test_ShouldBeUniqueConstraint_WhenUniqueConstraintIsOnSuperClass()
+        {
+            //---------------Set up test pack-------------------
+            const string propName = "UCProp";
+            IClassDef classDef = SetupClassDef<FakeBOWithSuperClassWithUCProp>();
+            var propertyInfo = ReflectionUtilities.GetPropertyInfo<FakeBOWithSuperClassWithUCProp, object>(bo => bo.UCProp);
+            var boTester = CreateTester<FakeBOWithSuperClassWithUCProp>();
+            //---------------Assert Precondition----------------
+            propertyInfo.AssertHasUniqueConstraintAttribute();
+            Assert.IsNotNull(classDef.GetPropDef(propName), "Property should be defined");
+            //---------------Execute Test ----------------------
+            boTester.ShouldBeUniqueConstraint(propName);
+            //---------------Test Result -----------------------
+            Assert.IsTrue(true, "If it has got here then passed");
+        }
+
         [Ignore("To Implement tests for Composite")] //TODO Brett 01 Oct 2010: Ignored Test - To Implement tests for Composite
         [Test]
         public void Test_ShouldBeUniqueConstraint_WithMultiProps_WhenHasCompositeUC()
