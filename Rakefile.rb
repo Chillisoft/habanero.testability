@@ -45,7 +45,7 @@ desc "Rakes habanero+smooth, builds Testability"
 task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
 
 desc "Builds Testability, including tests"
-task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
+task :build => [:clean, :updatelib, :msbuild, :test]
 
 #------------------------build Faces  --------------------
 
@@ -85,7 +85,7 @@ nunit :test do |nunit|
 	nunit.assemblies 'bin\Habanero.Testability.CF.Tests.dll'
 end
 
-# svn :commitlib do |s|
-	# puts cyan("Commiting lib")
-	# s.parameters "ci lib -m autocheckin"
-#end
+svn :commitlib do |s|
+	puts cyan("Commiting lib")
+	s.parameters "ci lib -m autocheckin"
+end
