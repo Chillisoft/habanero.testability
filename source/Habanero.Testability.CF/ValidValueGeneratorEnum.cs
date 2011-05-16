@@ -1,7 +1,7 @@
 ﻿using Habanero.Base;
 using Habanero.BO.Rules;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This will generate a valid value for the Enum identified by

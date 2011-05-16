@@ -1,6 +1,6 @@
 ﻿using Habanero.Base;
 
-namespace Habanero.Testability.CF.ExtensionMethods
+namespace Habanero.Testability.ExtensionMethods
 {
     public static class TestabilityExtensions
     {

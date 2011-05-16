@@ -1,12 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.CF", "Habanero.Testability.CF\Habanero.Testability.CF.csproj", "{89F76B54-7059-4863-86D3-3D0CA11CAA1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability", "Habanero.Testability.CF\Habanero.Testability.csproj", "{89F76B54-7059-4863-86D3-3D0CA11CAA1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.CF.Tests", "Habanero.Testability.CF.Tests\Habanero.Testability.CF.Tests.csproj", "{9AFB16D0-E291-418E-947F-E47081038239}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Tests", "Habanero.Testability.CF.Tests\Habanero.Testability.Tests.csproj", "{9AFB16D0-E291-418E-947F-E47081038239}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.CF.Tests.Base", "Habanero.Testability.CF.Tests.Base\Habanero.Testability.CF.Tests.Base.csproj", "{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Tests.Base", "Habanero.Testability.CF.Tests.Base\Habanero.Testability.Tests.Base.csproj", "{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Helpers.CF", "Habanero.Testability.Helpers.CF\Habanero.Testability.Helpers.CF.csproj", "{B0BBF7BB-9F01-4871-82D9-781E069AD210}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habanero.Testability.Helpers", "Habanero.Testability.Helpers.CF\Habanero.Testability.Helpers.csproj", "{B0BBF7BB-9F01-4871-82D9-781E069AD210}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Habanero.Base;
 using Habanero.Base.Exceptions;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     public class ValidValueGeneratorName : ValidValueGenerator
     {

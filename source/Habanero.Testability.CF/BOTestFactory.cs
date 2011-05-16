@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// The BOTestFactory is a factory used to construct a Business Object for testing.

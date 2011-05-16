@@ -1,7 +1,7 @@
 ﻿using Habanero.Base;
 using System;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     public class ValidValueGeneratorGuid : ValidValueGenerator
     {

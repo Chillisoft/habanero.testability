@@ -2,7 +2,7 @@
 using Habanero.Base.Exceptions;
 using System;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// A generalised factory for creating any habanero business object.

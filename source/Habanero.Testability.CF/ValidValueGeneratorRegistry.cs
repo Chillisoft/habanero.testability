@@ -4,7 +4,7 @@ using Habanero.Base;
 using Habanero.Base.Exceptions;
 using Habanero.Base.Util;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This is a registry of the Valid Value Generators to be used for Generating Various Data Types e.g. String, Guid.

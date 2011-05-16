@@ -24,7 +24,7 @@ namespace Habanero.Testability.Helpers
         {
             _declaringType = MockRepository.GenerateMock<Type>();
             _propType = MockRepository.GenerateMock<Type>();
-            _methodName = RandomStringGen.GetRandomString();
+            _methodName = RandomValueGen.GetRandomString();
         }
         public override object[] GetCustomAttributes(bool inherit)
         {

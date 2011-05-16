@@ -1,7 +1,7 @@
 using Habanero.Base;
 using Habanero.BO.Rules;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// Generates a valid value for PropDef of type DateTime.

@@ -1,4 +1,4 @@
-﻿using Habanero.Testability.CF;
+﻿using Habanero.Testability;
 
 namespace Habanero.Testability.Tests
 {

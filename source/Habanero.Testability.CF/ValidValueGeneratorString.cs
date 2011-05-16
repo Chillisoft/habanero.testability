@@ -2,7 +2,7 @@
 using Habanero.BO;
 using Habanero.BO.Rules;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     public class ValidValueGeneratorString : ValidValueGenerator
     {

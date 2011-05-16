@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Habanero.Base;
-using Habanero.BO;
 using Habanero.BO.ClassDefinition;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// The BOTestFactory is a factory used to construct a Business Object for testing.

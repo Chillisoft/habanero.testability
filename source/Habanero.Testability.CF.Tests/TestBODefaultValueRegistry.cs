@@ -4,7 +4,7 @@ using Habanero.Base;
 using Habanero.Base.Exceptions;
 using Habanero.BO;
 using Habanero.BO.ClassDefinition;
-using Habanero.Testability.CF;
+using Habanero.Testability;
 using NUnit.Framework;
 
 namespace Habanero.Testability.Tests

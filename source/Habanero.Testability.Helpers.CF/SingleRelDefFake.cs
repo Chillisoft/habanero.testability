@@ -1,7 +1,6 @@
 using System;
 using Habanero.BO;
 using Habanero.BO.ClassDefinition;
-using Habanero.Testability.CF;
 
 namespace Habanero.Testability.Helpers
 {

@@ -1,4 +1,4 @@
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     ///<summary>
     ///</summary>

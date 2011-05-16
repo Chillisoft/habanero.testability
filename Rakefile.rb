@@ -1,3 +1,4 @@
+#rake for Testability
 require 'rake'
 require 'albacore'
 
@@ -82,7 +83,7 @@ end
 desc "Runs the tests"
 nunit :test do |nunit|
 	puts cyan("Running tests")
-	nunit.assemblies 'bin\Habanero.Testability.CF.Tests.dll'
+	nunit.assemblies 'bin\Habanero.Testability.Tests.dll'
 end
 
 svn :commitlib do |s|

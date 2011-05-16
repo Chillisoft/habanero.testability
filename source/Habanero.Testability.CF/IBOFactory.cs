@@ -1,7 +1,7 @@
 ﻿using Habanero.Base;
 using System;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// The IBOFactory is an interface for creating a Standard Business Object.

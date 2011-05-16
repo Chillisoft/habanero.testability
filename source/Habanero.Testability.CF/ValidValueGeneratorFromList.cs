@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Habanero.Base;
 using Habanero.Base.Exceptions;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This will return an Item of {T} based on a randomly selected item

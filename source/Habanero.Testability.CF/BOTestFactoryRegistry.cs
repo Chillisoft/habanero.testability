@@ -4,7 +4,7 @@ using System.Linq;
 using Habanero.Base;
 using Habanero.Base.Exceptions;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This is a registry of the BOTestFactories for various Business Object types.

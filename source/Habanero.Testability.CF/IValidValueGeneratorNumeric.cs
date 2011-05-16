@@ -1,7 +1,7 @@
 ﻿using Habanero.Base;
 using Habanero.BO.Rules;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// An inverface for Objects that are of type that is generally numeric.

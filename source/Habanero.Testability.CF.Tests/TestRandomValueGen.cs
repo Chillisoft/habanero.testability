@@ -1,5 +1,5 @@
 ﻿using System.Security.Cryptography;
-using Habanero.Testability.CF;
+using Habanero.Testability;
 
 namespace Habanero.Testability.Tests
 {

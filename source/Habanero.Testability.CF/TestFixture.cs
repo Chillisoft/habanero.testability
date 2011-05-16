@@ -1,6 +1,6 @@
 ﻿using Habanero.Base;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     public class TestFixture
     {

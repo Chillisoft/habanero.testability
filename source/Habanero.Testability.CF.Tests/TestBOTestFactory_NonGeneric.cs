@@ -1,6 +1,6 @@
 ﻿using Habanero.Smooth;
-using Habanero.Testability.CF;
-using Habanero.Testability.CF.Tests.Base;
+using Habanero.Testability;
+using Habanero.Testability.Tests.Base;
 
 namespace Habanero.Testability.Tests
 {

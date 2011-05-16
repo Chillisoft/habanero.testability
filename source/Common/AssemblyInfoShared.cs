@@ -23,7 +23,7 @@ using System.Reflection;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyCompany("Chillisoft Pty (Ltd)")]
-[assembly: AssemblyProduct("Habanero.Testability.CF")]
+[assembly: AssemblyProduct("Habanero.Testability")]
 [assembly: AssemblyCopyright("Copyright © Chillisoft Pty (Ltd) 2007-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

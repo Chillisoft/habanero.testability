@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This is a registry of the BOTestValues for various Properties and Single Relationships of a BusinessObject.

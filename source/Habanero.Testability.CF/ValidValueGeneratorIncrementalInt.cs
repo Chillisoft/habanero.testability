@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Habanero.Base;
 using Habanero.BO;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     public class ValidValueGeneratorIncrementalInt : ValidValueGenerator, IValidValueGeneratorNumeric
     {

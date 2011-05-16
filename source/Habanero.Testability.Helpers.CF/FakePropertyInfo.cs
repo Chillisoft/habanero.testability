@@ -88,7 +88,7 @@ namespace Habanero.Testability.Helpers
 
         private static string GetRandomString()
         {
-            return RandomStringGen.GetRandomString();
+            return RandomValueGen.GetRandomString();
         }
 
         public override object[] GetCustomAttributes(bool inherit)
@@ -185,7 +185,7 @@ namespace Habanero.Testability.Helpers
             throw new NotImplementedException();
         }
     }
-
+/*
     internal class RandomStringGen
     {
 
@@ -215,5 +215,5 @@ namespace Habanero.Testability.Helpers
             }
             return randomString;
         }
-    }
+    }*/
 }

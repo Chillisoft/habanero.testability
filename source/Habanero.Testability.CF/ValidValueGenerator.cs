@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using Habanero.BO.Rules;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This is a base class for a valid value generator of any type.

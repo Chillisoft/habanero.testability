@@ -2,7 +2,7 @@
 using Habanero.Base;
 using Habanero.BO;
 
-namespace Habanero.Testability.CF
+namespace Habanero.Testability
 {
     /// <summary>
     /// This will return an BusinessObject based on a randomly selected <see cref="IBusinessObject"/> 
