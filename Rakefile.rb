@@ -28,8 +28,8 @@ msbuild_settings = {
 $habanero_version = 'branches/v2.6-DotNet2CompactFramework'
 require 'rake-habanero.rb'
 
-$smooth_version = 'branches/V2.6-CF_Stargate'
-require 'rake-smooth.rb'
+$smooth_version = 'branches/v1.5_CF_Stargate'
+require 'rake-smoothCF.rb'
 
 #------------------------project settings------------------------
 $basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/branches/v2.5-CF'
@@ -82,10 +82,10 @@ end
 desc "Runs the tests"
 nunit :test do |nunit|
 	puts cyan("Running tests")
-	nunit.assemblies 'Habanero.Testability,CF.Tests.dll'
+	nunit.assemblies 'bin\Habanero.Testability.CF.Tests.dll'
 end
 
-svn :commitlib do |s|
-	puts cyan("Commiting lib")
-	s.parameters "ci lib -m autocheckin"
-end
+# svn :commitlib do |s|
+	# puts cyan("Commiting lib")
+	# s.parameters "ci lib -m autocheckin"
+#end
