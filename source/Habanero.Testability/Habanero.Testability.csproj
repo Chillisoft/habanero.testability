@@ -78,6 +78,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="TestSession.cs" />
+    <Compile Include="ValidValidGeneratorByteArray.cs" />
     <Compile Include="ValidValidGeneratorImage.cs" />
     <Compile Include="ValidValueGeneratorFromBOList.cs" />
     <Compile Include="ExtensionMethods\TestabilityExtensions.cs" />
