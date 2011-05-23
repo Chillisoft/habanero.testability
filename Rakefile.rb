@@ -1,3 +1,4 @@
+#Habanero.Testability
 require 'rake'
 require 'albacore'
 
