@@ -55,7 +55,7 @@ namespace Habanero.Testability.Helpers
 
         public bool IsLogging(LogCategory logCategory)
         {
-            throw new NotImplementedException();
+        	return true;
         }
 
         ///<summary>
