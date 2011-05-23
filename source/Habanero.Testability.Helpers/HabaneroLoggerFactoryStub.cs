@@ -56,6 +56,11 @@ namespace Habanero.Testability.Helpers
             
         }
 
+        public bool IsLogging(LogCategory logCategory)
+        {
+            throw new NotImplementedException();
+        }
+
         public string ContextName
         {
             get { return "HabaneroLoggerStub (logger for testing only)"; }

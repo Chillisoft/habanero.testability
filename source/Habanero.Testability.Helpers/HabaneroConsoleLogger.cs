@@ -53,6 +53,11 @@ namespace Habanero.Testability.Helpers
             throw new NotImplementedException();
         }
 
+        public bool IsLogging(LogCategory logCategory)
+        {
+            throw new NotImplementedException();
+        }
+
         ///<summary>
         ///</summary>
         public string ContextName
