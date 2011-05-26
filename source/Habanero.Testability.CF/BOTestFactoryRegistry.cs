@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Habanero.Base;
 using Habanero.Base.Exceptions;
+using Habanero.Base.Logging;
 
 namespace Habanero.Testability
 {

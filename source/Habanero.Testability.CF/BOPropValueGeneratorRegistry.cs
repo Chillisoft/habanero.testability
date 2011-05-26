@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Habanero.Base;
 using Habanero.Base.Exceptions;
+using Habanero.Base.Logging;
 using Habanero.Base.Util;
 
 namespace Habanero.Testability

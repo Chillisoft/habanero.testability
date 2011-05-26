@@ -1,5 +1,6 @@
 ﻿using System;
 using Habanero.Base;
+using Habanero.Base.Logging;
 
 namespace Habanero.Testability.Helpers
 {
