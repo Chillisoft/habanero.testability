@@ -40,17 +40,17 @@ namespace Habanero.Testability.Helpers
 
         public void Log(Exception exception)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(ContextName + " : " + exception.Message);
         }
 
         public void Log(string message, Exception exception)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(ContextName + " : " + message + " : " + exception.Message);
         }
 
         public void Log(string message, Exception exception, LogCategory logCategory)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(ContextName + " : " + logCategory + " : " + message + " : " + exception.Message);
         }
 
         ///<summary>
