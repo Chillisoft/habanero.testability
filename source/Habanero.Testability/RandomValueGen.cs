@@ -402,7 +402,7 @@ namespace UniqueKey
             if (type == typeof (double)) return double.MinValue;
             if (type == typeof (Single)) return Single.MinValue;
             if (type == typeof (long)) return long.MinValue;
-            if (type == typeof (DateTime)) return DateTime.MinValue;
+            if (type == typeof(DateTime)) return new DateTime(1753, 1, 1);
 
             return int.MinValue;
         }

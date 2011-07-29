@@ -392,6 +392,7 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.AreEqual(expecteMin, absoluteMin);
         }
+
         [TestCase(typeof(int), int.MaxValue)]
         [TestCase(typeof(double), double.MaxValue)]
         [TestCase(typeof(Single), Single.MaxValue)]
@@ -422,12 +423,17 @@ namespace Habanero.Testability.Tests
         [Test]
         public void Test_GetAbsoluteMin_WhenDate_ReturnsTheAppropriateMinDate()
         {
+            // Redmine #1745
+            // Changed from using DateTime.MinValue as Sql Server can't handle this
+            // Sql Server min date is 1/1/1753
+
             //---------------Set up test pack-------------------
+            var expectedAbsoluteMin = new DateTime(1753, 1, 1);
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             var absoluteMin = RandomValueGen.GetAbsoluteMin<DateTime>();
             //---------------Test Result -----------------------
-            Assert.AreEqual(DateTime.MinValue, absoluteMin);
+            Assert.AreEqual(expectedAbsoluteMin, absoluteMin);
         }
         [Test]
         public void Test_GetAbsoluteMax_WhenDecimal_ReturnsTheAppropriateMaxDecimal()

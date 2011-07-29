@@ -160,12 +160,17 @@ namespace Habanero.Testability.Tests
         [Test]
         public void Test_GenerateValueLessThan_WhenDateTimeAndNoRule_ShouldRetValidValue()
         {
+            // Redmine #1745
+            // Changed from using DateTime.MinValue as Sql Server can't handle this
+            // Sql Server min date is 1/1/1753
+
             //---------------Set up test pack-------------------
+            var expectedAbsoluteMin = new DateTime(1753, 1, 1);
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
             ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
-            DateTime overridingMaxValue = DateTime.MinValue.AddDays(7.0);
+            DateTime overridingMaxValue = expectedAbsoluteMin.AddDays(7.0);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
@@ -173,7 +178,7 @@ namespace Habanero.Testability.Tests
             DateTime value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
-            Assert.GreaterOrEqual(value, DateTime.MinValue);
+            Assert.GreaterOrEqual(value, expectedAbsoluteMin);
             Assert.LessOrEqual(value, overridingMaxValue);
         }
 
