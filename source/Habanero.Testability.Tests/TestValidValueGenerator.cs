@@ -13,6 +13,7 @@ namespace Habanero.Testability.Tests
     [TestFixture]
     public class TestValidValueGenerator
     {
+// ReSharper disable InconsistentNaming
         private static PropRuleDate CreatePropRuleDate(DateTime min, DateTime max)
         {
             return new PropRuleDate(RandomValueGen.GetRandomString(), RandomValueGen.GetRandomString(), min, max);
@@ -62,8 +63,8 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.MinValue.AddDays(5555.0);
-            DateTime max = DateTime.MinValue.AddDays(5565.0);
+            var min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555.0);
+            var max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             ValidValueGenerator generator = new ValidValueGeneratorDate(def);
             Assert.AreSame(typeof(DateTime), def.PropertyType);
@@ -71,7 +72,7 @@ namespace Habanero.Testability.Tests
             PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
-            DateTime value = (DateTime) generator.GenerateValidValue();
+            var value = (DateTime) generator.GenerateValidValue();
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, min);
             Assert.LessOrEqual(value, max);
@@ -101,10 +102,10 @@ namespace Habanero.Testability.Tests
             ValidValueGenerator generator = new ValidValueGeneratorDecimal(def);
             Assert.AreSame(typeof(decimal), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDecimal>().ToList());
-            PropRuleDecimal propRule = def.PropRules.OfType<PropRuleDecimal>().First();
+            var propRule = def.PropRules.OfType<PropRuleDecimal>().First();
             Assert.AreEqual(3.01M, propRule.MinValue);
             Assert.AreEqual(7.0004M, propRule.MaxValue);
-            decimal value = (decimal) generator.GenerateValidValue();
+            var value = (decimal) generator.GenerateValidValue();
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, 3.01M);
             Assert.LessOrEqual(value, 7.0004M);

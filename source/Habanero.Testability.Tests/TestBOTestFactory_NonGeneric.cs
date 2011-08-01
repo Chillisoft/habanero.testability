@@ -31,7 +31,7 @@ namespace Habanero.Testability.Tests
         {
             BORegistry.DataAccessor = GetDataAccessorInMemory();
             AllClassesAutoMapper.ClassDefCol.Clear();
-            ClassDefCol classDefCol = typeof(FakeBO).MapClasses(type => type.Name != "Unmapped");
+            var classDefCol = typeof(FakeBO).MapClasses(type => type.Name != "Unmapped");
             ClassDef.ClassDefs.Add(classDefCol);
         }
 
@@ -58,9 +58,9 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             //---------------Assert Precondition----------------
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Execute Test ----------------------
-            FakeBO businessObject = factory.CreateValidBusinessObject() as FakeBO;
+            var businessObject = factory.CreateValidBusinessObject() as FakeBO;
             //---------------Test Result -----------------------
             Assert.IsNotNull(businessObject);
             Assert.IsInstanceOf<FakeBO>(businessObject);
@@ -71,9 +71,9 @@ namespace Habanero.Testability.Tests
         public void Test_CreateValidBusinessObject_ShouldReturnBOWithCompulsoryRelationshipPopulated()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = CreateBOTestFactory();
+            var factory = CreateBOTestFactory();
             //---------------Execute Test ----------------------
-            FakeBO businessObject = (FakeBO) factory.CreateValidBusinessObject();
+            var businessObject = (FakeBO) factory.CreateValidBusinessObject();
             //---------------Test Result -----------------------
             var relatedBO = businessObject.CompulsoryRelationship;
             Assert.IsNotNull(relatedBO);
@@ -88,9 +88,9 @@ namespace Habanero.Testability.Tests
         public void Test_CreateValidBusinessObject_ShouldReturnBOWithCompulsoryRelationshpsPopulated()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = CreateBOTestFactory();
+            var factory = CreateBOTestFactory();
             //---------------Execute Test ----------------------
-            FakeBO businessObject = (FakeBO)factory.CreateValidBusinessObject();
+            var businessObject = (FakeBO)factory.CreateValidBusinessObject();
             //---------------Test Result -----------------------
             var relatedBO = businessObject.CompulsoryRelationship;
             Assert.IsNotNull(relatedBO);
@@ -99,9 +99,9 @@ namespace Habanero.Testability.Tests
         public void Test_CreateValidBusinessObject_ShouldReturnBOWithRelatedBONotSaved()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = CreateBOTestFactory();
+            var factory = CreateBOTestFactory();
             //---------------Execute Test ----------------------
-            FakeBO businessObject = (FakeBO)factory.CreateValidBusinessObject();
+            var businessObject = (FakeBO)factory.CreateValidBusinessObject();
             //---------------Test Result -----------------------
             var relatedBO = businessObject.CompulsoryRelationship;
             Assert.IsNotNull(relatedBO);
@@ -112,9 +112,9 @@ namespace Habanero.Testability.Tests
         public void Test_CreateValidBusinessObject_ShouldReturnBOWithNonCompulsoryPropsNotPopulated()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = CreateBOTestFactory();
+            var factory = CreateBOTestFactory();
             //---------------Execute Test ----------------------
-            FakeBO validBusinessObject = (FakeBO)  factory.CreateValidBusinessObject();
+            var validBusinessObject = (FakeBO)  factory.CreateValidBusinessObject();
             //---------------Test Result -----------------------
             var nonCompulsoryString = validBusinessObject.NonCompulsoryString;
             Assert.IsNull(nonCompulsoryString);
@@ -124,9 +124,9 @@ namespace Habanero.Testability.Tests
         public void Test_CreateSavedBusinessObject_ShouldReturnSavedValidBO()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = CreateBOTestFactory();
+            var factory = CreateBOTestFactory();
             //---------------Execute Test ----------------------
-            IBusinessObject validBusinessObject = factory.CreateSavedBusinessObject();
+            var validBusinessObject = factory.CreateSavedBusinessObject();
             //---------------Test Result -----------------------
             Assert.IsNotNull(validBusinessObject);
             Assert.IsTrue(validBusinessObject.Status.IsValid());
@@ -137,7 +137,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Assert Precondition----------------
             Type type = typeof(Unmapped);
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             Assert.IsFalse(ClassDef.ClassDefs.Contains(type));
             //---------------Execute Test ----------------------
             try
@@ -159,18 +159,18 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.MinValue.AddDays(5555.0);
-            DateTime max = DateTime.MinValue.AddDays(5565.0);
+            var min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555.0);
+            var max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565.0);
             def.AddPropRule(TestUtilsFactory.CreatePropRuleDateTime(min, max));
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max, propRule.MaxValue.Date);
             //---------------Execute Test ----------------------
-            object validPropValue = factory.GetValidPropValue(def);
+            var validPropValue = factory.GetValidPropValue(def);
             //---------------Test Result -----------------------
             Assert.GreaterOrEqual((DateTime) validPropValue, min);
             Assert.LessOrEqual((DateTime) validPropValue, max);
@@ -185,18 +185,18 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.MinValue.AddDays(5555.0);
-            DateTime max = DateTime.MinValue.AddDays(5565.0);
+            DateTime min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555.0);
+            DateTime max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565.0);
             def.AddPropRule(TestUtilsFactory.CreatePropRuleDateTime(min, max));
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max, propRule.MaxValue.Date);
             //---------------Execute Test ----------------------
-            object validPropValue = factory.GetValidPropValue(def);
+            var validPropValue = factory.GetValidPropValue(def);
             //---------------Test Result -----------------------
             Assert.GreaterOrEqual((DateTime) validPropValue, min);
             Assert.LessOrEqual((DateTime) validPropValue, max);
@@ -209,7 +209,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             Type type = typeof(FakeBO);
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
             Assert.IsTrue(ClassDef.ClassDefs.Contains(type));
             //---------------Execute Test ----------------------
@@ -234,15 +234,15 @@ namespace Habanero.Testability.Tests
             };
             def.AddPropRule(CreatePropRuleString(3, 7));
             IBOProp prop = new BOProp(def);
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(string), prop.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleString>().ToList());
-            PropRuleString propRule = def.PropRules.OfType<PropRuleString>().First();
+            var propRule = def.PropRules.OfType<PropRuleString>().First();
             Assert.AreEqual(3, propRule.MinLength);
             Assert.AreEqual(7, propRule.MaxLength);
             //---------------Execute Test ----------------------
-            object validPropValue = factory.GetValidPropValue(prop);
+            var validPropValue = factory.GetValidPropValue(prop);
             //---------------Test Result -----------------------
             Assert.IsNotNull(validPropValue);
             Assert.GreaterOrEqual(validPropValue.ToString().Length, 3);
@@ -257,15 +257,15 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(string)
             };
             def.AddPropRule(CreatePropRuleString(3, 7));
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(string), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleString>().ToList());
-            PropRuleString propRule = def.PropRules.OfType<PropRuleString>().First();
+            var propRule = def.PropRules.OfType<PropRuleString>().First();
             Assert.AreEqual(3, propRule.MinLength);
             Assert.AreEqual(7, propRule.MaxLength);
             //---------------Execute Test ----------------------
-            object validPropValue = factory.GetValidPropValue(def);
+            var validPropValue = factory.GetValidPropValue(def);
             //---------------Test Result -----------------------
             Assert.IsNotNull(validPropValue);
             Assert.GreaterOrEqual(validPropValue.ToString().Length, 3);
@@ -279,18 +279,18 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var classDef = ClassDef.Get<FakeBO>();
-            IPropDef def = classDef.PropDefcol.FirstOrDefault(propDef => propDef.PropertyName == "CompulsoryString");
+            var def = classDef.PropDefcol.FirstOrDefault(propDef => propDef.PropertyName == "CompulsoryString");
             //---------------Assert Precondition----------------
             Assert.IsNotNull(def);
             def.AddPropRule(CreatePropRuleString(3, 7));
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             Assert.AreSame(typeof(string), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleString>().ToList());
-            PropRuleString propRule = def.PropRules.OfType<PropRuleString>().First();
+            var propRule = def.PropRules.OfType<PropRuleString>().First();
             Assert.AreEqual(3, propRule.MinLength);
             Assert.AreEqual(7, propRule.MaxLength);
             //---------------Execute Test ----------------------
-            string validPropValue = factory.GetValidPropValue(typeof(FakeBO), "CompulsoryString").ToString();
+            var validPropValue = factory.GetValidPropValue(typeof(FakeBO), "CompulsoryString").ToString();
             //---------------Test Result -----------------------
             Assert.IsNotNull(validPropValue);
             Assert.GreaterOrEqual(validPropValue.Length, 3);
@@ -306,7 +306,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var classDef = ClassDef.Get<FakeBO>();
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             IPropDef def = classDef.PropDefcol.FirstOrDefault(propDef => propDef.PropertyName == "CompulsoryString");
             //---------------Assert Precondition----------------
             Assert.IsNotNull(def);
@@ -328,8 +328,8 @@ namespace Habanero.Testability.Tests
             //---------------Set up test pack-------------------
             const string relName = "NonCompulsoryRelationship";
             Type boType = typeof(FakeBO);
-            ISingleRelationship relationship = new BOTestFactory(boType).CreateValidBusinessObject().Relationships[relName] as ISingleRelationship;
-            BOTestFactory factory = new BOTestFactory(boType);
+            var relationship = new BOTestFactory(boType).CreateValidBusinessObject().Relationships[relName] as ISingleRelationship;
+            var factory = new BOTestFactory(boType);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(relationship);
             Assert.IsNull(relationship.GetRelatedObject());
@@ -347,7 +347,7 @@ namespace Habanero.Testability.Tests
         public void Test_GetValidValue_WhenNotRelOrProp_ShouldRaiseError()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -368,7 +368,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var classDef = ClassDef.Get<FakeBO>();
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             IPropDef def = classDef.PropDefcol.FirstOrDefault(propDef => propDef.PropertyName == "CompulsoryString");
             //---------------Assert Precondition----------------
             Assert.IsNotNull(def);
@@ -390,8 +390,8 @@ namespace Habanero.Testability.Tests
             //---------------Set up test pack-------------------
             const string relName = "NonCompulsoryRelationship";
             Type boType = typeof(FakeBO);
-            ISingleRelationship relationship = new BOTestFactory(boType).CreateValidBusinessObject().Relationships[relName] as ISingleRelationship;
-            BOTestFactory factory = new BOTestFactory(boType);
+            var relationship = new BOTestFactory(boType).CreateValidBusinessObject().Relationships[relName] as ISingleRelationship;
+            var factory = new BOTestFactory(boType);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(relationship);
             Assert.IsNull(relationship.GetRelatedObject());
@@ -409,7 +409,7 @@ namespace Habanero.Testability.Tests
         public void Test_GetValidValue_WithBO_WhenNotRelOrProp_ShouldRaiseError()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -434,13 +434,13 @@ namespace Habanero.Testability.Tests
         public void Test_GetValidRelationshipValue_ShouldRetValidValue()
         {
             //---------------Set up test pack-------------------
-            ISingleRelationship relationship = new BOTestFactory(typeof(FakeBO)).CreateValidBusinessObject().Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
-            BOTestFactory factory = new BOTestFactory(typeof(FakeBO));
+            var relationship = new BOTestFactory(typeof(FakeBO)).CreateValidBusinessObject().Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
+            var factory = new BOTestFactory(typeof(FakeBO));
             //---------------Assert Precondition----------------
             Assert.IsNotNull(relationship);
             Assert.IsNull(relationship.GetRelatedObject());
             //---------------Execute Test ----------------------
-            IBusinessObject validRelationshipValue = factory.GetValidRelationshipValue(relationship.RelationshipDef as ISingleValueDef);
+            var validRelationshipValue = factory.GetValidRelationshipValue(relationship.RelationshipDef as ISingleValueDef);
             //---------------Test Result -----------------------
             Assert.IsNotNull(validRelationshipValue);
             Assert.AreSame(validRelationshipValue.ClassDef, relationship.RelatedObjectClassDef);
@@ -450,9 +450,9 @@ namespace Habanero.Testability.Tests
         public void Test_GetValidRelationshipValue_ShouldCreateRelatedBO()
         {
             //---------------Set up test pack-------------------
-            BOTestFactory boTestFactory = new BOTestFactory(typeof(FakeBO));
-            FakeBO businessObject = (FakeBO) boTestFactory.CreateValidBusinessObject();
-            ISingleRelationship relationship = businessObject.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
+            var boTestFactory = new BOTestFactory(typeof(FakeBO));
+            var businessObject = (FakeBO) boTestFactory.CreateValidBusinessObject();
+            var relationship = businessObject.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
             //---------------Assert Precondition----------------
             Assert.IsNotNull(relationship);
             Assert.IsNull(relationship.GetRelatedObject());
@@ -469,14 +469,14 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             Type boType = typeof (SubClassFakeBO);
-            IClassDef classDef = ClassDef.ClassDefs[boType];
+            var classDef = ClassDef.ClassDefs[boType];
             const string propertyName = "SomeProp";
-            BOTestFactorySpy factory = new BOTestFactorySpy(boType);
+            var factory = new BOTestFactorySpy(boType);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(classDef);
             Assert.IsFalse(classDef.PropDefcol.Contains(propertyName));
             //---------------Execute Test ----------------------
-            var propDef = factory.CallGetPropDef(classDef, propertyName);
+            var propDef = BOTestFactorySpy.CallGetPropDef(classDef, propertyName);
             //---------------Test Result -----------------------
             Assert.IsNotNull(propDef);
             Assert.AreEqual(propertyName, propDef.PropertyName);
@@ -485,15 +485,15 @@ namespace Habanero.Testability.Tests
         public void Test_GetRelDef_WhenSubClass_ReturnsParentsRelDef()
         {
             //---------------Set up test pack-------------------
-            Type boType = typeof (SubClassFakeBO);
-            IClassDef classDef = ClassDef.ClassDefs[boType];
+            var boType = typeof (SubClassFakeBO);
+            var classDef = ClassDef.ClassDefs[boType];
             const string relName = "SomeRelationship";
-            BOTestFactorySpy factory = new BOTestFactorySpy(boType);
+            var factory = new BOTestFactorySpy(boType);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(classDef);
             Assert.IsFalse(classDef.PropDefcol.Contains(relName));
             //---------------Execute Test ----------------------
-            IRelationshipDef relationshipDef = factory.CallGetRelationshipDef(boType, relName);
+            var relationshipDef = BOTestFactorySpy.CallGetRelationshipDef(boType, relName);
             //---------------Test Result -----------------------
             Assert.IsNotNull(relationshipDef);
             Assert.AreEqual(relName, relationshipDef.RelationshipName);
@@ -503,12 +503,12 @@ namespace Habanero.Testability.Tests
         public void Test_SetDefaultValue_WhenRelationship_ShouldCreateWithValueSet()
         {
             //---------------Set up test pack-------------------
-            RelatedFakeBo relatedBO = new RelatedFakeBo();
+            var relatedBO = new RelatedFakeBo();
             var boWithRelFactory = new BOTestFactory(typeof(FakeBOWithRelationship));
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             boWithRelFactory.SetValueFor("SingleRelationship", relatedBO);
-            FakeBOWithRelationship boWithRelationship = boWithRelFactory.CreateValidBusinessObject() as FakeBOWithRelationship;
+            var boWithRelationship = boWithRelFactory.CreateValidBusinessObject() as FakeBOWithRelationship;
             //---------------Test Result -----------------------
             Assert.IsNotNull(boWithRelationship);
             Assert.AreSame(relatedBO, boWithRelationship.SingleRelationship);
@@ -533,9 +533,9 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var bo = new BOTestFactory(typeof(FakeBO)).CreateValidBusinessObject();
-            ISingleRelationship relationship = bo.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
+            var relationship = bo.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
 
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO>();
             //---------------Assert Precondition----------------
             Assert.IsNotNull(relationship);
             Assert.IsNull(relationship.GetRelatedObject());
@@ -549,9 +549,9 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var bo = new BOTestFactory(typeof(FakeBO)).CreateValidBusinessObject();
-            ISingleRelationship relationship = bo.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
+            var relationship = bo.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
 
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO>();
             factory.SetRelationshipToValidValue(relationship);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(relationship);
@@ -569,9 +569,9 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var bo = new BOTestFactory(typeof(FakeBO)).CreateValidBusinessObject();
-            ISingleRelationship relationship = bo.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
+            var relationship = bo.Relationships["NonCompulsoryRelationship"] as ISingleRelationship;
 
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO>();
             factory.SetRelationshipToValidValue(relationship);
             var expectedRelationshipValue = new RelatedFakeBo();
             //---------------Assert Precondition----------------
@@ -595,11 +595,11 @@ namespace Habanero.Testability.Tests
         {
         }
 
-        public ISingleValueDef CallGetPropDef(IClassDef classDef, string propName)
+        public static ISingleValueDef CallGetPropDef(IClassDef classDef, string propName)
         {
             return GetPropDef(classDef, propName, true);
         }
-        public IRelationshipDef CallGetRelationshipDef(Type classType, string propName)
+        public static IRelationshipDef CallGetRelationshipDef(Type classType, string propName)
         {
             return GetRelationshipDef(classType, propName, true);
         }

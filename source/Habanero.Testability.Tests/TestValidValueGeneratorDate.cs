@@ -2,6 +2,7 @@
 
 namespace Habanero.Testability.Tests
 {
+// ReSharper disable InconsistentNaming
     using Habanero.Base;
     using Habanero.BO;
     using Habanero.Testability;
@@ -42,8 +43,8 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.MinValue.AddDays(5555.0);
-            DateTime max = DateTime.MinValue.AddDays(5565.0);
+            DateTime min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555.0);
+            DateTime max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             ValidValueGenerator generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
@@ -53,7 +54,7 @@ namespace Habanero.Testability.Tests
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max, propRule.MaxValue.Date);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValue();
+            var value = (DateTime)generator.GenerateValidValue();
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, min);
@@ -67,13 +68,13 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
-            DateTime overridingMinValue = DateTime.MaxValue.AddDays(-9.0);
+            var generator = new ValidValueGeneratorDate(def);
+            var overridingMinValue = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-9.0);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueGreaterThan(overridingMinValue);
+            var value = (DateTime)generator.GenerateValidValueGreaterThan(overridingMinValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, overridingMinValue);
@@ -87,17 +88,17 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(DateTime)
             };
             DateTime min = DateTime.Now;
-            DateTime max = DateTime.MaxValue.AddDays(-5.0);
+            DateTime max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueGreaterThan(null);
+            var value = (DateTime)generator.GenerateValidValueGreaterThan(null);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, min);
@@ -113,9 +114,9 @@ namespace Habanero.Testability.Tests
             };
             DateTime min = DateTime.Now;
             DateTime max = DateTime.Now.AddDays(5.0);
-            DateTime overridingMinValue = DateTime.MinValue.AddDays(9.0);
+            DateTime overridingMinValue = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(9.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
@@ -123,7 +124,7 @@ namespace Habanero.Testability.Tests
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueGreaterThan(overridingMinValue);
+            var value = (DateTime)generator.GenerateValidValueGreaterThan(overridingMinValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.LessOrEqual(value, max);
@@ -138,19 +139,19 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.Now;
-            DateTime max = DateTime.MaxValue.AddDays(-5.0);
-            DateTime overridingMinValue = max.AddDays(-9.0);
+            var min = DateTime.Now;
+            var max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
+            var overridingMinValue = max.AddDays(-9.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueGreaterThan(overridingMinValue);
+            var value = (DateTime)generator.GenerateValidValueGreaterThan(overridingMinValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.LessOrEqual(value, max);
@@ -163,19 +164,18 @@ namespace Habanero.Testability.Tests
             // Redmine #1745
             // Changed from using DateTime.MinValue as Sql Server can't handle this
             // Sql Server min date is 1/1/1753
-
             //---------------Set up test pack-------------------
             var expectedAbsoluteMin = new DateTime(1753, 1, 1);
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             DateTime overridingMaxValue = expectedAbsoluteMin.AddDays(7.0);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
+            var value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, expectedAbsoluteMin);
@@ -190,7 +190,7 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(DateTime)
             };
             DateTime min = DateTime.Now;
-            DateTime max = DateTime.MaxValue.AddDays(-5.0);
+            DateTime max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
@@ -215,18 +215,18 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(DateTime)
             };
             DateTime min = DateTime.Now;
-            DateTime max = DateTime.MaxValue.AddDays(-5.0);
+            DateTime max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
-            DateTime overridingMaxValue = DateTime.Now.AddDays(5.0);
+            var overridingMaxValue = DateTime.Now.AddDays(5.0);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
+            var value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, min);
@@ -242,7 +242,7 @@ namespace Habanero.Testability.Tests
             };
             DateTime min = DateTime.Now;
             DateTime max = DateTime.Today.AddDays(5.0);
-            DateTime overridingMaxValue = DateTime.MaxValue.AddDays(-5.0);
+            DateTime overridingMaxValue = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------

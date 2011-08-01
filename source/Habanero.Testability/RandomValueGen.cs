@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using Habanero.Base;
 using Habanero.Base.DataMappers;
 using Habanero.BO;
@@ -135,14 +136,14 @@ namespace UniqueKey
 
         public static DateTime GetRandomDate()
         {
-            DateTime minDate = DateTime.MinValue;
-            DateTime maxDate = DateTime.MaxValue;
+            var minDate = GetAbsoluteMin<DateTime>();
+            var maxDate = GetAbsoluteMax<DateTime>();
             return GetRandomDate(minDate, maxDate);
         }
 
         public static DateTime GetRandomDate(string max)
         {
-            return GetRandomDate(DateTime.MinValue.ToString("yyyy/MM/dd"), max);
+            return GetRandomDate(GetAbsoluteMin<DateTime>().ToString("yyyy/MM/dd"), max);
         }
 
         public static DateTime GetRandomDate(DateTime minDate, DateTime maxDate)
@@ -151,7 +152,7 @@ namespace UniqueKey
             var timeSpan = maxDate - minDate;
             
             long range = timeSpan.Days;
-            if (maxDate == DateTime.MaxValue && minDate < DateTime.MaxValue.AddDays(-1)) range -= 1;
+            if (maxDate == GetAbsoluteMax<DateTime>() && minDate < GetAbsoluteMax<DateTime>().AddDays(-1)) range -= 1;
             if (range <= 0) range = 1;
             int intRange;
             if (range > int.MaxValue)
@@ -168,8 +169,8 @@ namespace UniqueKey
 
         public static DateTime GetRandomDate(string min, string max)
         {
-            DateTime minDate = GetDate(min, DateTime.MinValue);
-            DateTime maxDate = GetDate(max, DateTime.MaxValue);
+            var minDate = GetDate(min, GetAbsoluteMin<DateTime>());
+            var maxDate = GetDate(max, GetAbsoluteMax<DateTime>());
             return GetRandomDate(minDate, maxDate);
         }
 
@@ -402,7 +403,7 @@ namespace UniqueKey
             if (type == typeof (double)) return double.MinValue;
             if (type == typeof (Single)) return Single.MinValue;
             if (type == typeof (long)) return long.MinValue;
-            if (type == typeof(DateTime)) return new DateTime(1753, 1, 1);
+            if (type == typeof(DateTime)) return (DateTime)SqlDateTime.MinValue; 
 
             return int.MinValue;
         }
@@ -430,7 +431,7 @@ namespace UniqueKey
             if (type == typeof (double)) return double.MaxValue;
             if (type == typeof (Single)) return Single.MaxValue;
             if (type == typeof (long)) return long.MaxValue;
-            if (type == typeof (DateTime)) return DateTime.MaxValue;
+            if (type == typeof (DateTime)) return (DateTime)SqlDateTime.MaxValue;
 
             return int.MaxValue;
         }

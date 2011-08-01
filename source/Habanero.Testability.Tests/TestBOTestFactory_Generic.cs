@@ -363,16 +363,16 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             IPropDef def = new PropDefFake {PropertyType = typeof (DateTime)};
-            DateTime min = DateTime.MinValue.AddDays(5555);
-            DateTime max = DateTime.MinValue.AddDays(5565);
+            var min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555);
+            var max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565);
             def.AddPropRule(CreatePropRuleDateTime(min, max));
             IBOProp prop = new BOProp(def);
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO>();
             //---------------Assert Precondition----------------
             Assert.IsNull(prop.Value);
             Assert.AreSame(typeof (DateTime), prop.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1).AddMilliseconds(-1), propRule.MaxValue);
             //---------------Execute Test ----------------------
@@ -395,7 +395,7 @@ namespace Habanero.Testability.Tests
             Assert.IsNull(prop.Value);
             Assert.AreSame(propertyType, prop.PropertyType);
             //---------------Execute Test ----------------------
-            BOTestFactory<FakeBO> factory = new BOTestFactory<FakeBO>();
+            var factory = new BOTestFactory<FakeBO>();
             factory.SetPropValueToValidValue(prop);
             //---------------Test Result -----------------------
             Assert.IsNotNull(prop.Value);

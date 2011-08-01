@@ -9,6 +9,7 @@ namespace Habanero.Testability.Tests
     [TestFixture]
     public class TestRandomValueGen
     {
+// ReSharper disable InconsistentNaming
         private static string GetRandomString()
         {
             return RandomValueGen.GetRandomString();
@@ -22,16 +23,16 @@ namespace Habanero.Testability.Tests
             //---------------Execute Test ----------------------
             var randomDate = RandomValueGen.GetRandomDate();
             //---------------Test Result -----------------------
-            Assert.GreaterOrEqual(randomDate, DateTime.MinValue);
-            Assert.LessOrEqual(randomDate, DateTime.MaxValue);
+            Assert.GreaterOrEqual(randomDate, RandomValueGen.GetAbsoluteMin<DateTime>());
+            Assert.LessOrEqual(randomDate, RandomValueGen.GetAbsoluteMax<DateTime>());
             Assert.AreNotEqual(DateTime.Today, randomDate.Date);
         }
         [Test]
         public void Test_GetRandomDate_WhenMaxAndMinDate_ShouldRetDateBetweenMinAndMax()
         {
             //---------------Set up test pack-------------------
-            var minDate = DateTime.MinValue.AddDays(50);
-            var maxDate = DateTime.MaxValue.AddDays(-70);
+            var minDate = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(50);
+            var maxDate = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-70);
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             var randomDate = RandomValueGen.GetRandomDate(minDate, maxDate);
@@ -44,7 +45,7 @@ namespace Habanero.Testability.Tests
         public void Test_GetRandomDate_WhenMaxLTMinDate_ShouldRetMinDate()
         {
             //---------------Set up test pack-------------------
-            var minDate = DateTime.MinValue.AddDays(50);
+            var minDate = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(50);
             var maxDate = minDate.AddDays(-10);
             //---------------Assert Precondition----------------
             Assert.Less(maxDate, minDate);
@@ -58,8 +59,8 @@ namespace Habanero.Testability.Tests
         public void Test_GetRandomDate_WhenMaxAndMinDate_ShouldNotRetSameDateTwice()
         {
             //---------------Set up test pack-------------------
-            var minDate = DateTime.MinValue.AddDays(50);
-            var maxDate = DateTime.MaxValue.AddDays(-70);
+            var minDate = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(50);
+            var maxDate = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-70);
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             var randomDate = RandomValueGen.GetRandomDate(minDate, maxDate);
@@ -72,7 +73,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var minDate = DateTime.Today.AddDays(50);
-            var maxDate = DateTime.MaxValue.AddDays(-70);
+            var maxDate = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-70);
             var minDateString = minDate.ToShortDateString();
             var maxDateString = maxDate.ToLongDateString();
             //---------------Assert Precondition----------------
@@ -89,7 +90,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var minDate = DateTime.Today.AddDays(50);
-            var maxDate = DateTime.MaxValue;
+            var maxDate = RandomValueGen.GetAbsoluteMax<DateTime>();
             var minDateString = minDate.ToShortDateString();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
@@ -104,8 +105,8 @@ namespace Habanero.Testability.Tests
         public void Test_GetRandomDate_WhenInvalidMinDateString_ShouldRetDateBetweenMinDateAndMaxDate()
         {
             //---------------Set up test pack-------------------
-            var minDate = DateTime.MinValue;
-            var maxDate = DateTime.MinValue.AddDays(70);
+            var minDate = RandomValueGen.GetAbsoluteMin<DateTime>();
+            var maxDate = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(70);
             var maxDateString = maxDate.ToLongDateString();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
@@ -120,7 +121,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             var minDate = DateTime.Today;
-            var maxDate = DateTime.MaxValue.AddDays(-70);
+            var maxDate = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-70);
             var maxDateString = maxDate.ToLongDateString();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
@@ -135,7 +136,7 @@ namespace Habanero.Testability.Tests
         public void Test_GetRandomDate_WhenMaxToday_ShouldRetDateBetweenMinDateToday()
         {
             //---------------Set up test pack-------------------
-            var minDate = DateTime.MinValue.AddDays(70);
+            var minDate = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(70);
             var maxDate = DateTime.Today;
             var minDateString = minDate.ToLongDateString();
             //---------------Assert Precondition----------------
@@ -157,7 +158,7 @@ namespace Habanero.Testability.Tests
 
             var randomDate = RandomValueGen.GetRandomDate(maxDateString);
             //---------------Test Result -----------------------
-            Assert.GreaterOrEqual(randomDate, DateTime.MinValue);
+            Assert.GreaterOrEqual(randomDate, RandomValueGen.GetAbsoluteMin<DateTime>());
             Assert.LessOrEqual(randomDate, maxDate);
         }
 
@@ -418,7 +419,7 @@ namespace Habanero.Testability.Tests
             //---------------Execute Test ----------------------
             var absoluteMax = RandomValueGen.GetAbsoluteMax<DateTime>();
             //---------------Test Result -----------------------
-            Assert.AreEqual(DateTime.MaxValue, absoluteMax);
+            Assert.AreEqual(RandomValueGen.GetAbsoluteMax<DateTime>(), absoluteMax);
         }
         [Test]
         public void Test_GetAbsoluteMin_WhenDate_ReturnsTheAppropriateMinDate()
