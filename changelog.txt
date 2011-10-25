@@ -1,5 +1,42 @@
 Habanero Testability Change log
 
+v2.6.0 - 17 October 2011
+    This version is built against Habanero Core 2.6.0 and .NET 4.0
+
+Changed GetValidRelationshipValue return type to TReturn instead of IBusinessObject
+Added Testability Extensions for WithValue and WithValueFor
+#1075: ValidValueGenerator : Add capabilities to generate sensible data e.g. from a list
+#1284: Enhance Testability to be able to generate values of any type from a predifined list
+Added DBNumber Generator Stub to Testability Helpers
+Added DataAccessorWithMockCommitter
+#1472: Testers: Add Rule tester for ShouldHaveRule<T>
+#1505: Testers: Add MultipleRelTesterForTesting DeleteParentAction
+Added ShouldNotContain IEnumrable<T>
+Added HabaneroConsoleLoggerFactory.
+Added NonValidatingTransactionCommitter to Helpers
+#1716: Support for generating Image property values
+Changed implementations of the IHabaneroLogger to return true for the IsLogging method.
+
+
+Bug Fixes
+#1288: Tester: ShouldHavePropertyMapped() Fails if WriteNotNew Rule
+#1438: Concurrency Issue with ValueGeneratorRegistry
+#1439: Concurrency Issue with BOTestFactoryRegistry
+#1440: SingleValueTester: Should use Registered Test Factory not this one.
+#1612: The ValidValueGeneratorLookupList should return the correct type value when an item is created for the list.
+#1719: Creating a valid business object with a composite single relationship doesn't work
+#1745: DateTimeGenerator should not generate min value less than 1/1/1753 since this is not valid in SQLServer
+
+
+v1.2 - 3 December 2010
+Built against Habanero Core 2.5.1 and Smooth Habanero 1.4
+
+#929 - Need Ability to Return the PropDefTester from the BOTester so that it is easier to do all prop tests in a single test method
+#933 - Testers Unique Constraint: Add Testers for Simple Unique Constraint
+#937 - Testers Relationship: Need to Create Tester methods for testing single Relationship
+#972 - Tester: Test when Set Property via reflection mapped to a non existent prop or relationship
+
 v1.1 - 10 September 2010
 
-First public release
+First public release.
+Built against Habanero Core 2.5.0 and Smooth Habanero 1.2
