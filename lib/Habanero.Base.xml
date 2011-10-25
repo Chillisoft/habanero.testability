@@ -1637,6 +1637,11 @@
               You want to log this. Probably want to log and close the app down or something like that.
             </summary>
         </member>
+        <member name="F:Habanero.Base.Logging.LogCategory.Error">
+            <summary>
+            There is an Error Exception that has occured.
+            </summary>
+        </member>
         <member name="T:Habanero.Base.NullSecurityController">
             <summary>
              An <see cref="T:Habanero.Base.ISecurityController"/> that always returns the logged in Windows user name.
@@ -5089,9 +5094,12 @@
             receipt number for a retail business.  Incrementing the numbers
             as they are dispensed is one means of achieving uniqueness.
             </summary>
-            need to apply concurrency control to ensure new number not retrieved
-            by another user before first user saves and updates number (could
-            update immediately)
+            <remarks>
+            This number generator does not implement concurrency control of any type.
+            It is susceptible to both lost number and to multiple users generating the 
+            same number. If either of these scenarious exist in your application then
+            please use one of the sub types of <see cref="T:Habanero.Base.INumberGenerator"/>. 
+            </remarks>
         </member>
         <member name="M:Habanero.Base.IDBNumberGenerator.GetNextNumberInt">
             <summary>
