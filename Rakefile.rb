@@ -33,45 +33,47 @@ $smooth_version = 'branches/v1.6'
 require 'rake-smooth.rb'
 
 #------------------------project settings------------------------
-$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/branches/v2.6'
+$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/tags/v2.6'
 $solution = "source/Habanero.Testability - 2010.sln"
 
 #______________________________________________________________________________
 #---------------------------------TASKS----------------------------------------
 
 desc "Runs the build all task"
-task :default => [:build_all]
+task :default => [:build]
 
-desc "Rakes habanero+smooth, builds Testability"
-task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
+task :build => [:msbuild, :test]
 
-desc "Builds Testability, including tests"
-task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
+# desc "Rakes habanero+smooth, builds Testability"
+# task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
+
+# desc "Builds Testability, including tests"
+# task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
 
 #------------------------build Faces  --------------------
 
-desc "Cleans the bin folder"
-task :clean do
-	puts cyan("Cleaning bin folder")
-	FileUtils.rm_rf 'bin'
-end
+# desc "Cleans the bin folder"
+# task :clean do
+	# puts cyan("Cleaning bin folder")
+	# FileUtils.rm_rf 'bin'
+# end
 
-svn :update_lib_from_svn do |s|
-	s.parameters "update lib"
-end
+# svn :update_lib_from_svn do |s|
+	# s.parameters "update lib"
+# end
 
-task :updatelib => :update_lib_from_svn do 
-	puts cyan("Updating lib")
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.dll'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.pdb'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.xml'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.dll'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.pdb'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.xml'), 'lib'
+# task :updatelib => :update_lib_from_svn do 
+	# puts cyan("Updating lib")
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.Base.dll'), 'lib'
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.Base.pdb'), 'lib'
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.Base.xml'), 'lib'
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.BO.dll'), 'lib'
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.BO.pdb'), 'lib'
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.BO.xml'), 'lib'
 	
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.dll'), 'lib'	
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.pdb'), 'lib'	
-end
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.dll'), 'lib'	
+	# FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.pdb'), 'lib'	
+# end
 
 desc "Builds the solution with msbuild"
 msbuild :msbuild do |msb| 
@@ -86,7 +88,7 @@ nunit :test do |nunit|
 	nunit.assemblies 'bin\Habanero.Testability.Tests.dll','bin\Habanero.Testability.Testers.Tests.dll'
 end
 
-svn :commitlib do |s|
-	puts cyan("Commiting lib")
-	s.parameters "ci lib -m autocheckin"
-end
+# svn :commitlib do |s|
+	# puts cyan("Commiting lib")
+	# s.parameters "ci lib -m autocheckin"
+# end
