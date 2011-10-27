@@ -1,6 +1,6 @@
 Habanero Testability Change log
 
-v1.3.0 - 17 October 2011
+v1.3.0 - 24 October 2011
     This version is built against Habanero Core 2.6.0 and .NET 4.0
 
 Changed GetValidRelationshipValue return type to TReturn instead of IBusinessObject
