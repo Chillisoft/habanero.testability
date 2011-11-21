@@ -48,15 +48,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Habanero.Smooth.dll</HintPath>
     </Reference>
-    <Reference Include="log4net>
+    <Reference Include="log4net">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework>
+    <Reference Include="nunit.framework">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Rhino.Mocks>
+    <Reference Include="Rhino.Mocks">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Rhino.Mocks.dll</HintPath>
     </Reference>
