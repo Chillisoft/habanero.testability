@@ -112,18 +112,18 @@ namespace Habanero.Testability.Helpers
             return true;
         }
 
-        /// <summary>
-        /// returns true if there is already an object in the database with the same primary identifier (primary key)
-        /// or with the same alternate identifier (alternate key)
-        /// </summary>
-        /// <param name="errMsg"></param>
-        /// <returns>
-        /// </returns>
-        protected override bool HasDuplicateIdentifier(out string errMsg)
-        {
-            errMsg = null;
-            return false;
-        }
+        ///// <summary>
+        ///// returns true if there is already an object in the database with the same primary identifier (primary key)
+        ///// or with the same alternate identifier (alternate key)
+        ///// </summary>
+        ///// <param name="errMsg"></param>
+        ///// <returns>
+        ///// </returns>
+        //protected override bool HasDuplicateIdentifier(out string errMsg)
+        //{
+        //    errMsg = null;
+        //    return false;
+        //}
 
         /// <summary>
         /// Checks the underlying business object for any concurrency control errors before trying to commit to 

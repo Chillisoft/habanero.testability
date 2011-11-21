@@ -10,7 +10,6 @@ require 'albacore'
 # deeper in the repo you will need to add another ..
 bs = File.dirname(__FILE__)
 bs = File.join(bs, "..") if bs.index("branches") != nil
-bs = File.join(bs, "..") if bs.index("tags") != nil
 bs = File.join(bs, "../../../HabaneroCommunity/BuildScripts")
 $buildscriptpath = File.expand_path(bs)
 $:.unshift($buildscriptpath) unless
@@ -27,30 +26,26 @@ msbuild_settings = {
 }
 
 #------------------------dependency settings---------------------
-# $habanero_version = 'branches/v2.6'
-# require 'rake-habanero.rb'
+$habanero_version = 'branches/v2.6'
+require 'rake-habanero.rb'
 
-# $smooth_version = 'branches/v1.6'
-# require 'rake-smooth.rb'
+$smooth_version = 'branches/v1.6'
+require 'rake-smooth.rb'
 
 #------------------------project settings------------------------
-$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/tags/v2.6'
 $solution = "source/Habanero.Testability - 2010.sln"
 
 #______________________________________________________________________________
 #---------------------------------TASKS----------------------------------------
 
 desc "Runs the build all task"
-task :default => [:build]
+task :default => [:build_all]
+
+desc "Rakes habanero+smooth, builds Testability"
+task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
 
 desc "Builds Testability, including tests"
-task :build => [:clean, :msbuild, :test]
-
-# desc "Rakes habanero+smooth, builds Testability"
-# task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
-
-# desc "Builds Testability, including tests"
-# task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
+task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
 
 #------------------------build Faces  --------------------
 
@@ -60,22 +55,22 @@ task :clean do
 	FileUtils.rm_rf 'bin'
 end
 
-# svn :update_lib_from_svn do |s|
-	# s.parameters "update lib"
-# end
+svn :update_lib_from_svn do |s|
+	s.parameters "update lib"
+end
 
-# task :updatelib => :update_lib_from_svn do 
-	# puts cyan("Updating lib")
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.Base.dll'), 'lib'
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.Base.pdb'), 'lib'
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.Base.xml'), 'lib'
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.BO.dll'), 'lib'
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.BO.pdb'), 'lib'
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.BO.xml'), 'lib'
+task :updatelib => :update_lib_from_svn do 
+	puts cyan("Updating lib")
+	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.dll'), 'lib'
+	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.pdb'), 'lib'
+	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.xml'), 'lib'
+	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.dll'), 'lib'
+	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.pdb'), 'lib'
+	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.xml'), 'lib'
 	
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.dll'), 'lib'	
-	# FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.pdb'), 'lib'	
-# end
+	FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.dll'), 'lib'	
+	FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.pdb'), 'lib'	
+end
 
 desc "Builds the solution with msbuild"
 msbuild :msbuild do |msb| 
