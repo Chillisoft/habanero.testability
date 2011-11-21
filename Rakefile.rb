@@ -33,7 +33,6 @@ $smooth_version = 'branches/v1.6'
 require 'rake-smooth.rb'
 
 #------------------------project settings------------------------
-$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/branches/v2.6'
 $solution = "source/Habanero.Testability - 2010.sln"
 
 #______________________________________________________________________________
