@@ -46,7 +46,7 @@ desc "Rakes habanero+smooth, builds Testability"
 task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
 
 desc "Rakes habanero+smooth, builds Testability"
-task :build_all_nuget => [:create_temp, :installNugetPackages, :build, :delete_temp]
+task :build_all_nuget => [:create_temp, :installNugetPackages, :build, :nuget, :delete_temp]
 
 desc "Builds Testability, including tests"
 task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
