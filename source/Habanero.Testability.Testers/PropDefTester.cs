@@ -109,7 +109,7 @@ namespace Habanero.Testability.Testers
         /// </summary>
         public void ShouldHaveDefault()
         {
-            string message = BaseMessage + " should have a default but does not";
+            var message = BaseMessage + " should have a default but does not";
             Assert.IsNotNull(this.PropDef.DefaultValueString, message);
         }
         /// <summary>
@@ -119,17 +119,19 @@ namespace Habanero.Testability.Testers
         public void ShouldHaveDefault(string expectedDefaultValueString)
         {
             this.ShouldHaveDefault();
-            string actualDefaultValueString = this.PropDef.DefaultValueString;
-            string errMessage = BaseMessage + string.Format(
+            var actualDefaultValueString = this.PropDef.DefaultValueString;
+            var errMessage = BaseMessage + string.Format(
                 " should have a default of '{0}' but has a default value of '{1}'", expectedDefaultValueString, actualDefaultValueString);
             Assert.AreEqual(expectedDefaultValueString, actualDefaultValueString, errMessage);
         }
+
+
         /// <summary>
         /// Asserts that this <see cref="PropDef"/> does not have a default/>
         /// </summary>
         public void ShouldNotHaveDefault()
         {
-            string message = BaseMessage + " should not have a default but does";
+            var message = BaseMessage + " should not have a default but does";
             Assert.IsNull(this.PropDef.DefaultValueString, message);
         }
         /// <summary>
@@ -139,20 +141,10 @@ namespace Habanero.Testability.Testers
         public void ShouldNotHaveDefault(string expectedDefaultValueString)
         {
             this.ShouldNotHaveDefault();
-            string actualDefaultValueString = this.PropDef.DefaultValueString;
-            string errMessage = BaseMessage + string.Format(
+            var actualDefaultValueString = this.PropDef.DefaultValueString;
+            var errMessage = BaseMessage + string.Format(
                 " should not have a default of '{0}' but has a default value of '{1}'", expectedDefaultValueString, actualDefaultValueString);
             Assert.AreNotEqual(expectedDefaultValueString, actualDefaultValueString, errMessage);
-        }
-        /// <summary>
-        /// Asserts that this <see cref="PropDef"/> has read write rules matching the <paramref name="expectedReadWriteRule"/>
-        /// </summary>
-        /// <param name="expectedReadWriteRule"></param>
-        public void ShouldHaveReadWriteRule(PropReadWriteRule expectedReadWriteRule)
-        {
-            string errMessage = BaseMessage + string.Format(
-                " should have a ReadWriteRule '{0}' but is '{1}'", expectedReadWriteRule, this.PropDef.ReadWriteRule);
-            Assert.AreEqual(expectedReadWriteRule, this.PropDef.ReadWriteRule, errMessage);
         }
 
         #region Overrides of SingleValueTester
@@ -163,6 +155,14 @@ namespace Habanero.Testability.Testers
         }
 
         #endregion
+
+        public void ShouldHaveDisplayName(string expectedDisplayName)
+        {
+            var actualDisplayName = this.PropDef.DisplayName;
+            var errMessage = BaseMessage + string.Format(
+                " should have a DisplayName of '{0}' but has a DisplayName of '{1}'", expectedDisplayName, actualDisplayName);
+            Assert.AreEqual(expectedDisplayName, actualDisplayName, errMessage);
+        }
     }
 
     ///<summary>
@@ -186,7 +186,7 @@ namespace Habanero.Testability.Testers
         /// <param name="propDef"></param>
         public static void ShouldBeCompulsory(this IPropDef propDef)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldBeCompulsory();
         }
         /// <summary>
@@ -195,7 +195,7 @@ namespace Habanero.Testability.Testers
         /// <param name="propDef"></param>
         public static void ShouldNotBeCompulsory(this IPropDef propDef)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldNotBeCompulsory();
         }
         /// <summary>
@@ -204,7 +204,7 @@ namespace Habanero.Testability.Testers
         /// <param name="propDef"></param>
         public static void ShouldNotHaveDefault(this IPropDef propDef)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldNotHaveDefault();
         }
         /// <summary>
@@ -213,7 +213,7 @@ namespace Habanero.Testability.Testers
         /// <param name="propDef"></param>
         public static void ShouldHaveDefault(this IPropDef propDef)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldHaveDefault();
         }
 
@@ -224,7 +224,7 @@ namespace Habanero.Testability.Testers
         /// <param name="expectedDefaultValueString"></param>
         public static void ShouldHaveDefault(this IPropDef propDef, string expectedDefaultValueString)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldHaveDefault(expectedDefaultValueString);
         }
         /// <summary>
@@ -234,7 +234,7 @@ namespace Habanero.Testability.Testers
         /// <param name="expectedDefaultValueString"></param>
         public static void ShouldNotHaveDefault(this IPropDef propDef, string expectedDefaultValueString)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldNotHaveDefault(expectedDefaultValueString);
         }
         /// <summary>
@@ -244,7 +244,7 @@ namespace Habanero.Testability.Testers
         /// <param name="expectedReadWriteRule"></param>
         public static void ShouldHaveReadWriteRule(this IPropDef propDef, PropReadWriteRule expectedReadWriteRule)
         {
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             tester.ShouldHaveReadWriteRule(expectedReadWriteRule);
         }
     }

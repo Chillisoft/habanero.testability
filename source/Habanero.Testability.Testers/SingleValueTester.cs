@@ -100,6 +100,16 @@ namespace Habanero.Testability.Testers
             }
         }
 
+        /// <summary>
+        /// Asserts that this <see cref="ISingleValueDef"/> has read write rules matching the <paramref name="expectedReadWriteRule"/>
+        /// </summary>
+        /// <param name="expectedReadWriteRule"></param>
+        public void ShouldHaveReadWriteRule(PropReadWriteRule expectedReadWriteRule)
+        {
+            var errMessage = BaseMessage + string.Format(
+                " should have a ReadWriteRule '{0}' but is '{1}'", expectedReadWriteRule, this.SingleValueDef.ReadWriteRule);
+            Assert.AreEqual(expectedReadWriteRule, this.SingleValueDef.ReadWriteRule, errMessage);
+        }
         private bool IsPropWriteNotNew()
         {
             return this.SingleValueDef.ReadWriteRule == PropReadWriteRule.WriteNotNew;
@@ -261,4 +271,5 @@ namespace Habanero.Testability.Testers
             return ReflectionUtilities.GetPropertyInfo(this.ClassDef.ClassType, propName);
         }
     }
+
 }

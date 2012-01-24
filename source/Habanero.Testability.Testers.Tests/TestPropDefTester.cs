@@ -35,7 +35,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
-            PropDefTester tester = new PropDefTester(expectedPropDef);
+            var tester = new PropDefTester(expectedPropDef);
             //---------------Test Result -----------------------
             Assert.AreSame(expectedPropDef, tester.PropDef);
         }
@@ -44,7 +44,7 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             var expectedPropDef = MockRepository.GenerateStub<IPropDef>();
-            PropDefTester tester = new PropDefTester(expectedPropDef);
+            var tester = new PropDefTester(expectedPropDef);
 
             //---------------Assert Precondition----------------
             Assert.AreSame(expectedPropDef, tester.PropDef);
@@ -80,7 +80,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             var propDef = MockRepository.GenerateStub<IPropDef>();
             propDef.PropertyName = GetRandomString();
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNotNullOrEmpty(propDef.PropertyName);
             //---------------Execute Test ----------------------
@@ -98,7 +98,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             var propDef = GetMockPropDef();
             propDef.Compulsory = true;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsTrue(propDef.Compulsory);
             //---------------Execute Test ----------------------
@@ -116,7 +116,7 @@ namespace Habanero.Testability.Testers.Tests
             var className = GetRandomString();
             propDef.Stub(def => def.ClassName).Return(className);
             propDef.Compulsory = false;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsFalse(propDef.Compulsory);
             //---------------Execute Test ----------------------
@@ -128,7 +128,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}' should be compulsory",
+                var expected = string.Format("The Property '{0}' for class '{1}' should be compulsory",
                                                 propDef.PropertyName, className);
                 StringAssert.Contains(expected, ex.Message);
             }
@@ -140,7 +140,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             var propDef = GetMockPropDef();
             propDef.Compulsory = false;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsFalse(propDef.Compulsory);
             //---------------Execute Test ----------------------
@@ -154,9 +154,9 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             string className;
-            IPropDef propDef = GetPropDef(out className);
+            var propDef = GetPropDef(out className);
             propDef.Compulsory = true;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsTrue(propDef.Compulsory);
             //---------------Execute Test ----------------------
@@ -168,7 +168,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}' should not be compulsory",
+                var expected = string.Format("The Property '{0}' for class '{1}' should not be compulsory",
                                                 propDef.PropertyName, className);
                 StringAssert.Contains(expected, ex.Message);
             }
@@ -181,7 +181,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             var propDef = new PropDefFake();
             propDef.AddPropRule(MockRepository.GenerateMock<IPropRule>());
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             //---------------Execute Test ----------------------
@@ -194,9 +194,9 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveRule_WhenNotHas_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.Compulsory = false;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsFalse(propDef.Compulsory);
             Assert.IsNotNullOrEmpty(propDef.PropertyName);
@@ -210,7 +210,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}' should have Rules set",
+                var expected = string.Format("The Property '{0}' for class '{1}' should have Rules set",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
             }
@@ -222,7 +222,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             var propDef = new PropDefFake();
             propDef.AddPropRule(GetPropRuleDate());
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -238,7 +238,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Set up test pack-------------------
             IPropDef propDef = new PropDefFake();
             propDef.AddPropRule(MockRepository.GenerateMock<IPropRule>());
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsNotInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -251,7 +251,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}' should have a rule of type ",
+                var expected = string.Format("The Property '{0}' for class '{1}' should have a rule of type ",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
             }
@@ -265,7 +265,7 @@ namespace Habanero.Testability.Testers.Tests
             var minDate = DateTime.Today;
             var maxDate = DateTime.Today.AddDays(3);
             propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -286,7 +286,7 @@ namespace Habanero.Testability.Testers.Tests
             var minDate = DateTime.Today;
             DateTime? maxDate = null;
             propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -299,7 +299,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}'",
+                var expected = string.Format("The Property '{0}' for class '{1}'",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
                 StringAssert.Contains("MinValue Should Be ", ex.Message);
@@ -315,7 +315,7 @@ namespace Habanero.Testability.Testers.Tests
             DateTime? minDate = null;
             var maxDate = DateTime.Today.AddDays(3);
             propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -328,7 +328,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}'",
+                var expected = string.Format("The Property '{0}' for class '{1}'",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
                 StringAssert.Contains("MaxValue Should Be ", ex.Message);
@@ -342,10 +342,10 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             var propDef = new PropDefFake();
-            String minDate = "Today";
-            String maxDate = "Tomorrow";
+            var minDate = "Today";
+            var maxDate = "Tomorrow";
             propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -366,7 +366,7 @@ namespace Habanero.Testability.Testers.Tests
             var minDate = "Today";
             string maxDate = null;
             propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -379,7 +379,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}'",
+                var expected = string.Format("The Property '{0}' for class '{1}'",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
                 StringAssert.Contains("MinValue Should Be ", ex.Message);
@@ -392,10 +392,10 @@ namespace Habanero.Testability.Testers.Tests
         {
             //---------------Set up test pack-------------------
             IPropDef propDef = new PropDefFake();
-            String minDate = "";
+            var minDate = "";
             var maxDate = "Tomorrow";
             propDef.AddPropRule(GetPropRuleDate(minDate, maxDate));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleDate>(propDef.PropRules[0]);
@@ -408,7 +408,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}'",
+                var expected = string.Format("The Property '{0}' for class '{1}'",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
                 StringAssert.Contains("MaxValue Should Be ", ex.Message);
@@ -424,7 +424,7 @@ namespace Habanero.Testability.Testers.Tests
             const int minInt = 22;
             const int maxInt = 999;
             propDef.AddPropRule(GetPropRuleInt(minInt, maxInt));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             Assert.IsInstanceOf<PropRuleInteger>(propDef.PropRules[0]) ;
@@ -447,7 +447,7 @@ namespace Habanero.Testability.Testers.Tests
             const int expectedMinInt = 25;
             const int maxInt = 999;
             propDef.AddPropRule(GetPropRuleInt(actualMinInt, maxInt));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             var propRule = propDef.PropRules[0] as IPropRuleComparable<int>;
@@ -464,7 +464,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format("The Property '{0}' for class '{1}'",
+                var expected = string.Format("The Property '{0}' for class '{1}'",
                                                 propDef.PropertyName, propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
                 StringAssert.Contains("MinValue Should Be '" + expectedMinInt, ex.Message);
@@ -481,7 +481,7 @@ namespace Habanero.Testability.Testers.Tests
             const int expectedMaxInt = 25;
             const int minInt = 1;
             propDef.AddPropRule(GetPropRuleInt(minInt, actualMaxInt));
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(1, propDef.PropRules.Count);
             var propRule = propDef.PropRules[0] as IPropRuleComparable<int>;
@@ -505,13 +505,14 @@ namespace Habanero.Testability.Testers.Tests
 
             }
         }
+
         [Test]
         public void Test_ShouldHaveDefault_WhenHasDefault_ShouldAssertTrue()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.DefaultValueString = "fdafasdfasd";
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(propDef.DefaultValueString);
             //---------------Execute Test ----------------------
@@ -524,8 +525,8 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveDefault_WhenNotHasDefault_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
-            PropDefTester tester = new PropDefTester(propDef);
+            var propDef = GetPropDef();
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNull(propDef.DefaultValueString);
             Assert.IsNotNullOrEmpty(propDef.PropertyName);
@@ -539,22 +540,21 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a default but does not", propDef.PropertyName,
                     propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
             }
         }
 
-        //        boTester.ShouldHaveDefault(propName, "Today");
         [Test]
         public void Test_ShouldHaveDefault_WithSpecifiedValue_WhenHasDefault_ShouldAssertTrue()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             const string defaultValueString = "Today";
             propDef.DefaultValueString = defaultValueString;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNotNull(propDef.DefaultValueString);
             //---------------Execute Test ----------------------
@@ -567,9 +567,9 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveDefault_WithSpecifiedValue_WhenNotHasDefault_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             const string defaultValueString = "Today";
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNull(propDef.DefaultValueString);
             Assert.IsNotNullOrEmpty(propDef.PropertyName);
@@ -583,7 +583,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a default but does not", propDef.PropertyName,
                     propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
@@ -593,10 +593,10 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveDefault_WithSpecifiedValue_WhenValueNotEqual_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             const string defaultValueString = "aToday";
             propDef.DefaultValueString = "Today";
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNotNullOrEmpty(propDef.PropertyName);
             Assert.IsNotNullOrEmpty(propDef.ClassName);
@@ -610,7 +610,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a default of '{2}' but has a default value of '{3}'",
                     propDef.PropertyName,
                     propDef.ClassName, defaultValueString, propDef.DefaultValueString);
@@ -621,7 +621,7 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveDefault_ExtensionMethod_WithSpecifiedValue_WhenValueNotEqual_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             const string defaultValueString = "aToday";
             propDef.DefaultValueString = "Today";
             
@@ -638,7 +638,7 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a default of '{2}' but has a default value of '{3}'",
                     propDef.PropertyName,
                     propDef.ClassName, defaultValueString, propDef.DefaultValueString);
@@ -649,8 +649,8 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldNotHaveDefault_WhenNotHasDefault_ShouldAssertTrue()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
-            PropDefTester tester = new PropDefTester(propDef);
+            var propDef = GetPropDef();
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -663,9 +663,9 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldNotHaveDefault_WhenHasDefault_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.DefaultValueString = "Fdafasdfasdfasd";
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNotNullOrEmpty(propDef.DefaultValueString);
             //---------------Test Result -----------------------
@@ -677,7 +677,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should not have a default but does", propDef.PropertyName,
                     propDef.ClassName);
                 StringAssert.Contains(expected, ex.Message);
@@ -688,9 +688,9 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveReadWriteRule_ReadOnly_WhenIs_ShouldAssertTrue()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.ReadWriteRule = PropReadWriteRule.ReadOnly;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreEqual(PropReadWriteRule.ReadOnly, propDef.ReadWriteRule);
             //---------------Execute Test ----------------------
@@ -703,10 +703,10 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveReadWriteRule_ReadOnly_WhenIsNot_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.ReadWriteRule = PropReadWriteRule.WriteNew;
             const PropReadWriteRule expectedReadWriteRule = PropReadWriteRule.ReadOnly;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreNotEqual(expectedReadWriteRule, propDef.ReadWriteRule);
             //---------------Test Result -----------------------
@@ -718,7 +718,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a ReadWriteRule '{2}' but is '{3}'", propDef.PropertyName,
                     propDef.ClassName, expectedReadWriteRule, propDef.ReadWriteRule);
                 StringAssert.Contains(expected, ex.Message);
@@ -729,10 +729,10 @@ namespace Habanero.Testability.Testers.Tests
 
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.ReadWriteRule = PropReadWriteRule.ReadOnly;
             const PropReadWriteRule expectedReadWriteRule = PropReadWriteRule.ReadWrite;
-            PropDefTester tester = new PropDefTester(propDef);
+            var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.AreNotEqual(expectedReadWriteRule, propDef.ReadWriteRule);
             //---------------Test Result -----------------------
@@ -744,7 +744,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a ReadWriteRule '{2}' but is '{3}'", propDef.PropertyName,
                     propDef.ClassName, expectedReadWriteRule, propDef.ReadWriteRule);
                 StringAssert.Contains(expected, ex.Message);
@@ -754,7 +754,7 @@ namespace Habanero.Testability.Testers.Tests
         public void Test_ShouldHaveReadWriteRule_WriteNotNew_WhenIsNot_ShouldAssertFalse()
         {
             //---------------Set up test pack-------------------
-            IPropDef propDef = GetPropDef();
+            var propDef = GetPropDef();
             propDef.ReadWriteRule = PropReadWriteRule.ReadOnly;
             const PropReadWriteRule expectedReadWriteRule = PropReadWriteRule.WriteNotNew;
             var tester = new PropDefTester(propDef);
@@ -769,7 +769,7 @@ namespace Habanero.Testability.Testers.Tests
                 //---------------Test Result -----------------------
             catch (AssertionException ex)
             {
-                string expected = string.Format(
+                var expected = string.Format(
                     "The Property '{0}' for class '{1}' should have a ReadWriteRule '{2}' but is '{3}'", propDef.PropertyName,
                     propDef.ClassName, expectedReadWriteRule, propDef.ReadWriteRule);
                 StringAssert.Contains(expected, ex.Message);
@@ -791,7 +791,6 @@ namespace Habanero.Testability.Testers.Tests
             Assert.IsTrue(true, "If it has got here then passed");
         }
 
-      
         [Test]
         public void Test_ShouldHavePropertyMapped_WhenWriteNotNew_WhenIsCorrectlyMapped_ShouldReturnTrue_FixBug1288()
         {
@@ -819,6 +818,86 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             Assert.IsTrue(true, "If it has got here then passed");
         }
+
+        #region ShouldHaveDisplayName
+
+        [Test]
+        public void Test_ShouldHaveDisplayName_WithSpecifiedValue_WhenHasDisplayName_ShouldAssertTrue()
+        {
+            //---------------Set up test pack-------------------
+            var propDef = GetPropDef();
+            var displayName = RandomValueGen.GetRandomString();
+            propDef.Stub(def => def.DisplayName).Return(displayName);
+            var tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.IsNotNull(propDef.DisplayName);
+            //---------------Execute Test ----------------------
+            tester.ShouldHaveDisplayName(displayName);
+            //---------------Test Result -----------------------
+            Assert.IsTrue(true, "If it has got here then passed");
+        }
+
+
+        [Test]
+        public void Test_ShouldHaveDisplayName_WithSpecifiedValue_WhenNotHasDisplayName_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            var propDef = GetPropDef();
+            var displayName = RandomValueGen.GetRandomString();
+            var tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.IsNull(propDef.DisplayName);
+            Assert.IsNotNullOrEmpty(propDef.PropertyName);
+            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            //---------------Test Result -----------------------
+            try
+            {
+                tester.ShouldHaveDisplayName(displayName);
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+                //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                var expected = string.Format(
+                    "The Property '{0}' for class '{1}' should have a DisplayName of '{2}' but has a DisplayName of '{3}'",
+                    propDef.PropertyName,
+                    propDef.ClassName, displayName, "");
+                StringAssert.Contains(expected, ex.Message);
+            }
+        }
+
+        [Test]
+        public void Test_ShouldHaveDisplayName_WithSpecifiedValue_WhenValueNotEqual_ShouldAssertFalse()
+        {
+            //---------------Set up test pack-------------------
+            var propDef = GetPropDef();
+            const string expectedDisplayName = "AnotherDisplayName";
+            var actualDisplayName = RandomValueGen.GetRandomString();
+            propDef.Stub(def => def.DisplayName).Return(actualDisplayName);
+            var tester = new PropDefTester(propDef);
+            //---------------Assert Precondition----------------
+            Assert.IsNotNullOrEmpty(propDef.PropertyName);
+            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            Assert.AreNotEqual(expectedDisplayName, propDef.DisplayName);
+            //---------------Test Result -----------------------
+            try
+            {
+                tester.ShouldHaveDisplayName(expectedDisplayName);
+                Assert.Fail("Expected to throw an AssertionException");
+            }
+            //---------------Test Result -----------------------
+            catch (AssertionException ex)
+            {
+                var expected = string.Format(
+                    "The Property '{0}' for class '{1}' should have a DisplayName of '{2}' but has a DisplayName of '{3}'",
+                    propDef.PropertyName,
+                    propDef.ClassName, expectedDisplayName, actualDisplayName);
+                StringAssert.Contains(expected, ex.Message);
+            }
+        }
+
+
+        #endregion
 
         private static IPropDef GetPropDef<T>(string propertyName)
         {

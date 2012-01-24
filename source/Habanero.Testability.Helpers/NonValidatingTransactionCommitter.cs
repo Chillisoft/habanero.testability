@@ -92,7 +92,7 @@ namespace Habanero.Testability.Helpers
             return true;
         }
 
-        protected override void CheckDuplicateIdentifier(List<ITransactional> pendingTransactions, List<string> errorMessages)
+        protected  void CheckDuplicateIdentifier(List<ITransactional> pendingTransactions, List<string> errorMessages)
         {
             
         }
