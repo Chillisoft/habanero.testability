@@ -46,9 +46,11 @@
       <HintPath>..\..\lib\Habanero.BO.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
