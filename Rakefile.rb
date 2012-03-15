@@ -39,14 +39,19 @@ $solution = "source/Habanero.Testability - 2010.sln"
 #---------------------------------TASKS----------------------------------------
 
 desc "Runs the build all task"
-task :default => [:build_all]
+task :default => [:build_all_nuget]
 
 desc "Rakes habanero+smooth, builds Testability"
 task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
 
+desc "Rakes habanero+smooth, builds Testability"
+task :build_all_nuget => [:create_temp, :installNugetPackages, :build, :nuget, :delete_temp]
+
 desc "Builds Testability, including tests"
 task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
 
+desc "Pushes Testability to Nuget"
+task :nuget => [:publishTestabilityNugetPackage, :publishTestabilityHelpersNugetPackage, :publishTestabilityTestersNugetPackage ]
 #------------------------build Faces  --------------------
 
 desc "Cleans the bin folder"
@@ -88,4 +93,33 @@ end
 svn :commitlib do |s|
 	puts cyan("Commiting lib")
 	s.parameters "ci lib -m autocheckin"
+end
+
+desc "Install nuget packages"
+getnugetpackages :installNugetPackages do |ip|
+    ip.package_names = ["Habanero.Base.V2.6",  "Habanero.BO.V2.6",  "Habanero.Smooth.v1.6"]
+end
+
+desc "Publish the Habanero.Testability nuget package"
+pushnugetpackages :publishTestabilityNugetPackage do |package|
+  package.InputFileWithPath = "bin/Habanero.Testability.dll"
+  package.Nugetid = "Habanero.Testability.v1.3"
+  package.Version = "1.3"
+  package.Description = "Testability"
+end
+
+desc "Publish the Habanero.Testability.Helpers nuget package"
+pushnugetpackages :publishTestabilityHelpersNugetPackage do |package|
+  package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
+  package.Nugetid = "Habanero.Testability.Helpers.v1.3"
+  package.Version = "1.3"
+  package.Description = "Habanero.Testability.Helpers"
+end
+
+desc "Publish the Habanero.Testability.Testers nuget package"
+pushnugetpackages :publishTestabilityTestersNugetPackage do |package|
+  package.InputFileWithPath = "bin/Habanero.Testability.Testers.dll"
+  package.Nugetid = "Habanero.Testability.Testers.v1.3"
+  package.Version = "1.3"
+  package.Description = "Habanero.Testability.Testers"
 end
