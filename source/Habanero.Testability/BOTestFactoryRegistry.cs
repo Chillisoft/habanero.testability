@@ -142,9 +142,18 @@ namespace Habanero.Testability
 			var factoryType = boTestFactoryType;
 			//Excludes Types created via RhinoMocks.
 			var typeSource = new AppDomainTypeSource(type => !type.Name.Contains("Proxy"));
-			var firstSubType = typeSource.GetTypes()
-				.Where(factoryType.IsAssignableFrom)
-				.FirstOrDefault();
+		    Type firstSubType = null;
+		    try
+		    {
+		        firstSubType = typeSource.GetTypes()
+		            .Where(factoryType.IsAssignableFrom)
+		            .FirstOrDefault();
+		    }
+		    catch (Exception)
+		    {
+		        //Ignore any error that occured while trying to create the factory based on it type
+                // these will be fixed below by creating a factory of this specific instance
+		    }
 			if (firstSubType != null)
 			{
 				boTestFactoryType = firstSubType;
