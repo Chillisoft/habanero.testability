@@ -96,7 +96,7 @@ svn :commitlib do |s|
 end
 
 desc "Publish the Habanero.Testability nuget package"
-pushnugetpackages :publishBaseNugetPackage do |package|
+pushnugetpackages :publishTestabilityNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.dll"
   package.Nugetid = "Habanero.Testability.v2.5-CF"
   package.Version = "2.5"
@@ -104,7 +104,7 @@ pushnugetpackages :publishBaseNugetPackage do |package|
 end
 
 desc "Publish the Habanero.Testability.Helpers nuget package"
-pushnugetpackages :publishBaseNugetPackage do |package|
+pushnugetpackages :publishTestabilityHelpersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
   package.Nugetid = "Habanero.Testability.Helpers.v2.5-CF"
   package.Version = "2.5"
