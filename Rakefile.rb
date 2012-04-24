@@ -48,6 +48,10 @@ task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_
 desc "Builds Testability, including tests"
 task :build => [:clean, :updatelib, :msbuild, :test, :commitlib, ]
 
+desc "Pushes Habanero into the local nuget folder"
+task :nuget => [:publishTestabilityNugetPackage, :publishTestabilityHelpersNugetPackage ]
+
+
 #------------------------build Faces  --------------------
 
 desc "Cleans the bin folder"
@@ -89,4 +93,20 @@ end
 svn :commitlib do |s|
 	puts cyan("Commiting lib")
 	s.parameters "ci lib -m autocheckin"
+end
+
+desc "Publish the Habanero.Testability nuget package"
+pushnugetpackages :publishBaseNugetPackage do |package|
+  package.InputFileWithPath = "bin/Habanero.Testability.dll"
+  package.Nugetid = "Habanero.Testability.v2.5-CF"
+  package.Version = "2.5"
+  package.Description = "Habanero.Testability"
+end
+
+desc "Publish the Habanero.Testability.Helpers nuget package"
+pushnugetpackages :publishBaseNugetPackage do |package|
+  package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
+  package.Nugetid = "Habanero.Testability.Helpers.v2.5-CF"
+  package.Version = "2.5"
+  package.Description = "Habanero.Testability.Helpers"
 end
