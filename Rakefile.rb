@@ -45,7 +45,7 @@ desc "Rakes habanero+smooth, builds Faces"
 task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
 
 desc "Builds Faces, including tests"
-task :build => [:clean, :updatelib, :msbuild, :test, :commitlib]
+task :build => [:clean, :updatelib, :msbuild, :test]
 
 #------------------------build Faces  --------------------
 
