@@ -1,4 +1,24 @@
-﻿using System;
+﻿#region Licensing Header
+// ---------------------------------------------------------------------------------
+//  Copyright (C) 2007-2011 Chillisoft Solutions
+//  
+//  This file is part of the Habanero framework.
+//  
+//      Habanero is a free framework: you can redistribute it and/or modify
+//      it under the terms of the GNU Lesser General Public License as published by
+//      the Free Software Foundation, either version 3 of the License, or
+//      (at your option) any later version.
+//  
+//      The Habanero framework is distributed in the hope that it will be useful,
+//      but WITHOUT ANY WARRANTY; without even the implied warranty of
+//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//      GNU Lesser General Public License for more details.
+//  
+//      You should have received a copy of the GNU Lesser General Public License
+//      along with the Habanero framework.  If not, see <http://www.gnu.org/licenses/>.
+// ---------------------------------------------------------------------------------
+#endregion
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using Habanero.Base;
@@ -131,7 +151,9 @@ namespace UniqueKey
 
         public static bool GetRandomBoolean()
         {
-            return (GetRandomInt(0x186a0) > 0xc350);
+            //return (GetRandomInt(0x186a0) > 0xc350);
+            // range 0-2 is used because GetRandomInt will never return value of (max)
+            return (GetRandomInt(0, 2) == 0);
         }
 
         public static DateTime GetRandomDate()
@@ -266,6 +288,20 @@ namespace UniqueKey
         {
             if(max < min) max = min;
             return Random.Next(min, max);
+            /*
+            // the code above, using Random.Next, will NEVER return max as a value 
+            // see http://msdn.microsoft.com/en-us/library/aa329893(v=vs.71) as to why (you'll have to copy that in as the final bracket will be dropped from the url)
+            // this code *will* but it impacts tests which assume that the value of (max) is never returned. So whilst
+            // it's more intuitive that max could be returned (think of a dice roll with GetRandomInt(1, 6) for example),
+            // the effects of the code below need to be weighed before implementing it. In particular, methods like
+            // GetRandomEnum which expect the upper bound to never be returned would have to be modified
+            var add = 0;    // randomly add 1 if the final outcome is (int.max-1)
+            if (max < int.MaxValue) 
+                max++;
+            else
+                add = GetRandomInt(0, 1);
+            return Random.Next(min, max) + add;
+             */
         }
 
         public static long GetRandomLong()
