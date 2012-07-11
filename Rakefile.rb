@@ -93,7 +93,7 @@ end
 desc "Publish the Habanero.Testability nuget package"
 pushnugetpackages :publishTestabilityNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.dll"
-  package.Nugetid = "Habanero.Testability.#{$nuget_publish_version_id}"
+  package.Nugetid = "Habanero.Testability.#{$nuget_publish_version}"
   package.Version = $nuget_publish_version_id
   package.Description = "Testability"
 end
@@ -101,7 +101,7 @@ end
 desc "Publish the Habanero.Testability.Helpers nuget package"
 pushnugetpackages :publishTestabilityHelpersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
-  package.Nugetid = "Habanero.Testability.Helpers.#{$nuget_publish_version_id}"
+  package.Nugetid = "Habanero.Testability.Helpers.#{$nuget_publish_version}"
   package.Version = $nuget_publish_version_id
   package.Description = "Habanero.Testability.Helpers"
 end
@@ -109,7 +109,7 @@ end
 desc "Publish the Habanero.Testability.Testers nuget package"
 pushnugetpackages :publishTestabilityTestersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Testers.dll"
-  package.Nugetid = "Habanero.Testability.Testers.#{$nuget_publish_version_id}"
+  package.Nugetid = "Habanero.Testability.Testers.#{$nuget_publish_version}"
   package.Version = $nuget_publish_version_id
   package.Description = "Habanero.Testability.Testers"
 end
