@@ -25,7 +25,7 @@ if (bs.index("branches") == nil)
 	$nuget_publish_version = nuget_version
 	$nuget_publish_version_id = nuget_version_id
 else
-	$nuget_habanero_version	= 'v2.6'
+	$nuget_habanero_version	= 'v2.6-13_02_2012'
 	$nuget_smooth_version =	'v1.6-13_02_2012'
 	
 	$nuget_publish_version = 'v1.3-13_02_2012'
