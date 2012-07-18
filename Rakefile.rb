@@ -1,4 +1,4 @@
-#Habanero.Testability
+#Habanero.Testability v1.3-13_02_2012
 require 'rake'
 require 'albacore'
 
@@ -15,6 +15,22 @@ $buildscriptpath = File.expand_path(bs)
 $:.unshift($buildscriptpath) unless
     $:.include?(bs) || $:.include?($buildscriptpath)
 
+if (bs.index("branches") == nil)	
+	nuget_version = 'Trunk'
+	nuget_version_id = '9.9.999'
+	
+	$nuget_habanero_version	= nuget_version
+	$nuget_smooth_version =	nuget_version
+	
+	$nuget_publish_version = nuget_version
+	$nuget_publish_version_id = nuget_version_id
+else
+	$nuget_habanero_version	= 'v2.6-13_02_2012'
+	$nuget_smooth_version =	'v1.6-13_02_2012'
+	
+	$nuget_publish_version = 'v1.3-13_02_2012'
+	$nuget_publish_version_id = '1.3'
+end	
 #------------------------build settings--------------------------
 require 'rake-settings.rb'
 
@@ -26,14 +42,7 @@ msbuild_settings = {
 }
 
 #------------------------dependency settings---------------------
-$habanero_version = 'trunk'
-require 'rake-habanero.rb'
-
-$smooth_version = 'trunk'
-require 'rake-smooth.rb'
-
 #------------------------project settings------------------------
-$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/trunk'
 $solution = "source/Habanero.Testability - 2010.sln"
 
 #______________________________________________________________________________
@@ -43,39 +52,21 @@ desc "Runs the build all task"
 task :default => [:build_all_nuget]
 
 desc "Rakes habanero+smooth, builds Testability"
-task :build_all => [:create_temp, :rake_habanero, :rake_smooth, :build, :delete_temp]
-
-desc "Rakes habanero+smooth, builds Testability"
-task :build_all_nuget => [:create_temp, :installNugetPackages, :build, :nuget, :delete_temp]
+task :build_all_nuget => [:installNugetPackages, :build, :nuget]
 
 desc "Builds Testability, including tests"
-task :build => [:clean, :updatelib, :msbuild, :test]
+task :build => [:clean, :msbuild, :test]
 
 desc "Pushes Testability to Nuget"
-task :nuget => [:publishTestabilityNugetPackage, :publishTestabilityHelpersNugetPackage, :publishTestabilityTestersNugetPackage ]
+task :nuget => [:publishTestabilityNugetPackage, 
+				:publishTestabilityHelpersNugetPackage, 
+				:publishTestabilityTestersNugetPackage ]
 #------------------------build Faces  --------------------
 
 desc "Cleans the bin folder"
 task :clean do
 	puts cyan("Cleaning bin folder")
 	FileUtils.rm_rf 'bin'
-end
-
-svn :update_lib_from_svn do |s|
-	s.parameters "update lib"
-end
-
-task :updatelib => :update_lib_from_svn do 
-	puts cyan("Updating lib")
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.dll'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.pdb'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Base.xml'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.dll'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.pdb'), 'lib'
-	FileUtils.cp Dir.glob('temp/bin/Habanero.BO.xml'), 'lib'
-	
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.dll'), 'lib'	
-	FileUtils.cp Dir.glob('temp/bin/Habanero.Smooth.pdb'), 'lib'	
 end
 
 desc "Builds the solution with msbuild"
@@ -88,39 +79,38 @@ end
 desc "Runs the tests"
 nunit :test do |nunit|
 	puts cyan("Running tests")
-	nunit.assemblies 'bin\Habanero.Testability.Tests.dll','bin\Habanero.Testability.Testers.Tests.dll'
-end
-
-svn :commitlib do |s|
-	puts cyan("Commiting lib")
-	s.parameters "ci lib -m autocheckin"
+	nunit.assemblies 'bin\Habanero.Testability.Tests.dll',
+					 'bin\Habanero.Testability.Testers.Tests.dll'
 end
 
 desc "Install nuget packages"
 getnugetpackages :installNugetPackages do |ip|
-    ip.package_names = ["Habanero.Base.Trunk",  "Habanero.BO.Trunk",  "Habanero.Smooth.Trunk"]
+    ip.package_names = ["Habanero.Base.#{$nuget_habanero_version}",  
+						"Habanero.BO.#{$nuget_habanero_version}",  
+						"Habanero.Smooth.#{$nuget_smooth_version}",
+						"nunit.framework"]
 end
 
 desc "Publish the Habanero.Testability nuget package"
 pushnugetpackages :publishTestabilityNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.dll"
-  package.Nugetid = "Habanero.Testability.Trunk"
-  package.Version = "9.9.999"
+  package.Nugetid = "Habanero.Testability.#{$nuget_publish_version}"
+  package.Version = $nuget_publish_version_id
   package.Description = "Testability"
 end
 
 desc "Publish the Habanero.Testability.Helpers nuget package"
 pushnugetpackages :publishTestabilityHelpersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
-  package.Nugetid = "Habanero.Testability.Helpers.Trunk"
-  package.Version = "9.9.999"
+  package.Nugetid = "Habanero.Testability.Helpers.#{$nuget_publish_version}"
+  package.Version = $nuget_publish_version_id
   package.Description = "Habanero.Testability.Helpers"
 end
 
 desc "Publish the Habanero.Testability.Testers nuget package"
 pushnugetpackages :publishTestabilityTestersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Testers.dll"
-  package.Nugetid = "Habanero.Testability.Testers.Trunk"
-  package.Version = "9.9.999"
+  package.Nugetid = "Habanero.Testability.Testers.#{$nuget_publish_version}"
+  package.Version = $nuget_publish_version_id
   package.Description = "Habanero.Testability.Testers"
 end
