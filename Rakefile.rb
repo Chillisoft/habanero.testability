@@ -61,6 +61,7 @@ desc "Pushes Testability to Nuget"
 task :nuget => [:publishTestabilityNugetPackage, 
 				:publishTestabilityHelpersNugetPackage, 
 				:publishTestabilityTestersNugetPackage ]
+task :msbuild => [:autoUpdateVersions]
 #------------------------build Faces  --------------------
 
 desc "Cleans the bin folder"
