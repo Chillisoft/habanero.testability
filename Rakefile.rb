@@ -88,7 +88,7 @@ getnugetpackages :installNugetPackages do |ip|
     ip.package_names = ["Habanero.Base.#{$nuget_habanero_version}",  
 						"Habanero.BO.#{$nuget_habanero_version}",  
 						"Habanero.Smooth.#{$nuget_smooth_version}",
-						"nunit.framework"]
+						"nunit.trunk"]
 end
 
 desc "Publish the Habanero.Testability nuget package"
