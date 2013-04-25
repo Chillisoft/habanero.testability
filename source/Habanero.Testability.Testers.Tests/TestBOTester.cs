@@ -62,11 +62,12 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
-            BOTester tester = new BOTester(MockRepository.GenerateMock<IBusinessObject>());
+            var tester = new BOTester(MockRepository.GenerateMock<IBusinessObject>());
             //---------------Test Result -----------------------
             Assert.IsNotNull(tester.BusinessObject);
         }
 
+        // ReSharper disable ObjectCreationAsStatement
         [Test]
         public void Test_Construct_WithNullpropDef_ShouldRaiseError()
         {
@@ -86,7 +87,7 @@ namespace Habanero.Testability.Testers.Tests
                 StringAssert.Contains("businessObject", ex.ParamName);
             }
         }
-
+        // ReSharper restore ObjectCreationAsStatement
         [Test]
         public void Test_GetPropTester_WhenHasPropDef_ShouldReturnPropTesterForPropDef()
         {
@@ -135,7 +136,18 @@ namespace Habanero.Testability.Testers.Tests
             //---------------Test Result -----------------------
             Assert.IsTrue(true, "If it has got here then passed");
         }
+        [Test]
+        public void Test_GetClassDef_ShouldReturnCorrectClassDef()
+        {
+            //---------------Set up test pack-------------------
+            var classDef = SetupClassDef<FakeBOWithAllPropsMapped>();
+            //---------------Assert Precondition----------------
 
+            //---------------Execute Test ----------------------
+            var boTester = CreateTester<FakeBOWithAllPropsMapped>();
+            //---------------Test Result -----------------------
+            Assert.AreSame(classDef, boTester.GetClassDef());
+        }
         [Test]
         public void Test_ShouldHaveAllPropsMapped_WhenNotIsMapped_ShouldAssertFalse()
         {
@@ -359,7 +371,7 @@ namespace Habanero.Testability.Testers.Tests
             SetupClassDefWithAddProperty<FakeBOWithIncorrectMappings>();
             const string propName = "GetterAndSetterMappedToIncorrectBOProp";
             var boTester = CreateTester<FakeBOWithIncorrectMappings>();
-            FakeBOWithIncorrectMappings bo = (FakeBOWithIncorrectMappings) boTester.BusinessObject;
+            var bo = (FakeBOWithIncorrectMappings) boTester.BusinessObject;
             var newValue = GetRandomString();
             bo.GetterAndSetterMappedToIncorrectBOProp = newValue;
             var boProp = bo.Props[propName];

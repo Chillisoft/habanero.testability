@@ -82,8 +82,8 @@ namespace Habanero.Testability.Testers
         /// <param name="singleRelExpression"></param>
         public void ShouldHaveSingleRelationshipMapped(Expression<Func<T, IBusinessObject>> singleRelExpression)
         {
-            var propertyName = ReflectionUtilities.GetPropertyName(singleRelExpression);
-            ShouldHaveSingleRelationshipMapped(propertyName);
+            var relationshipName = ReflectionUtilities.GetPropertyName(singleRelExpression);
+            ShouldHaveSingleRelationshipMapped(relationshipName);
         }
 
         /// <summary>

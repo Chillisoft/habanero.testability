@@ -74,12 +74,20 @@ namespace Habanero.Testability.Testers
             propDef.ShouldNotHaveDefault(expectedDefaultValueString);
         }
 
+        /// <summary>
+        /// Property Should Be compulsory
+        /// </summary>
+        /// <param name="propName"></param>
         public void ShouldBeCompulsory(string propName)
         {
             IPropDef propDef = GetClassDef().GetPropDef(propName, false);
             propDef.ShouldBeCompulsory();
         }
 
+        /// <summary>
+        /// Property Should not be set up as compulsory
+        /// </summary>
+        /// <param name="propName"></param>
         public void ShouldNotBeCompulsory(string propName)
         {
             IPropDef propDef = GetClassDef().GetPropDef(propName, false);
@@ -231,7 +239,7 @@ namespace Habanero.Testability.Testers
             return GetClassDef().ClassName;
         }
 
-        protected IClassDef GetClassDef()
+        public IClassDef GetClassDef()
         {
             return this.BusinessObject.ClassDef;
         }
