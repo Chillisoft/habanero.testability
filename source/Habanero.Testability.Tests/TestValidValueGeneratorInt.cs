@@ -19,7 +19,7 @@
 // ---------------------------------------------------------------------------------
 #endregion
 using Habanero.Testability.Tests.Base;
-
+// ReSharper disable InconsistentNaming
 namespace Habanero.Testability.Tests
 {
     using Habanero.Base;

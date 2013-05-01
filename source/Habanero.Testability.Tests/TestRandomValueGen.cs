@@ -402,6 +402,7 @@ namespace Habanero.Testability.Tests
         [TestCase(typeof(double), double.MinValue)]
         [TestCase(typeof(Single), Single.MinValue)]
         [TestCase(typeof(long), long.MinValue)]
+        [TestCase(typeof(short), short.MinValue)]
         public void Test_GetAbsoluteMin_ReturnsTheAppropriateMinForTheType(Type type, object expecteMin)
         {
             //---------------Set up test pack-------------------
@@ -418,6 +419,7 @@ namespace Habanero.Testability.Tests
         [TestCase(typeof(double), double.MaxValue)]
         [TestCase(typeof(Single), Single.MaxValue)]
         [TestCase(typeof(long), long.MaxValue)]
+        [TestCase(typeof(short), short.MaxValue)]
         public void Test_GetAbsoluteMax_ReturnsTheAppropriateMaxForTheType(Type type, object expecteMax)
         {
             //---------------Set up test pack-------------------
@@ -553,6 +555,85 @@ namespace Habanero.Testability.Tests
             var randomInt = RandomValueGen.GetRandomInt(min, max);
             //---------------Test Result -----------------------
             Assert.AreEqual(randomInt, min);
+        }
+
+
+        [Test]
+        public void Test_GetRandomShort_WithNoMaxAndMin_ShouldReturnRandomShort()
+        {
+            //---------------Set up test pack-------------------           
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var randomInt = RandomValueGen.GetRandomShort();
+            //---------------Test Result -----------------------
+            Assert.GreaterOrEqual(randomInt, GetMin<short>(), "Should return value greater than min");
+            Assert.LessOrEqual(randomInt, GetMax<short>(), "Should return value less than min");
+        }
+
+        [Test]
+        public void Test_GetRandomShortTwice_ShouldReturnDiffValue()
+        {
+            //---------------Set up test pack-------------------           
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var randomShort1 = RandomValueGen.GetRandomShort();
+            var randomShort2 = RandomValueGen.GetRandomShort();
+            //---------------Test Result -----------------------
+            Assert.AreNotEqual(randomShort1, randomShort2);
+        }
+
+        [Test]
+        public void Test_GetRandomShort_WithMaxAndMinNearMin_ShouldReturnRandomShort()
+        {
+            //---------------Set up test pack-------------------
+            short min = Convert.ToInt16(GetMin<short>() + 10);
+            var max = Convert.ToInt16(min + 30);
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var randomShort = RandomValueGen.GetRandomShort(min, max);
+            //---------------Test Result -----------------------
+            Assert.GreaterOrEqual(randomShort, min, "Should be greater than min");
+            Assert.LessOrEqual(randomShort, max, "should be less than max");
+        }
+
+        [Test]
+        public void Test_GetRandomShort_WithMinNearMin_ShouldReturnRandomShort()
+        {
+            //---------------Set up test pack-------------------
+            var min = Convert.ToInt16(GetMin<short>() + 10);
+            var max = GetMax<short>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var randomShort = RandomValueGen.GetRandomShort(min, max);
+            //---------------Test Result -----------------------
+            Assert.GreaterOrEqual(randomShort, min, "Should be greater than min");
+            Assert.LessOrEqual(randomShort, max, "should be less than max");
+        }
+        [Test]
+        public void Test_GetRandomShort_WithMaxAndMinAsMaxAndMin_ShouldReturnRandomShort()
+        {
+            //---------------Set up test pack-------------------
+            var min = GetMin<short>();
+            var max = GetMax<short>();
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var randomShort = RandomValueGen.GetRandomShort(min, max);
+            //---------------Test Result -----------------------
+            Assert.GreaterOrEqual(randomShort, min, "Should be greater than min");
+            Assert.LessOrEqual(randomShort, max, "should be less than max");
+        }
+        [Test]
+        public void Test_GetRandomShort_WithMaxLTMin_ShouldReturnMin()
+        {
+            //---------------Set up test pack-------------------
+            var min = Convert.ToInt16(GetMax<short>() - 100);
+            var max = Convert.ToInt16(GetMax<short>() - 500);
+            //---------------Assert Precondition----------------
+            Assert.Less(max, min);
+            //---------------Execute Test ----------------------
+            var randomShort = RandomValueGen.GetRandomShort(min, max);
+            //---------------Test Result -----------------------
+            Assert.AreEqual(randomShort, min);
         }
 
         [Test]

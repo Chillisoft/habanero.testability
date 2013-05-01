@@ -149,7 +149,9 @@ namespace UniqueKey
             return dateTime;
         }
 
+#pragma warning disable 1591
         public static bool GetRandomBoolean()
+
         {
             //return (GetRandomInt(0x186a0) > 0xc350);
             // range 0-2 is used because GetRandomInt will never return value of (max)
@@ -304,6 +306,34 @@ namespace UniqueKey
              */
         }
 
+        public static short GetRandomShort()
+        {
+            return GetRandomShort(short.MaxValue);
+        }
+
+        public static short GetRandomShort(short max)
+        {
+            return GetRandomShort(short.MinValue, max);
+        }
+
+        public static short GetRandomShort(short min, short max)
+        {
+            if (max < min) max = min;
+            int range = max - min;
+            if (Overflow(range)) range = short.MaxValue;
+            int shortRange;
+            if (range > short.MaxValue)
+            {
+                shortRange = short.MaxValue;
+            }
+            else
+            {
+                shortRange = (short)range;
+            }
+            short randomShort = Convert.ToInt16(GetRandomInt(0, shortRange));
+            return Convert.ToInt16(min + randomShort);
+        }
+
         public static long GetRandomLong()
         {
             return GetRandomLong(long.MaxValue);
@@ -399,6 +429,7 @@ namespace UniqueKey
             T internalMaxValue = overridingMaxValue.HasValue ? overridingMaxValue.GetValueOrDefault() : absoluteMin;
             return internalMaxValue.CompareTo(propRuleMaxValue) > 0 ? propRuleMaxValue : internalMaxValue;
         }
+
         /// <summary>
         /// Returns the most restrictive Minimum Value based on the Prop Rule and the
         /// overriding Min Value for the Type <typeparamref name="T"/>.
@@ -427,6 +458,7 @@ namespace UniqueKey
             Type type = typeof (T);
             return (T)GetAbsoluteMin(type);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -435,6 +467,7 @@ namespace UniqueKey
         public static object GetAbsoluteMin(Type type)
         {
             if (type == typeof (int)) return int.MinValue;
+            if (type == typeof (short)) return short.MinValue;
             if (type == typeof (decimal)) return decimal.MinValue;
             if (type == typeof (double)) return double.MinValue;
             if (type == typeof (Single)) return Single.MinValue;
@@ -455,6 +488,7 @@ namespace UniqueKey
             Type type = typeof (T);
             return (T) GetAbsoluteMax(type);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -463,6 +497,7 @@ namespace UniqueKey
         public static object GetAbsoluteMax(Type type)
         {
             if (type == typeof (int)) return int.MaxValue;
+            if (type == typeof (short)) return short.MaxValue;
             if (type == typeof (decimal)) return decimal.MaxValue;
             if (type == typeof (double)) return double.MaxValue;
             if (type == typeof (Single)) return Single.MaxValue;
@@ -471,5 +506,7 @@ namespace UniqueKey
 
             return int.MaxValue;
         }
+
+#pragma warning restore 1591
     }
 }

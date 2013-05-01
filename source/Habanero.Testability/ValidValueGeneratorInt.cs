@@ -24,8 +24,15 @@ namespace Habanero.Testability
     using Habanero.BO;
     using System;
 
+    /// <summary>
+    /// Generates a Valid Value for an Integer (int or Int32) based on the min or max value in the PropDef
+    /// </summary>
     public class ValidValueGeneratorInt : ValidValueGenerator, IValidValueGeneratorNumeric
     {
+        /// <summary>
+        /// Construct
+        /// </summary>
+        /// <param name="propDef"></param>
         public ValidValueGeneratorInt(IPropDef propDef) : base(propDef)
         {
         }
@@ -37,9 +44,9 @@ namespace Habanero.Testability
 
         private int GenerateValidValue(int? overridingMinValue, int? overridingMaxValue)
         {
-            PropRuleInteger propRule = base.GetPropRule<PropRuleInteger>();
-            int intMinValue = GetMinValue(propRule, overridingMinValue);
-            int intMaxValue = GetMaxValue(propRule, overridingMaxValue);
+            var propRule = base.GetPropRule<PropRuleInteger>();
+            var intMinValue = GetMinValue(propRule, overridingMinValue);
+            var intMaxValue = GetMaxValue(propRule, overridingMaxValue);
             return RandomValueGen.GetRandomInt(intMinValue, intMaxValue);
         }
 

@@ -378,6 +378,29 @@
             The Reason that this code is excluded from Test Converage
             </summary>
         </member>
+        <member name="T:Habanero.Base.CriteriaBuilder">
+            <summary>
+            Assistant class to generate criteria for database queries
+            </summary>
+        </member>
+        <member name="T:Habanero.Base.DatabaseConfigExtensions">
+            <summary>
+            This class exposes extension methods for operations on a Database Config class.
+            </summary>
+        </member>
+        <member name="M:Habanero.Base.DatabaseConfigExtensions.IsInMemoryDB(Habanero.Base.IDatabaseConfig)">
+            <summary>
+            Returns true if the Database Config has an in-memory configuration otherwise it returns false.
+            Generally this will return true when the vendor contains the word 'memory'.
+            </summary>
+            <param name="databaseConfig">The Database Config to check.</param>
+            <returns>true if the Database Config has an in-memory configuration</returns>
+        </member>
+        <member name="T:Habanero.Base.DataMappers.BoolDataMapper">
+            <summary>
+            Data mapper for boolean types
+            </summary>
+        </member>
         <member name="T:Habanero.Base.DataMappers.DataMapper">
             <summary>
              Provides a base class for property data mappers.
@@ -432,6 +455,30 @@
             <returns>True if the parsing was succesful, false if this mapper was unable to 
             parse the valueToParse.</returns>
         </member>
+        <member name="M:Habanero.Base.DataMappers.IDataMapper.CompareValues(System.Object,System.Object)">
+            <summary>
+            Compares two values as the appropriate type, applying the conversion conventions that this <see cref="T:Habanero.Base.DataMappers.IDataMapper"/> includes.
+            </summary>
+            <param name="compareToValue">The value to compare to. This usually an already parsed value.</param>
+            <param name="value">The value that is being compared. This may be an unparsed value.</param>
+            <returns>The result of the comparison. True if the values are equal, False if not.</returns>
+        </member>
+        <member name="F:Habanero.Base.DataMappers.DataMapper._convertEmptyStringToNull">
+            <summary>
+            This value represents how the data mapper will treat an empty string.
+            If this is set to true (default) then empty string values will be set to null, and will be found to be equivalent to null.
+            </summary>
+        </member>
+        <member name="M:Habanero.Base.DataMappers.DataMapper.CompareValues(System.Object,System.Object)">
+            <summary>
+            Compares two values as the appropriate type, applying the conversion conventions that this <see cref="T:Habanero.Base.DataMappers.IDataMapper"/> includes.
+            These values are not parsed as part of this comparison operation.
+            This is meant to be a quick check of two possibly recognisable types.
+            </summary>
+            <param name="compareToValue">The value to compare to. This usually an already parsed value.</param>
+            <param name="value">The value that is being compared. This may be an unparsed value.</param>
+            <returns>The result of the comparison. True if the values are equal, False if not.</returns>
+        </member>
         <member name="M:Habanero.Base.DataMappers.DataMapper.ConvertValueToString(System.Object)">
             <summary>
              Converts the value of a valid type for this property definition to a string relevant.
@@ -459,6 +506,25 @@
             <summary>
             Factory for returning the appropriate Datamapper depending on the target type (typically a <see cref="T:Habanero.Base.IBOProp"/> type.)
             </summary>
+        </member>
+        <member name="T:Habanero.Base.DataMappers.IDataMapperFactory">
+            <summary>
+            Interface to be used for a data mapper factory
+            </summary>
+        </member>
+        <member name="M:Habanero.Base.DataMappers.IDataMapperFactory.GetDataMapper(System.Type)">
+            <summary>
+            Gets the data mapper for a type
+            </summary>
+            <param name="targetType">type to retrieve data mapper for</param>
+            <returns></returns>
+        </member>
+        <member name="M:Habanero.Base.DataMappers.IDataMapperFactory.SetDataMapper(System.Type,Habanero.Base.DataMappers.IDataMapper)">
+            <summary>
+            Sets the data mapper for a type
+            </summary>
+            <param name="targetType">Type to map for</param>
+            <param name="dataMapper">Mapper to use</param>
         </member>
         <member name="M:Habanero.Base.DataMappers.DataMapperFactory.#ctor">
             <summary>
@@ -528,6 +594,11 @@
             <param name="valueToParse">value to convert.</param>
             <param name="returnValue"></param>
             <returns></returns>
+        </member>
+        <member name="T:Habanero.Base.DataMappers.ImageDataMapper">
+            <summary>
+            Mapper to map image types between bytes, base64 string and Image
+            </summary>
         </member>
         <member name="T:Habanero.Base.DataMappers.IntDataMapper">
             <summary>
@@ -844,6 +915,13 @@
             <param name="value">The string to hash</param>
             <returns>The hash</returns>
         </member>
+        <member name="M:Habanero.Base.Base64Sha1Hasher.HashString(System.String)">
+            <summary>
+            Hashes a string to its base64 representation
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="T:Habanero.Base.Utf8Sha1Hasher">
             <summary>
              Hashes a UTF8 string
@@ -990,6 +1068,45 @@
             <param name="info">The serialisation info</param>
             <param name="context">The streaming context</param>
         </member>
+        <member name="T:Habanero.Base.HabaneroBackgroundWorker">
+            <summary>
+            Helper class to facilitate asynchronous workers on pre-dotnet-4.5 machines,
+            using the native system threading model and an abstraction for synchronisation
+            with the UI thread for user feedback on completion and exception
+            </summary>
+        </member>
+        <member name="T:Habanero.Base.HabaneroBackgroundWorker.BackgroundWorkerMethodDelegate">
+            <summary>
+            The delegate method type to be called to do the long-running background work
+            </summary>
+            <param name="data">ConcurrentDictionary containing data which will be passed through 
+                                all phases of the worker (background, success, abort, exception)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Habanero.Base.HabaneroBackgroundWorker.UIWorkerMethodDelegate">
+            <summary>
+            The delegate method type to be called to do UI feedback when asynchronous code completes or aborts.
+            </summary>
+            <param name="data">ConcurrentDictionary containing data which will be passed through 
+                                all phases of the worker (background, success, abort, exception)</param>
+        </member>
+        <member name="T:Habanero.Base.HabaneroBackgroundWorker.BackgroundWorkerExceptionHandlerDelegate">
+            <summary>
+            The delegate method type to be called when the background thread hits an exception
+            </summary>
+            <param name="ex">Exception hit in the background thread</param>
+        </member>
+        <member name="T:Habanero.Base.IActionDispatcher">
+            <summary>
+            An interface that allows you to execute a method (Action in a specified way e.g. on a background thread.
+            </summary>
+        </member>
+        <member name="M:Habanero.Base.IActionDispatcher.Dispatch(System.Action)">
+            <summary>
+            executed the method in a specified manner e.g. on a seperate thread
+            </summary>
+            <param name="method"></param>
+        </member>
         <member name="T:Habanero.Base.IBusinessObjectLookupList">
             <summary>
             A LookupList that is associated with a particular Business Object type.
@@ -1111,6 +1228,23 @@
             Gets the sql statement which is used to specify which
             objects to load for the lookup-list
             </summary>
+        </member>
+        <member name="T:Habanero.Base.ISupportsRSADecryption">
+            <summary>
+            An interface representing the ability of a class to support the decryption of RSA Encrypted information.
+            </summary>
+        </member>
+        <member name="M:Habanero.Base.ISupportsRSADecryption.SetPrivateKeyFromXML(System.String)">
+            <summary>
+            Sets the private key to use to decrypt the encrypted information.  The private key is in xml format.   
+            </summary>
+            <param name="xmlPrivateKey">The xml format of the RSA key (RSA.ToXmlString(true))</param>
+        </member>
+        <member name="M:Habanero.Base.ISupportsRSADecryption.SetPrivateKey(System.Security.Cryptography.RSA)">
+            <summary>
+            Sets the private key to use to decrypt the encrypted information. The private key is an RSA object.
+            </summary>
+            <param name="privateKey">The RSA object which has the private key</param>
         </member>
         <member name="T:Habanero.Base.Logging.ConsoleLoggerFactory">
             <summary>
@@ -1381,6 +1515,14 @@
             <summary>
             Provides specific instructions with regards to deleting a parent
             object.  See the <see cref="P:Habanero.Base.IRelationshipDef.DeleteParentAction"/> enumeration for more detail.
+            </summary>
+        </member>
+        <member name="P:Habanero.Base.IRelationshipDef.PreventDeleteMessage">
+            <summary>
+            Custom string to use when throwing an exception preventing deletion of an object
+            This is meant to be supplied for friendlier user interaction. You may put the placeholder
+            {0} into your custom message to have the .ToString() value of the BusinessObject placed
+            into your custom message.
             </summary>
         </member>
         <member name="P:Habanero.Base.IRelationshipDef.InsertParentAction">
@@ -1658,6 +1800,11 @@
              Returns the current user's name.
             </summary>
         </member>
+        <member name="P:Habanero.Base.NullSecurityController.CurrentUserName">
+            <summary>
+            Logon of the current user
+            </summary>
+        </member>
         <member name="T:Habanero.Base.IOrderCriteriaField">
             <summary>
             Field represents one field in an OrderCriteria object.  Each OrderCriteriaField has a name and SortDirection.
@@ -1791,6 +1938,34 @@
         <member name="P:Habanero.Base.OrderCriteriaField.FullName">
             <summary>
             Returns the full name of the order criteria - ie "Source.Name"
+            </summary>
+        </member>
+        <member name="T:Habanero.Base.Param">
+            <summary>
+            Database parameter container
+            </summary>
+        </member>
+        <member name="M:Habanero.Base.Param.#ctor(System.Data.DbType,System.String,System.String)">
+            <summary>
+            Database parameter container constructor
+            </summary>
+            <param name="dbType">Type of database</param>
+            <param name="paramName">Parameter name</param>
+            <param name="paramValue">Parameter value</param>
+        </member>
+        <member name="P:Habanero.Base.Param.DbType">
+            <summary>
+            Read-only access to database type this parameter is bound to
+            </summary>
+        </member>
+        <member name="P:Habanero.Base.Param.ParamName">
+            <summary>
+            Read-only access to the name of the parameter this is bound to
+            </summary>
+        </member>
+        <member name="P:Habanero.Base.Param.ParamValue">
+            <summary>
+            Read-only access to the value of the parameter this is bound to
             </summary>
         </member>
         <member name="T:Habanero.Base.RecordingExceptionNotifier">
@@ -2219,15 +2394,15 @@
         </member>
         <member name="M:Habanero.Base.Criteria.FromPrimaryKey(Habanero.Base.IPrimaryKey)">
             <summary>
-            Creates a Criteria from an IPrimaryKey object. For each property in the primary key an Equals criteria is created, and these
+            Creates a Criteria from an IPrimaryKey object. For each property in the primary primaryKey an Equals criteria is created, and these
             are all chained together with AND clauses to build up a composite Criteria representing the IPrimaryKey
             </summary>
-            <param name="key">The IPrimaryKey to create Criteria for</param>
+            <param name="primaryKey">The IPrimaryKey to create Criteria for</param>
             <returns>The Criteria this IPrimaryKey instance is defined by</returns>
         </member>
         <member name="M:Habanero.Base.Criteria.FromRelationship(Habanero.Base.IRelationship)">
             <summary>
-            Creates a Criteria from an IRelationship object. For each relationship property in the relationship's key a simple 
+            Creates a Criteria from an IRelationship object. For each relationship property in the relationship's primaryKey a simple 
             Equals Criteria object is created, and these are chained together with AND clauses to build up a composite criteria
             representing the relationship.
             </summary>
@@ -3452,10 +3627,10 @@
         </member>
         <member name="M:Habanero.Base.IBOProp.CurrentValueEquals(System.Object)">
             <summary>
-            is the <paramref name="compareToValue"/> equal to the 
+            is the <paramref name="value"/> equal to the 
             current Value of the BOProp. 
             </summary>
-            <param name="compareToValue"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="E:Habanero.Base.IBOProp.Updated">
@@ -5421,6 +5596,11 @@
              as for Asset Management System (See Intermap Asset Management) or for any reflective/calculated field that 
              you would like to store propdef information for e.g. rules, Units of measure etc.
              This will prevent the property from being persisted in the usual manner.
+            </summary>
+        </member>
+        <member name="P:Habanero.Base.IPropDef.DataMapper">
+            <summary>
+            The <see cref="T:Habanero.Base.DataMappers.IDataMapper"/> used to parse, compare and convert values to the associated <see cref="!:PropertyType"/>.
             </summary>
         </member>
         <member name="T:Habanero.Base.IPropDefCol">
@@ -8217,6 +8397,11 @@
             <summary>
             Gets the message provided for the user.  A message can be provided
             for either successful or failed operations.
+            </summary>
+        </member>
+        <member name="T:Habanero.Base.ResultSet">
+            <summary>
+            Database result set container
             </summary>
         </member>
         <member name="T:Habanero.Base.RethrowingExceptionNotifier">

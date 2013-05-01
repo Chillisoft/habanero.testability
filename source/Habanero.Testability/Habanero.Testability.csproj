@@ -102,6 +102,7 @@
     <Compile Include="ValidValueGeneratorGuid.cs" />
     <Compile Include="ValidValueGeneratorInt.cs" />
     <Compile Include="ValidValueGeneratorLookupList.cs" />
+    <Compile Include="ValidValueGeneratorShort.cs" />
     <Compile Include="ValidValueGeneratorString.cs" />
     <Compile Include="ValidValueGeneratorTextFile.cs" />
   </ItemGroup>

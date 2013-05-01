@@ -19,6 +19,7 @@
 // ---------------------------------------------------------------------------------
 #endregion
 using Habanero.Testability.Tests.Base;
+// ReSharper disable InconsistentNaming
 
 namespace Habanero.Testability.Tests
 {
@@ -47,10 +48,10 @@ namespace Habanero.Testability.Tests
             ValidValueGenerator generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.01, propRule.MinValue);
             Assert.AreEqual(7.0004, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValue();
+            var value = (double) generator.GenerateValidValue();
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, 3.01);
             Assert.LessOrEqual(value, 7.0004);
@@ -76,10 +77,10 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(double)
             };
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            double value = (double) generator.GenerateValidValueGreaterThan(1.7976931348623157E+308);
+            var value = (double) generator.GenerateValidValueGreaterThan(1.7976931348623157E+308);
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, double.MaxValue);
         }
@@ -91,13 +92,13 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(double)
             };
             def.AddPropRule(CreatePropRuleDouble(3.0, double.MaxValue));
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.0, propRule.MinValue);
             Assert.AreEqual(1.7976931348623157E+308, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValueGreaterThan(null);
+            var value = (double) generator.GenerateValidValueGreaterThan(null);
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, 3.0);
             Assert.LessOrEqual(value, double.MaxValue);
@@ -110,13 +111,13 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(double)
             };
             def.AddPropRule(CreatePropRuleDouble(3.0, double.MaxValue));
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.0, propRule.MinValue);
             Assert.AreEqual(1.7976931348623157E+308, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValueGreaterThan(1.7976931348623157E+308);
+            var value = (double) generator.GenerateValidValueGreaterThan(1.7976931348623157E+308);
             Assert.IsNotNull(value);
             Assert.LessOrEqual(value, double.MaxValue);
             Assert.GreaterOrEqual(value, double.MaxValue);
@@ -129,13 +130,13 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(double)
             };
             def.AddPropRule(CreatePropRuleDouble(3.0, 7.0));
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.0, propRule.MinValue);
             Assert.AreEqual(7.0, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValueGreaterThan(-1.7976931348623157E+308);
+            var value = (double) generator.GenerateValidValueGreaterThan(-1.7976931348623157E+308);
             Assert.IsNotNull(value);
             Assert.LessOrEqual(value, 7.0);
             Assert.GreaterOrEqual(value, double.MinValue);
@@ -148,10 +149,10 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(double)
             };
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            double value = (double) generator.GenerateValidValueLessThan(-1.7976931348623157E+308);
+            var value = (double) generator.GenerateValidValueLessThan(-1.7976931348623157E+308);
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, double.MinValue);
             Assert.LessOrEqual(value, double.MinValue);
@@ -164,13 +165,13 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(double)
             };
             def.AddPropRule(CreatePropRuleDouble(3.0, double.MaxValue));
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.0, propRule.MinValue);
             Assert.AreEqual(1.7976931348623157E+308, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValueLessThan(null);
+            var value = (double) generator.GenerateValidValueLessThan(null);
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, 3.0);
             Assert.LessOrEqual(value, double.MaxValue);
@@ -183,13 +184,13 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(double)
             };
             def.AddPropRule(CreatePropRuleDouble(3.0, double.MaxValue));
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.0, propRule.MinValue);
             Assert.AreEqual(1.7976931348623157E+308, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValueLessThan(5.0);
+            var value = (double) generator.GenerateValidValueLessThan(5.0);
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, 3.0);
             Assert.LessOrEqual(value, 5.0);
@@ -202,13 +203,13 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(double)
             };
             def.AddPropRule(CreatePropRuleDouble(3.0, 7.0));
-            ValidValueGeneratorDouble generator = new ValidValueGeneratorDouble(def);
+            var generator = new ValidValueGeneratorDouble(def);
             Assert.AreSame(typeof(double), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDouble>().ToList<PropRuleDouble>());
-            PropRuleDouble propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
+            var propRule = def.PropRules.OfType<PropRuleDouble>().First<PropRuleDouble>();
             Assert.AreEqual(3.0, propRule.MinValue);
             Assert.AreEqual(7.0, propRule.MaxValue);
-            double value = (double) generator.GenerateValidValueLessThan(1.7976931348623157E+308);
+            var value = (double) generator.GenerateValidValueLessThan(1.7976931348623157E+308);
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, 3.0);
             Assert.LessOrEqual(value, double.MaxValue);

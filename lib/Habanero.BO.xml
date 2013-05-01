@@ -421,18 +421,18 @@
         </member>
         <member name="M:Habanero.BO.BOProp.CurrentValueEquals(System.Object)">
             <summary>
-            Is the <paramref name="compareToValue"/> equal to the 
+            Is the <paramref name="value"/> equal to the 
             current Value of the BOProp. 
             </summary>
-            <param name="compareToValue"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:Habanero.BO.BOProp.PersistedValueEquals(System.Object)">
             <summary>
-            Is the <paramref name="compareToValue"/> equal to the 
+            Is the <paramref name="value"/> equal to the 
             persisted Value of the BOProp. 
             </summary>
-            <param name="compareToValue"></param>
+            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:Habanero.BO.BOProp.RaiseIncorrectTypeException(System.Object)">
@@ -856,6 +856,13 @@
              implemented in order to complete the implementation of the BusinessObjectLoader.
             </summary>
         </member>
+        <member name="M:Habanero.BO.BusinessObjectLoaderBase.PrepareForRefresh(Habanero.Base.IBusinessObjectCollection)">
+            <summary>
+            This protected method will prepare the select query of the collection for the refresh operation.
+            This will include preparing the criteria so that the sources are correctly linked.
+            </summary>
+            <param name="col"></param>
+        </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderBase.GetBusinessObjectCollection``1(Habanero.Base.Criteria)">
             <summary>
             Loads a BusinessObjectCollection using the criteria given. 
@@ -899,16 +906,37 @@
         </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderBase.DoRefresh``1(Habanero.BO.BusinessObjectCollection{``0})">
             <summary>
-            Actual Executes the Refresh this method is impleemented by the inherited classes of the business object loader base.
+            Reloads a BusinessObjectCollection using the criteria it was originally loaded with.  You can also change the criteria or order
+            it loads with by editing its SelectQuery object. The collection will be cleared as such and reloaded (although Added events will
+            only fire for the new objects added to the collection, not for the ones that already existed).
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="collection"></param>
+            <typeparam name="T">The type of collection to load. This must be a class that implements IBusinessObject and has a parameterless constructor</typeparam>
+            <param name="collection">The collection to refresh</param> 
         </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderBase.DoRefresh(Habanero.Base.IBusinessObjectCollection)">
             <summary>
-            Actual Executes the Refresh this method is impleemented by the inherited classes of the business object loader base.
+            Reloads a BusinessObjectCollection using the criteria it was originally loaded with.  You can also change the criteria or order
+            it loads with by editing its SelectQuery object. The collection will be cleared as such and reloaded (although Added events will
+            only fire for the new objects added to the collection, not for the ones that already existed).
             </summary>
+            <param name="collection">The collection to refresh</param>
+        </member>
+        <member name="M:Habanero.BO.BusinessObjectLoaderBase.DoRefreshShared``1(Habanero.Base.IBusinessObjectCollection)">
+            <summary>
+            This protected method is the common method used for all collection refreshes and loads
+            (Directly through the loader, through the relationships, or through the Load or Refresh method on the <see cref="T:Habanero.BO.BusinessObjectCollection`1">BusinessObjectCollection</see>). 
+            </summary>
+            <typeparam name="T">The specific or general type of the collection being refreshed.</typeparam>
             <param name="collection"></param>
+        </member>
+        <member name="M:Habanero.BO.BusinessObjectLoaderBase.GetObjectsFromDataStore``1(Habanero.Base.IClassDef,Habanero.Base.ISelectQuery)">
+            <summary>
+            Load the Business Objects from the specific DataStore type that applies to this loader.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="classDef"></param>
+            <param name="selectQuery"></param>
+            <returns></returns>
         </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderBase.GetBusinessObjectCollection(Habanero.Base.IClassDef,System.String,System.String)">
             <summary>
@@ -1166,14 +1194,6 @@
             PersonID</param>
             <returns>The loaded RelatedBusinessObjectCollection</returns>
         </member>
-        <member name="M:Habanero.BO.BusinessObjectLoaderBase.LoadBOCollection(Habanero.Base.IBusinessObjectCollection,System.Collections.ICollection)">
-            <summary>
-            Adds all the business objects from the <paramref name="loadedBOs"/> collection to the
-            <see cref="T:Habanero.Base.IBusinessObjectCollection"/>
-            </summary>
-            <param name="collection">the collection being added to</param>
-            <param name="loadedBOs">the collection of loaded BOs to add</param>
-        </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderBase.LoadBOCollection``1(Habanero.Base.IBusinessObjectCollection,System.Collections.Generic.IList{``0})">
             <summary>
             Adds all the business objects from the <paramref name="loadedBOs"/> collection to the
@@ -1181,6 +1201,14 @@
             </summary>
             <param name="collection">the collection being added to</param>
             <param name="loadedBOs">the collection of loaded BOs to add</param>
+        </member>
+        <member name="M:Habanero.BO.BusinessObjectLoaderBase.LoadBOCollection(Habanero.Base.IBusinessObjectCollection,System.Collections.Generic.List{Habanero.BO.BusinessObjectLoaderBase.LoadedBoInfo},System.String)">
+            <summary>
+            Adds all the business objects from the <paramref name="loadedBoInfos"/> collection to the
+            <see cref="T:Habanero.Base.IBusinessObjectCollection"/>
+            </summary>
+            <param name="collection">the collection being added to</param>
+            <param name="loadedBoInfos">the collection of loaded BOs to add</param>
         </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderBase.GetRelatedBusinessObjectCollection(System.Type,Habanero.BO.IMultipleRelationship)">
             <summary>
@@ -1825,23 +1853,6 @@
             only fire for the new objects added to the collection, not for the ones that already existed).
             </summary>
         </member>
-        <member name="M:Habanero.BO.BusinessObjectLoaderInMemory.DoRefresh``1(Habanero.BO.BusinessObjectCollection{``0})">
-            <summary>
-            Reloads a BusinessObjectCollection using the criteria it was originally loaded with.  You can also change the criteria or order
-            it loads with by editing its SelectQuery object. The collection will be cleared as such and reloaded (although Added events will
-            only fire for the new objects added to the collection, not for the ones that already existed).
-            </summary>
-            <typeparam name="T">The type of collection to load. This must be a class that implements IBusinessObject and has a parameterless constructor</typeparam>
-            <param name="collection">The collection to refresh</param>
-        </member>
-        <member name="M:Habanero.BO.BusinessObjectLoaderInMemory.DoRefresh(Habanero.Base.IBusinessObjectCollection)">
-            <summary>
-            Reloads a BusinessObjectCollection using the criteria it was originally loaded with.  You can also change the criteria or order
-            it loads with by editing its SelectQuery object. The collection will be cleared as such and reloaded (although Added events will
-            only fire for the new objects added to the collection, not for the ones that already existed).
-            </summary>
-            <param name="collection">The collection to refresh</param>
-        </member>
         <member name="M:Habanero.BO.BusinessObjectLoaderInMemory.GetRelatedBusinessObject``1(Habanero.BO.SingleRelationship{``0})">
             <summary>
             Loads a business object of type T using the relationship given. The relationship will be converted into a
@@ -1971,10 +1982,24 @@
         </member>
         <member name="M:Habanero.BO.IBusinessObjectXmlWriter.Write(System.Xml.XmlWriter,System.Collections.Generic.IEnumerable{Habanero.Base.IBusinessObject})">
             <summary>
-            Writes the given business objects to the xml writer.
+            Writes the given business objects to the xml writer.Writes the start document
+            element and end document element, as well as closes the XmlWriter. Make sure the
+            <see cref="T:System.Xml.ConformanceLevel"/> of the <see cref="T:System.Xml.XmlWriter"/> is set to Auto.
             </summary>
             <param name="writer">The writer to write to</param>
             <param name="businessObjects">The business objects to write</param>
+        </member>
+        <member name="M:Habanero.BO.IBusinessObjectXmlWriter.Write(System.Xml.XmlWriter,System.Collections.Generic.IEnumerable{Habanero.Base.IBusinessObject},System.Boolean)">
+            <summary>
+            Writes the given business objects to the xml writer. If includeStartDocument is true,
+            this method writes the start document element and end document element, as well as 
+            closes the XmlWriter. If it's set to false it doesn't include start/end document elements
+            and leaves the writer open. Make sure the
+            <see cref="T:System.Xml.ConformanceLevel"/> of the <see cref="T:System.Xml.XmlWriter"/> is set to Auto.
+            </summary>
+            <param name="writer">The writer to write to</param>
+            <param name="businessObjects">The business objects to write</param>
+            <param name="includeStartDocument">If true the StartDocument element and EndDocument elements will be included, and the writer will be closed </param>
         </member>
         <member name="T:Habanero.BO.BusinessObjectXmlWriter">
             <summary>
@@ -1994,6 +2019,18 @@
             </summary>
             <param name="writer">The writer to write to</param>
             <param name="businessObjects">The business objects to write</param>
+        </member>
+        <member name="M:Habanero.BO.BusinessObjectXmlWriter.Write(System.Xml.XmlWriter,System.Collections.Generic.IEnumerable{Habanero.Base.IBusinessObject},System.Boolean)">
+            <summary>
+            Writes the given business objects to the xml writer. If includeStartDocument is true,
+            this method writes the start document element and end document element, as well as 
+            closes the XmlWriter. If it's set to false it doesn't include start/end document elements
+            and leaves the writer open. Make sure the
+            <see cref="T:System.Xml.ConformanceLevel"/> of the <see cref="T:System.Xml.XmlWriter"/> is set to Auto.
+            </summary>
+            <param name="writer">The writer to write to</param>
+            <param name="businessObjects">The business objects to write</param>
+            <param name="includeStartDocument">If true the StartDocument element and EndDocument elements will be included, and the writer will be closed </param>
         </member>
         <member name="T:Habanero.BO.ClassDefinition.ClassDefHelper">
             <summary>
@@ -4307,6 +4344,16 @@
             <param name="bo">The object to configure</param>
             <returns>The business object to add to the <see cref="T:Habanero.BO.DataStoreInMemory"/></returns>
         </member>
+        <member name="M:Habanero.BO.DataStoreInMemoryXmlWriter.Write(System.Xml.XmlWriter,System.Collections.Generic.IDictionary{System.Guid,Habanero.Base.IBusinessObject},System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="writer"></param>
+            <param name="businessObjects"></param>
+            <param name="includeStartDocument">If true, starts a new xml doc and will close the writer 
+            after completion. If false, will act as if the write already has a doc started 
+            (ie, won't add the startdoc element or close the writer). Defaults to true</param>
+        </member>
         <member name="T:Habanero.BO.DeleteHelper">
             <summary>
             A helper class that encapsulates the deleting checking for a specified business object.
@@ -4696,6 +4743,14 @@
         <member name="M:Habanero.BO.ClassDefinition.IDefClassFactory.CreatePropRuleDouble(System.String,System.String)">
             <summary>
             Creates a <see cref="T:Habanero.BO.PropRuleDouble"/>
+            </summary>
+            <param name="name"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Habanero.BO.ClassDefinition.IDefClassFactory.CreatePropRuleShort(System.String,System.String)">
+            <summary>
+             Creates an IPropRule of Type Int
             </summary>
             <param name="name"></param>
             <param name="message"></param>
@@ -5314,7 +5369,7 @@
             datastore by calling Save().
             </summary>
         </member>
-        <member name="F:Habanero.BO.BusinessObject._beginEditRunning">
+        <member name="F:Habanero.BO.BusinessObject._beginEditLock">
             <summary>
             Sets the object's state into editing mode.  The original state can
             be restored with Restore() and changes can be committed to the
@@ -8718,6 +8773,59 @@
             </summary>
             <returns>A list of the parameters that this rule uses</returns>
         </member>
+        <member name="T:Habanero.BO.PropRuleShort">
+            <summary>
+            Checks integer values against property rules that test for validity
+            </summary>
+        </member>
+        <member name="M:Habanero.BO.PropRuleShort.#ctor(System.String,System.String,System.Int16,System.Int16)">
+            <summary>
+            Constructor to initialise a new rule
+            </summary>
+            <param name="name">The rule name</param>
+            <param name="message">This rule's failure message</param> 
+            <param name="min">The minimum value allowed for the integer</param>
+            <param name="max">The maximum value allowed for the integer</param>
+        </member>
+        <member name="M:Habanero.BO.PropRuleShort.#ctor(System.String,System.String)">
+            <summary>
+            Constructor to initialise a new rule
+            </summary>
+            <param name="name">The rule name</param>
+            <param name="message">This rule's failure message</param>
+        </member>
+        <member name="M:Habanero.BO.PropRuleShort.SetupParameters">
+            <summary>
+            Sets up the parameters to the rule, that is the individual pairs
+            of rule type and rule value that make up the composite rule
+            </summary>
+        </member>
+        <member name="M:Habanero.BO.PropRuleShort.IsPropValueValid(System.String,System.Object,System.String@)">
+            <summary>
+            Indicates whether the property value is valid against the rules
+            </summary>
+            <param name="displayName">The property name being checked</param>
+            <param name="propValue">The value to check</param>
+            <param name="errorMessage">A string to amend with an error
+            message indicating why the value might have been invalid</param>
+            <returns>Returns true if valid</returns>
+        </member>
+        <member name="P:Habanero.BO.PropRuleShort.MinValue">
+            <summary>
+            Gets and sets the minimum value that the integer can be assigned
+            </summary>
+        </member>
+        <member name="P:Habanero.BO.PropRuleShort.MaxValue">
+            <summary>
+            Gets and sets the maximum value that the integer can be assigned
+            </summary>
+        </member>
+        <member name="P:Habanero.BO.PropRuleShort.AvailableParameters">
+            <summary>
+            Returns the list of available parameter names for the rule.
+            </summary>
+            <returns>A list of the parameters that this rule uses</returns>
+        </member>
         <member name="T:Habanero.BO.PropRuleSingle">
             <summary>
             Checks Single values against property rules that test for validity
@@ -9718,6 +9826,15 @@
         </member>
         <member name="M:Habanero.BO.ClassDefinition.DefClassFactory.CreatePropRuleInteger(System.String,System.String)">
             <summary>
+             Creates an IPropRule of Type Int
+            </summary>
+            <param name="name"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Habanero.BO.ClassDefinition.DefClassFactory.CreatePropRuleShort(System.String,System.String)">
+            <summary>
+             Creates an IPropRule of Type Short
             </summary>
             <param name="name"></param>
             <param name="message"></param>
@@ -10816,6 +10933,11 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "P:Habanero.BO.ClassDefinition.PropDef.ClassName" -->
+        <member name="P:Habanero.BO.ClassDefinition.PropDef.DataMapper">
+            <summary>
+            The <see cref="T:Habanero.Base.DataMappers.IDataMapper"/> used to parse, compare and convert values to the associated <see cref="P:Habanero.BO.ClassDefinition.PropDef.PropertyType"/>.
+            </summary>
+        </member>
         <member name="T:Habanero.BO.ClassDefinition.RelationshipDefCol">
             <summary>
             Manages a collection of relationship definitions
@@ -15235,13 +15357,6 @@
             for any invalid values</param>
             <returns>Returns true if all are valid</returns>
         </member>
-        <member name="M:Habanero.BO.TransactionalBusinessObject.GetDuplicateObjectErrMsg(Habanero.BO.BOKey,System.String)">
-            <summary>
-            </summary>
-            <param name="boKey"></param>
-            <param name="classDisplayName"></param>
-            <returns></returns>
-        </member>
         <member name="M:Habanero.BO.TransactionalBusinessObject.UpdateObjectBeforePersisting(Habanero.Base.ITransactionCommitter)">
             <summary>
              Executes any custom code required by the business object before it is persisted to the database.
@@ -15255,16 +15370,6 @@
              Checks the underlying business object for any concurrency control errors before trying to commit to 
              the datasource
             </summary>
-        </member>
-        <member name="M:Habanero.BO.TransactionalBusinessObject.HasDuplicateIdentifier(System.String@)">
-            <summary>
-             returns true if there is already an object in the database with the same primary identifier (primary key)
-              or with the same alternate identifier (alternate key)
-            </summary>
-            <param name="errMsg"></param>
-            <returns></returns>
-             TODO: This uses the BORegistry.DataAccessor that is set up.  It should possibly use the same DataAccessor as the
-             transactioncommitter that is controlling it so that it can be added to the same transaction.
         </member>
         <member name="M:Habanero.BO.TransactionalBusinessObject.UpdateAsRolledBack">
             <summary>
@@ -15283,6 +15388,24 @@
             Checks whether the Wrapped business object can be Persisted.
             </summary>
             <param name="errMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Habanero.BO.TransactionalBusinessObject.CheckDuplicateIdentifier(System.Collections.Generic.List{Habanero.Base.ITransactional},System.Collections.Generic.List{System.String})">
+            <summary>
+             returns true if there is already an object in the database with the same primary identifier (primary key)
+              or with the same alternate identifier (alternate key)
+            </summary>
+            <param name="transactionalBusinessObject"></param>
+            <param name="pendingTransactions"></param>
+            <param name="errorMessages"></param>
+            <param name="bo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Habanero.BO.TransactionalBusinessObject.GetDuplicateObjectErrMsg(Habanero.Base.IBOKey,System.String)">
+            <summary>
+            </summary>
+            <param name="boKey"></param>
+            <param name="classDisplayName"></param>
             <returns></returns>
         </member>
         <member name="P:Habanero.BO.TransactionalBusinessObject.BusinessObject">
@@ -15478,6 +15601,12 @@
             Adds the <param name="businessObject"></param> into the first position
              in the list of transactional objects that will be committed by this
             transaction committer. This is often required for referential integrity issues.
+            </summary>
+            <param name="businessObject"></param>
+        </member>
+        <member name="M:Habanero.BO.TransactionCommitter.MustBOBeAdded(Habanero.Base.IBusinessObject)">
+            <summary>
+            Insert the Business object into the TransactionCommitter
             </summary>
             <param name="businessObject"></param>
         </member>

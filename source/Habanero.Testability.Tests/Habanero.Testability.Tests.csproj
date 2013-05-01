@@ -101,6 +101,7 @@
     <Compile Include="TestValidValueGeneratorDecimal.cs" />
     <Compile Include="TestValidValueGeneratorDouble.cs" />
     <Compile Include="TestValidValueGeneratorInt.cs" />
+    <Compile Include="TestValidValueGeneratorShort.cs" />
     <Compile Include="TestValidValueGeneratorTextFile.cs" />
   </ItemGroup>
   <ItemGroup>
