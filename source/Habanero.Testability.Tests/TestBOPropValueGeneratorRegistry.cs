@@ -25,6 +25,7 @@ using Habanero.Base.Exceptions;
 using Habanero.BO;
 using Habanero.Testability.Tests.Base;
 using NUnit.Framework;
+// ReSharper disable InconsistentNaming
 
 namespace Habanero.Testability.Tests
 {
@@ -51,7 +52,7 @@ namespace Habanero.Testability.Tests
         public void Test_RegisterCustomBOTestFactory_ForAPropDef_ShouldReturnWhenResolved()
         {
             //---------------Set up test pack-------------------
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             var stringPropDef = GetStringPropDef();
             //---------------Assert Precondition----------------
             Assert.IsInstanceOf<ValidValueGeneratorString>(registry.Resolve(stringPropDef));
@@ -66,7 +67,7 @@ namespace Habanero.Testability.Tests
         public void Test_RegisterTwice_ForAPropDef_ShouldStoreSecond()
         {
             //---------------Set up test pack-------------------
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             var stringPropDef = GetStringPropDef();
             registry.Register(stringPropDef, typeof(ValidValueGeneratorEnum));
             //---------------Assert Precondition----------------
@@ -82,7 +83,7 @@ namespace Habanero.Testability.Tests
         public void Test_RegisterCustomGenForTypeAndForPropDef_ShouldReturnPropDefRegistration()
         {
             //---------------Set up test pack-------------------
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             var stringPropDef = GetStringPropDef();
             registry.Register(stringPropDef, typeof(ValidValueGeneratorInt));
             //---------------Assert Precondition----------------
@@ -98,7 +99,7 @@ namespace Habanero.Testability.Tests
         public void Test_ResolveForDifPropDefShouldReturnDefaultValidValGen()
         {
             //---------------Set up test pack-------------------
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             ValidValueGeneratorRegistry.Instance.Register<string, ValidValueGeneratorInt>();
             var stringPropDef1 = GetStringPropDef();
             var stringPropDef2 = GetStringPropDef();
@@ -118,7 +119,7 @@ namespace Habanero.Testability.Tests
         public void Test_Resolve_WhenNoPropDefRegistered_ShouldReturnForType()
         {
             //---------------Set up test pack-------------------
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             
             var stringPropDef1 = GetStringPropDef();
             //---------------Assert Precondition----------------
@@ -134,7 +135,7 @@ namespace Habanero.Testability.Tests
         public void Test_RegisterCustomBOTestFactory_ForAPropDef_WithInvalidGeneratorType_ShouldRaiseErr()
         {
             //---------------Set up test pack-------------------
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             var stringPropDef = GetStringPropDef();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
@@ -179,7 +180,7 @@ namespace Habanero.Testability.Tests
             registry.Register(stringPropDef, typeof(GeneratorStub), randomParameter);
             try
             {
-                var validValueGenerator = registry.Resolve(stringPropDef);
+                registry.Resolve(stringPropDef);
                 //---------------Test Result -----------------------
                 Assert.Fail("Expected to throw an ArgumentException");
             }
@@ -195,7 +196,7 @@ namespace Habanero.Testability.Tests
             //---------------Set up test pack-------------------
             var stringPropDef = GetStringPropDef();
  
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             registry.Register(stringPropDef, typeof(ValidValueGeneratorLong));
@@ -203,12 +204,13 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.IsTrue(isRegistered);
         }
+        
         [Test]
         public void Test_IsRegister_WhenNotRegistered_ShouldReturnFalse()
         {
             //---------------Set up test pack-------------------
             var stringPropDef = GetStringPropDef();
-            BOPropValueGeneratorRegistry registry = new BOPropValueGeneratorRegistry();
+            var registry= new BOPropValueGeneratorRegistry();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             bool isRegistered = registry.IsRegistered(stringPropDef);
@@ -222,7 +224,7 @@ namespace Habanero.Testability.Tests
         {
             //---------------Set up test pack-------------------
             //---------------Assert Precondition----------------
-            BOPropValueGeneratorRegistry registry = BOPropValueGeneratorRegistry.Instance;
+            var registry= BOPropValueGeneratorRegistry.Instance;
             //---------------Test Result -----------------------
             Assert.IsNotNull(registry);
         }
@@ -234,7 +236,7 @@ namespace Habanero.Testability.Tests
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             BOPropValueGeneratorRegistry origRegistry = BOPropValueGeneratorRegistry.Instance;
-            BOPropValueGeneratorRegistry registry = BOPropValueGeneratorRegistry.Instance;
+            var registry= BOPropValueGeneratorRegistry.Instance;
             //---------------Test Result -----------------------
             Assert.AreSame(origRegistry, registry);
         }

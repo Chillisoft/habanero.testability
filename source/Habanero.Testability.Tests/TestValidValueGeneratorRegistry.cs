@@ -26,6 +26,7 @@ using Habanero.BO.ClassDefinition;
 using Habanero.Smooth;
 using Habanero.Testability.Tests.Base;
 using NUnit.Framework;
+// ReSharper disable InconsistentNaming
 
 namespace Habanero.Testability.Tests
 {
@@ -48,7 +49,7 @@ namespace Habanero.Testability.Tests
         public void Test_Register_WhenCustomValidValueGenerator_WithFactoryType_ShouldReturnWhenResolved()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             registry.Register<string>(typeof(ValidValueGeneratorString));
             PropDefFake propDef = new PropDefFake();
             propDef.PropertyType = typeof(string);
@@ -63,7 +64,7 @@ namespace Habanero.Testability.Tests
         public void Test_Register_WhenStdValidValueGenerator_WithValueGen_ShouldReturnWhenResolved()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             registry.Register<string>(typeof(ValidValueGeneratorString));
             PropDefFake propDef = new PropDefFake();
             propDef.PropertyType = typeof(string);
@@ -74,12 +75,12 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.IsInstanceOf<ValidValueGeneratorString>(boTestFactory);
         }
-
+        // ReSharper disable ExpressionIsAlwaysNull
         [Test]
         public void Test_Register_WhenFactoryTypeNull_ShouldThrowError()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             //---------------Assert Precondition----------------
             Type generatorType = null;
             //---------------Execute Test ----------------------
@@ -94,12 +95,13 @@ namespace Habanero.Testability.Tests
                 StringAssert.Contains("but the ValidValueGenerator is Null", ex.Message);
             }
         }
+        // ReSharper restore ExpressionIsAlwaysNull
 
         [Test]
         public void Test_Register_WhenNotFactoryType_ShouldThrowError()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             try
@@ -119,7 +121,7 @@ namespace Habanero.Testability.Tests
         public void Test_RegisterCustomBOTestFactory_ShouldReturnWhenResolved()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             //---------------Assert Precondition----------------
             Assert.IsInstanceOf<ValidValueGeneratorString>(registry.Resolve(GetStringPropDef()));
             //---------------Execute Test ----------------------
@@ -132,7 +134,7 @@ namespace Habanero.Testability.Tests
         public void Test_RegisterTwice_ShouldStoreSecond()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             registry.Register<string, ValidValueGeneratorString>();
             //---------------Assert Precondition----------------
             Assert.IsNotNull(registry.Resolve(GetStringPropDef()));
@@ -153,7 +155,7 @@ namespace Habanero.Testability.Tests
         public void Test_Resolve_WithTypeNull_ShouldThrowError()
         {
             //---------------Set up test pack-------------------
-            ValidValueGeneratorRegistry registry = new ValidValueGeneratorRegistry();
+            var registry = new ValidValueGeneratorRegistry();
             try
             {
                 registry.Resolve(null);
@@ -167,11 +169,25 @@ namespace Habanero.Testability.Tests
         }
 
         [Test]
+        public void Test_Resolve_WithShort_ShouldReturnValidValueGeneratorShort()
+        {
+            //---------------Set up test pack-------------------
+            var registry = new ValidValueGeneratorRegistry();
+            var propDef = new PropDefFake {PropertyType = typeof (short)};
+
+            //---------------Execute Test ----------------------
+            var validValueGenerator = registry.Resolve(propDef);
+            //---------------Test Result -----------------------
+            Assert.IsNotNull(validValueGenerator);
+            Assert.IsInstanceOf<ValidValueGeneratorShort>(validValueGenerator);
+        }
+
+        [Test]
         public void Test_Registry_ShouldReturnSingletonRegistry()
         {
             //---------------Set up test pack-------------------
             //---------------Assert Precondition----------------
-            ValidValueGeneratorRegistry registry = ValidValueGeneratorRegistry.Instance;
+            var registry = ValidValueGeneratorRegistry.Instance;
             //---------------Execute Test ----------------------
             Assert.IsNotNull(registry);
         }
@@ -183,8 +199,8 @@ namespace Habanero.Testability.Tests
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
             ValidValueGeneratorRegistry origRegistry = ValidValueGeneratorRegistry.Instance;
-            ValidValueGeneratorRegistry registry = ValidValueGeneratorRegistry.Instance;
-            //---------------Execute Test ----------------------
+            var registry = ValidValueGeneratorRegistry.Instance;
+            //---------------Test Result -----------------------
             Assert.AreSame(origRegistry, registry);
         }
 

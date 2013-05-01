@@ -59,6 +59,7 @@ namespace Habanero.Testability
             this.Register<long, ValidValueGeneratorLong>();
             this.Register<System.Drawing.Image, ValidValidGeneratorImage>();
             this.Register<byte[], ValidValidGeneratorByteArray>();
+            this.Register<short, ValidValueGeneratorShort>();
         }
 
         private void ClearPreviousInstances(Type boType)

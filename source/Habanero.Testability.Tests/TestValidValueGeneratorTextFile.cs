@@ -316,6 +316,7 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.IsInstanceOf(typeof(double), value);
         }
+
         [Ignore("Does not work")] //TODO Brett 01 May 2013: Ignored Test - Does not work
         [Test]
         public void DoubleConverter_ShouldConvertStringToDouble()
@@ -330,6 +331,7 @@ namespace Habanero.Testability.Tests
             Assert.AreEqual(1.1, convertedDouble);
             Assert.Fail("Test Not Yet Implemented");
         }
+
         [Test]
         public void Test_GenerateValue_ShouldConvertToCorrectType_CustomType_ConvertsToString() //ie. type has no type converter
         {

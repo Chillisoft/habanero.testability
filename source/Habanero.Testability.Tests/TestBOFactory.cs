@@ -48,7 +48,7 @@ namespace Habanero.Testability.Tests
         public void Test_CreateBusinessObjectGeneric()
         {
             //---------------Set up test pack-------------------
-            BOFactory factory = new BOFactory();
+            var factory = new BOFactory();
             //---------------Assert Precondition----------------
 
             //---------------Execute Test ----------------------
@@ -126,10 +126,26 @@ namespace Habanero.Testability.Tests
                     };
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
-            ValidValueGenerator generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
+            var generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
             //---------------Test Result -----------------------
             Assert.IsNotNull(generator);
             Assert.IsInstanceOf<ValidValueGeneratorDouble>(generator);
+        }
+
+        [Test]
+        public void Test_GetValidValueGenerator_WhenShort_ShouldRetShortGenerator()
+        {
+            //---------------Set up test pack-------------------
+            IPropDef def = new PropDefFake 
+                    {
+                        PropertyType = typeof(short)
+                    };
+            //---------------Assert Precondition----------------
+            //---------------Execute Test ----------------------
+            var generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
+            //---------------Test Result -----------------------
+            Assert.IsNotNull(generator);
+            Assert.IsInstanceOf<ValidValueGeneratorShort>(generator);
         }
         [Test]
         public void Test_GetValidValueGenerator_WhenEnum_ShouldRetEnumGenerator()
@@ -141,7 +157,7 @@ namespace Habanero.Testability.Tests
                     };
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
-            ValidValueGenerator generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
+            var generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
             //---------------Test Result -----------------------
             Assert.IsNotNull(generator);
             Assert.IsInstanceOf<ValidValueGeneratorEnum>(generator);
@@ -158,7 +174,7 @@ namespace Habanero.Testability.Tests
             //---------------Assert Precondition----------------
             Assert.IsTrue(def.HasLookupList());
             //---------------Execute Test ----------------------
-            ValidValueGenerator generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
+            var generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
             //---------------Test Result -----------------------
             Assert.IsNotNull(generator);
             Assert.IsInstanceOf<ValidValueGeneratorLookupList>(generator);
