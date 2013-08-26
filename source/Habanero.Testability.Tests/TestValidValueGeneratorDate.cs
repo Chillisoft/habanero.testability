@@ -19,6 +19,7 @@
 // ---------------------------------------------------------------------------------
 #endregion
 using Habanero.Testability.Tests.Base;
+using System.Data.SqlTypes;
 
 namespace Habanero.Testability.Tests
 {
@@ -33,6 +34,8 @@ namespace Habanero.Testability.Tests
     [TestFixture]
     public class TestValidValueGeneratorDate
     {
+        private long SOME_LARGE_NUMBER = 1000000;
+
         private static PropRuleDate CreatePropRuleDate(DateTime min, DateTime max)
         {
             return new PropRuleDate(RandomValueGen.GetRandomString(), RandomValueGen.GetRandomString(), min, max);
@@ -42,14 +45,14 @@ namespace Habanero.Testability.Tests
         public void Test_GenerateValue_WhenDateTime_ShouldSet()
         {
             //---------------Set up test pack-------------------
-            Type propertyType = typeof(DateTime);
+            var propertyType = typeof(DateTime);
             IPropDef def = new PropDefFake {
                 PropertyType = propertyType
             };
             ValidValueGenerator valueGenerator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             //---------------Execute Test ----------------------
-            object value = valueGenerator.GenerateValidValue();
+            var value = valueGenerator.GenerateValidValue();
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.IsInstanceOf(typeof(DateTime), value);
@@ -63,14 +66,14 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555.0);
-            DateTime max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565.0);
+            var min = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5555.0);
+            var max = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(5565.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             ValidValueGenerator generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max, propRule.MaxValue.Date);
             //---------------Execute Test ----------------------
@@ -107,8 +110,8 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.Now;
-            DateTime max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
+            var min = DateTime.Now;
+            var max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
@@ -132,15 +135,15 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.Now;
-            DateTime max = DateTime.Now.AddDays(5.0);
-            DateTime overridingMinValue = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(9.0);
+            var min = DateTime.Now;
+            var max = DateTime.Now.AddDays(5.0);
+            var overridingMinValue = RandomValueGen.GetAbsoluteMin<DateTime>().AddDays(9.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
             //---------------Execute Test ----------------------
@@ -190,7 +193,7 @@ namespace Habanero.Testability.Tests
                 PropertyType = typeof(DateTime)
             };
             var generator = new ValidValueGeneratorDate(def);
-            DateTime overridingMaxValue = expectedAbsoluteMin.AddDays(7.0);
+            var overridingMaxValue = expectedAbsoluteMin.AddDays(7.0);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
@@ -209,18 +212,18 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.Now;
-            DateTime max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
+            var min = DateTime.Now;
+            var max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueLessThan(null);
+            var value = (DateTime)generator.GenerateValidValueLessThan(null);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, min);
@@ -234,8 +237,8 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.Now;
-            DateTime max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
+            var min = DateTime.Now;
+            var max = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
             var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
@@ -260,25 +263,155 @@ namespace Habanero.Testability.Tests
             IPropDef def = new PropDefFake {
                 PropertyType = typeof(DateTime)
             };
-            DateTime min = DateTime.Now;
-            DateTime max = DateTime.Today.AddDays(5.0);
-            DateTime overridingMaxValue = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
+            var min = DateTime.Now;
+            var max = DateTime.Today.AddDays(5.0);
+            var overridingMaxValue = RandomValueGen.GetAbsoluteMax<DateTime>().AddDays(-5.0);
             def.AddPropRule(CreatePropRuleDate(min, max));
-            ValidValueGeneratorDate generator = new ValidValueGeneratorDate(def);
+            var generator = new ValidValueGeneratorDate(def);
             //---------------Assert Precondition----------------
             Assert.AreSame(typeof(DateTime), def.PropertyType);
             Assert.IsNotEmpty(def.PropRules.OfType<PropRuleDate>().ToList());
-            PropRuleDate propRule = def.PropRules.OfType<PropRuleDate>().First();
+            var propRule = def.PropRules.OfType<PropRuleDate>().First();
             Assert.AreEqual(min, propRule.MinValue);
             Assert.AreEqual(max.AddDays(1.0).AddMilliseconds(-1.0), propRule.MaxValue);
             //---------------Execute Test ----------------------
-            DateTime value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
+            var value = (DateTime)generator.GenerateValidValueLessThan(overridingMaxValue);
             //---------------Test Result -----------------------
             Assert.IsNotNull(value);
             Assert.GreaterOrEqual(value, min);
             Assert.LessOrEqual(value, max);
             Assert.LessOrEqual(value, overridingMaxValue);
         }
+
+        [Test]
+        public void GetRandomDate_GivenNoArguments_ShouldNeverReturnValueLessThanSQLServerSmallDateTimeMin()
+        {
+            //---------------Set up test pack-------------------
+            var smallDateTimeMin = new DateTime(1900, 1, 1);
+            //---------------Assert Precondition----------------
+            for (var i = 0; i < SOME_LARGE_NUMBER; i++)
+            {
+                Assert.That(RandomValueGen.GetRandomDate(), Is.GreaterThanOrEqualTo(smallDateTimeMin));
+            }
+
+            //---------------Execute Test ----------------------
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetRandomDate_GivenMinValueLessThanSQLServerSmallDateTimeMin_WillReturnValueDownToGivenMin()
+        {
+            //---------------Set up test pack-------------------
+            var myMin = new DateTime(1500, 1, 1);
+            var myMax = new DateTime(1600, 1, 1);
+            //---------------Assert Precondition----------------
+
+            //---------------Execute Test ----------------------
+            for (var i = 0; i < SOME_LARGE_NUMBER; i++)
+            {
+                Assert.That(RandomValueGen.GetRandomDate(myMin, myMax), Is.GreaterThanOrEqualTo(myMin));
+            }
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetRandomDate_GivenNoArguments_ShouldNeverReturnValueGreaterThanSQLServerSmallDateTimeMax()
+        {
+            //---------------Set up test pack-------------------
+            var smallDateTimeMax = new DateTime(2079, 6, 6);
+            
+            //---------------Assert Precondition----------------
+            for (var i = 0; i < SOME_LARGE_NUMBER; i++)
+            {
+                Assert.That(RandomValueGen.GetRandomDate(), Is.LessThanOrEqualTo(smallDateTimeMax));
+            }
+            //---------------Execute Test ----------------------
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetRandomDate_GivenMaxValueGreaterThanSQLServerSmalLDateTimeMax_WillReturnValueUpToGivenMax()
+        {
+            //---------------Set up test pack-------------------
+            var myMax = new DateTime(9000, 1, 1);   // age of aquarius?
+            var myMin = new DateTime(8000, 1, 1);
+            //---------------Assert Precondition----------------
+
+            //---------------Execute Test ----------------------
+            for (var i = 0; i < SOME_LARGE_NUMBER; i++)
+            {
+                Assert.That(RandomValueGen.GetRandomDate(myMin, myMax), Is.LessThanOrEqualTo(myMax));
+            }
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetMinimumSqlSmallDateTimeValue_Returns_19000101_AsPerSpec()
+        {
+            // see http://technet.microsoft.com/en-us/library/ms182418.aspx
+            //---------------Set up test pack-------------------
+            var expected = new DateTime(1900, 1, 1);
+            //---------------Assert Precondition----------------
+
+            //---------------Execute Test ----------------------
+            Assert.AreEqual(expected, RandomValueGen.GetMinimumSqlSmallDateTimeValue());
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetMaximumSqlSmallDateTimeValue_Returns_20790606_AsPerSpec()
+        {
+            // see http://technet.microsoft.com/en-us/library/ms182418.aspx
+            //---------------Set up test pack-------------------
+            var expected = new DateTime(2079, 6, 6);
+            //---------------Assert Precondition----------------
+
+            //---------------Execute Test ----------------------
+            Assert.AreEqual(expected, RandomValueGen.GetMaximumSqlSmallDateTimeValue());
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetRandomDate_WhenGivenMaxDateAsStringWhichIsGreaterThanSqlSmallDateTimeMinValue_DoesNotReturnDateLessThanSqlSmallDateTimeMinValue()
+        {
+            //---------------Set up test pack-------------------
+            var myMax = new DateTime(1980, 1, 1);
+            //---------------Assert Precondition----------------
+            var minimumSqlSmallDateTimeValue = RandomValueGen.GetMinimumSqlSmallDateTimeValue();
+            Assert.That(myMax, Is.GreaterThan(minimumSqlSmallDateTimeValue));
+
+
+            //---------------Execute Test ----------------------
+            var myDateString = myMax.ToString("yyyy/MM/dd");
+            for (var i = 0; i < SOME_LARGE_NUMBER; i++)
+            {
+                Assert.That(RandomValueGen.GetRandomDate(myDateString), Is.GreaterThan(minimumSqlSmallDateTimeValue));
+            }
+
+            //---------------Test Result -----------------------
+        }
+
+        [Test]
+        public void GetRandomDate_WhenGivenMaxDateAsStringWhichIsLessThanSqlSmalLDateTimeMinValue_WillReturnValuesLessThanThatDateTime()
+        {
+            //---------------Set up test pack-------------------
+            var sqlmin = RandomValueGen.GetMinimumSqlSmallDateTimeValue();
+            var myMin = sqlmin.AddDays(-1);
+            var myMinString = myMin.ToString("yyyy/MM/dd");
+            //---------------Assert Precondition----------------
+            
+            //---------------Execute Test ----------------------
+            Assert.That(RandomValueGen.GetRandomDate(myMinString), Is.LessThan(RandomValueGen.GetMinimumSqlSmallDateTimeValue()));
+
+            //---------------Test Result -----------------------
+        }
+
     }
 }
 

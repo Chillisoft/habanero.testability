@@ -133,8 +133,8 @@ namespace UniqueKey
         private static DateTime GetDate(string dateString, DateTime initialDate)
         {
             object value;
-            bool dateValueParsedOk = new DateTimeDataMapper().TryParsePropValue(dateString, out value);
-            DateTime dateTime = initialDate;
+            var dateValueParsedOk = new DateTimeDataMapper().TryParsePropValue(dateString, out value);
+            var dateTime = initialDate;
             if (dateValueParsedOk)
             {
                 if (value is DateTime)
@@ -160,14 +160,22 @@ namespace UniqueKey
 
         public static DateTime GetRandomDate()
         {
-            var minDate = GetAbsoluteMin<DateTime>();
-            var maxDate = GetAbsoluteMax<DateTime>();
+            var minDate = GetMinimumSqlSmallDateTimeValue();
+            var maxDate = GetMaximumSqlSmallDateTimeValue();
             return GetRandomDate(minDate, maxDate);
         }
 
         public static DateTime GetRandomDate(string max)
         {
-            return GetRandomDate(GetAbsoluteMin<DateTime>().ToString("yyyy/MM/dd"), max);
+            // when the max provided is less than the min for SqlSmallDate, then honor it
+            //  and return any date less than it. When the given date is greater than the min
+            //  value for SqlSmallDate, then protect the caller against potential issues when
+            //  trying to put that value into a database
+            var parsedMax = GetDate(max, GetMaximumSqlSmallDateTimeValue());
+            var min = parsedMax > GetMinimumSqlSmallDateTimeValue() ? 
+                                GetMinimumSqlSmallDateTimeValue().ToString("yyyy/MM/dd") : 
+                                GetAbsoluteMin<DateTime>().ToString("yyyy/MM/dd");
+            return GetRandomDate(min, max);
         }
 
         public static DateTime GetRandomDate(DateTime minDate, DateTime maxDate)
@@ -187,7 +195,7 @@ namespace UniqueKey
             {
                 intRange = (int) range;
             }
-            int randomInt = GetRandomInt(1, intRange);
+            var randomInt = GetRandomInt(1, intRange);
             return minDate.AddDays(randomInt);
         }
 
@@ -209,8 +217,8 @@ namespace UniqueKey
             {
                 minValue = 0M;
             }
-            decimal range = maxValue - minValue;
-            decimal truncatedRange = Math.Truncate(range);
+            var range = maxValue - minValue;
+            var truncatedRange = Math.Truncate(range);
             if (truncatedRange > int.MaxValue)
             {
                 truncatedRange = int.MaxValue - 1;
@@ -219,7 +227,7 @@ namespace UniqueKey
             {
                 truncatedRange = 1M;
             }
-            int randomAddition = GetRandomInt(1, Convert.ToInt32(truncatedRange));
+            var randomAddition = GetRandomInt(1, Convert.ToInt32(truncatedRange));
             return (minValue + randomAddition);
         }
 
@@ -234,8 +242,8 @@ namespace UniqueKey
             {
                 minValue = 0.0;
             }
-            double range = maxValue - minValue;
-            double truncatedRange = Math.Truncate(range);
+            var range = maxValue - minValue;
+            var truncatedRange = Math.Truncate(range);
             if (truncatedRange > int.MaxValue)
             {
                 truncatedRange = int.MaxValue - 1;
@@ -244,7 +252,7 @@ namespace UniqueKey
             {
                 truncatedRange = 1.0;
             }
-            int randomAddition = GetRandomInt(1, Convert.ToInt32(truncatedRange));
+            var randomAddition = GetRandomInt(1, Convert.ToInt32(truncatedRange));
             return (minValue + randomAddition);
         }
 
@@ -255,8 +263,8 @@ namespace UniqueKey
 
         public static TEnum GetRandomEnum<TEnum>(TEnum? excluded) where TEnum : struct
         {
-            Type enumType = typeof (TEnum);
-            TEnum value = (TEnum) GetRandomEnum(enumType);
+            var enumType = typeof (TEnum);
+            var value = (TEnum) GetRandomEnum(enumType);
             if (excluded.HasValue && excluded.Value.Equals(value))
             {
                 return GetRandomEnum(excluded);
@@ -266,8 +274,8 @@ namespace UniqueKey
 
         public static object GetRandomEnum(Type enumType)
         {
-            Array values = Enum.GetValues(enumType);
-            int randomIndex = GetRandomInt(0, values.Length);
+            var values = Enum.GetValues(enumType);
+            var randomIndex = GetRandomInt(0, values.Length);
             return values.GetValue(randomIndex);
         }
 
@@ -319,7 +327,7 @@ namespace UniqueKey
         public static short GetRandomShort(short min, short max)
         {
             if (max < min) max = min;
-            int range = max - min;
+            var range = max - min;
             if (Overflow(range)) range = short.MaxValue;
             int shortRange;
             if (range > short.MaxValue)
@@ -330,7 +338,7 @@ namespace UniqueKey
             {
                 shortRange = (short)range;
             }
-            short randomShort = Convert.ToInt16(GetRandomInt(0, shortRange));
+            var randomShort = Convert.ToInt16(GetRandomInt(0, shortRange));
             return Convert.ToInt16(min + randomShort);
         }
 
@@ -347,7 +355,7 @@ namespace UniqueKey
         public static long GetRandomLong(long min, long max)
         {
             if (max < min) max = min;
-            long range = max - min;
+            var range = max - min;
             if (Overflow(range)) range = int.MaxValue;
             int intRange;
             if (range > int.MaxValue)
@@ -358,7 +366,7 @@ namespace UniqueKey
             {
                 intRange = (int)range;
             }
-            int randomInt = GetRandomInt(0, intRange);
+            var randomInt = GetRandomInt(0, intRange);
             return min + randomInt;
         }
 
@@ -380,7 +388,7 @@ namespace UniqueKey
             {
                 return null;
             }
-            string[] values = new string[lookupList.Count];
+            var values = new string[lookupList.Count];
             lookupList.Values.CopyTo(values, 0);
             return ((values.Length == 1) ? values[0] : values[GetRandomInt(0, values.Length - 1)]);
         }
@@ -392,7 +400,7 @@ namespace UniqueKey
 
         public static string GetRandomString(int maxLength)
         {
-            string randomString = GetRandomString();
+            var randomString = GetRandomString();
             if (maxLength > randomString.Length)
             {
                 maxLength = randomString.Length;
@@ -404,7 +412,7 @@ namespace UniqueKey
         {
             if (maxLength <= 0) maxLength = int.MaxValue;
             if (minLength < 0) minLength = 0;
-            string randomString = GetRandomString(maxLength);
+            var randomString = GetRandomString(maxLength);
             if (randomString.Length < minLength)
             {
                 randomString = randomString.PadRight(minLength, 'A');
@@ -425,8 +433,8 @@ namespace UniqueKey
             where T : struct, IComparable<T>
         {
             var absoluteMin = GetAbsoluteMax<T>();
-            T propRuleMaxValue = (propRule == null) ? absoluteMin : propRule.MaxValue;
-            T internalMaxValue = overridingMaxValue.HasValue ? overridingMaxValue.GetValueOrDefault() : absoluteMin;
+            var propRuleMaxValue = (propRule == null) ? absoluteMin : propRule.MaxValue;
+            var internalMaxValue = overridingMaxValue.HasValue ? overridingMaxValue.GetValueOrDefault() : absoluteMin;
             return internalMaxValue.CompareTo(propRuleMaxValue) > 0 ? propRuleMaxValue : internalMaxValue;
         }
 
@@ -442,21 +450,32 @@ namespace UniqueKey
             where T : struct, IComparable<T>
         {
             var absoluteMin = GetAbsoluteMin<T>();
-            T propRuleMinValue = (propRule == null) ? absoluteMin : propRule.MinValue;
-            T internalMinValue = overridingMinValue.HasValue ? overridingMinValue.GetValueOrDefault() : absoluteMin;
+            var propRuleMinValue = (propRule == null) ? absoluteMin : propRule.MinValue;
+            var internalMinValue = overridingMinValue.HasValue ? overridingMinValue.GetValueOrDefault() : absoluteMin;
             return internalMinValue.CompareTo(propRuleMinValue) < 0 ? propRuleMinValue : internalMinValue;
         }
 
         /// <summary>
         /// Returns the absolute minimum for the dataTypes.
-        /// This only supports types that have MinValue, MaxValue e.g. single, Double, Decimaal 
+        /// This only supports types that have MinValue, MaxValue e.g. single, Double, Decimal 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static T GetAbsoluteMin<T>() // where T : struct, IComparable<T>
         {
-            Type type = typeof (T);
+            var type = typeof (T);
             return (T)GetAbsoluteMin(type);
+        }
+
+        // see http://technet.microsoft.com/en-us/library/ms182418.aspx
+        public static DateTime GetMinimumSqlSmallDateTimeValue()
+        {
+            return new DateTime(1900, 1, 1);
+        }
+
+        public static DateTime GetMaximumSqlSmallDateTimeValue()
+        {
+            return new DateTime(2079, 6, 6);
         }
 
         /// <summary>
@@ -485,7 +504,7 @@ namespace UniqueKey
         /// <returns></returns>
         public static T GetAbsoluteMax<T>() // where T : struct, IComparable<T>
         {
-            Type type = typeof (T);
+            var type = typeof (T);
             return (T) GetAbsoluteMax(type);
         }
 
