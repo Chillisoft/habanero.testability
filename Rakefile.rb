@@ -26,14 +26,14 @@ msbuild_settings = {
 }
 
 #------------------------dependency settings---------------------
-$habanero_version = 'branches/v2.6-DotNet2CompactFramework'
+$habanero_version = 'branches/v2.6-CF_Stargate'
 require 'rake-habanero.rb'
 
 $smooth_version = 'branches/v1.5_CF_Stargate'
 require 'rake-smoothCF.rb'
 
 #------------------------project settings------------------------
-$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/branches/v2.5-CF'
+$basepath = 'http://delicious:8080/svn/habanero/HabaneroCommunity/Habanero.Testability/branches/v2.5-CF_Stargate'
 $solution = "source/Habanero.Testability.CF.sln"
 
 #______________________________________________________________________________
@@ -98,7 +98,7 @@ end
 desc "Publish the Habanero.Testability nuget package"
 pushnugetpackages :publishTestabilityNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.dll"
-  package.Nugetid = "Habanero.Testability.v2.5-CF"
+  package.Nugetid = "Habanero.Testability.v2.5-CF_Stargate"
   package.Version = "2.5"
   package.Description = "Habanero.Testability"
 end
@@ -106,7 +106,7 @@ end
 desc "Publish the Habanero.Testability.Helpers nuget package"
 pushnugetpackages :publishTestabilityHelpersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
-  package.Nugetid = "Habanero.Testability.Helpers.v2.5-CF"
+  package.Nugetid = "Habanero.Testability.Helpers.v2.5-CF_Stargate"
   package.Version = "2.5"
   package.Description = "Habanero.Testability.Helpers"
 end
