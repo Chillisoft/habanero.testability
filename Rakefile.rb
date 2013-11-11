@@ -10,7 +10,7 @@ require 'albacore'
 # deeper in the repo you will need to add another ..
 bs = File.dirname(__FILE__)
 bs = File.join(bs, "..") if bs.index("branches") != nil
-bs = File.join(bs, "../../../HabaneroCommunity/BuildScripts")
+bs = File.join(bs, "../HabaneroCommunity/BuildScripts")
 $buildscriptpath = File.expand_path(bs)
 $:.unshift($buildscriptpath) unless
     $:.include?(bs) || $:.include?($buildscriptpath)
@@ -31,6 +31,10 @@ else
 	$nuget_publish_version = 'v1.3-13_02_2012'
 	$nuget_publish_version_id = '1.3'
 end	
+
+$binaries_baselocation = "bin"
+$nuget_baselocation = "nugetArtifacts"
+$app_version ='9.9.9.999'
 #------------------------build settings--------------------------
 require 'rake-settings.rb'
 
@@ -44,23 +48,49 @@ msbuild_settings = {
 #------------------------dependency settings---------------------
 #------------------------project settings------------------------
 $solution = "source/Habanero.Testability - 2010.sln"
+$major_version = ''
+$minor_version = ''
+$patch_version = ''
 
 #______________________________________________________________________________
 #---------------------------------TASKS----------------------------------------
 
 desc "Runs the build all task"
-task :default => [:build_all_nuget]
+task :default, [:major, :minor, :patch] => [:build_all_nuget]
 
 desc "Rakes habanero+smooth, builds Testability"
-task :build_all_nuget => [:installNugetPackages, :build, :nuget]
+task :build_all_nuget, [:major, :minor, :patch]  => [:installNugetPackages, :build, :nuget]
 
 desc "Builds Testability, including tests"
-task :build => [:clean, :msbuild, :test]
+task :build, [:major, :minor, :patch]  => [:clean, :setupversion, :set_assembly_version, :msbuild, :copy_to_nuget, :test]
 
 desc "Pushes Testability to Nuget"
 task :nuget => [:publishTestabilityNugetPackage, 
 				:publishTestabilityHelpersNugetPackage, 
 				:publishTestabilityTestersNugetPackage ]
+				
+#------------------------Setup Versions---------
+desc "Setup Versions"
+task :setupversion,:major ,:minor,:patch do |t, args|
+	puts cyan("Setup Versions")
+	args.with_defaults(:major => "0")
+	args.with_defaults(:minor => "0")
+	args.with_defaults(:patch => "0000")
+	$major_version = "#{args[:major]}"
+	$minor_version = "#{args[:minor]}"
+	$patch_version = "#{args[:patch]}"
+	$app_version = "#{$major_version}.#{$minor_version}.#{$patch_version}.0"
+	puts cyan("Assembly Version #{$app_version}")	
+end
+
+task :set_assembly_version do
+	puts green("Setting Shared AssemblyVersion to: #{$app_version}")
+	file_path = "source/Common/AssemblyInfoShared.cs"
+	outdata = File.open(file_path).read.gsub(/"9.9.9.999"/, "\"#{$app_version}\"")
+	File.open(file_path, 'w') do |out|
+		out << outdata
+	end	
+end
 #------------------------build Faces  --------------------
 
 desc "Cleans the bin folder"
@@ -81,6 +111,18 @@ nunit :test do |nunit|
 	puts cyan("Running tests")
 	nunit.assemblies 'bin\Habanero.Testability.Tests.dll',
 					 'bin\Habanero.Testability.Testers.Tests.dll'
+end
+
+
+def copy_nuget_files_to location
+	FileUtils.cp "#{$binaries_baselocation}/Habanero.Testability.dll", location
+	FileUtils.cp "#{$binaries_baselocation}/Habanero.Testability.Helpers.dll", location
+	FileUtils.cp "#{$binaries_baselocation}/Habanero.Testability.Testers.dll", location
+end
+
+task :copy_to_nuget do
+	puts cyan("Copying files to the nuget folder")	
+	copy_nuget_files_to $nuget_baselocation
 end
 
 desc "Install nuget packages"
