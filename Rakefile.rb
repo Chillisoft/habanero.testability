@@ -9,28 +9,10 @@ require 'albacore'
 # This should be the same for most projects, but if your project is a level
 # deeper in the repo you will need to add another ..
 bs = File.dirname(__FILE__)
-bs = File.join(bs, "..") if bs.index("branches") != nil
-bs = File.join(bs, "../HabaneroCommunity/BuildScripts")
+bs = File.join(bs, "/rake-tasks")
 $buildscriptpath = File.expand_path(bs)
 $:.unshift($buildscriptpath) unless
     $:.include?(bs) || $:.include?($buildscriptpath)
-
-if (bs.index("branches") == nil)	
-	nuget_version = 'Trunk'
-	nuget_version_id = '9.9.999'
-	
-	$nuget_habanero_version	= nuget_version
-	$nuget_smooth_version =	nuget_version
-	
-	$nuget_publish_version = nuget_version
-	$nuget_publish_version_id = nuget_version_id
-else
-	$nuget_habanero_version	= 'v2.6-13_02_2012'
-	$nuget_smooth_version =	'v1.6-13_02_2012'
-	
-	$nuget_publish_version = 'v1.3-13_02_2012'
-	$nuget_publish_version_id = '1.3'
-end	
 
 $binaries_baselocation = "bin"
 $nuget_baselocation = "nugetArtifacts"
@@ -47,40 +29,50 @@ msbuild_settings = {
 
 #------------------------dependency settings---------------------
 #------------------------project settings------------------------
-$solution = "source/Habanero.Testability - 2010.sln"
+$solution = 'source/Habanero.Testability - 2010.sln'
+$solutionNuget = '"source/Habanero.Testability - 2010.sln"'
 $major_version = ''
 $minor_version = ''
 $patch_version = ''
+$nuget_apikey = ''
+$nuget_sourceurl = ''
+$nuget_publish_version = 'Trunk'
 
 #______________________________________________________________________________
 #---------------------------------TASKS----------------------------------------
-
 desc "Runs the build all task"
-task :default, [:major, :minor, :patch] => [:build_all_nuget]
+task :default, [:major, :minor, :patch] => [:setupvars, :build]
 
-desc "Rakes habanero+smooth, builds Testability"
-task :build_all_nuget, [:major, :minor, :patch]  => [:installNugetPackages, :build, :nuget]
+desc "Pulls habanero deps from local nuget, builds , tests and pushes testability"
+task :build_test_push_internal, [:major, :minor, :patch, :apikey, :sourceurl] => [:setupvars, :installNugetPackages, :build, :nugetpush]
 
 desc "Builds Testability, including tests"
-task :build, [:major, :minor, :patch]  => [:clean, :setupversion, :set_assembly_version, :msbuild, :copy_to_nuget, :test]
+task :build, [:major, :minor, :patch]  => [:clean, :restorepackages, :setupvars, :set_assembly_version, :msbuild, :copy_to_nuget, :test]
 
-desc "Pushes Testability to Nuget"
-task :nuget => [:publishTestabilityNugetPackage, 
-				:publishTestabilityHelpersNugetPackage, 
-				:publishTestabilityTestersNugetPackage ]
-				
 #------------------------Setup Versions---------
-desc "Setup Versions"
-task :setupversion,:major ,:minor,:patch do |t, args|
-	puts cyan("Setup Versions")
+desc "Setup Variables"
+task :setupvars,:major ,:minor,:patch, :apikey, :sourceurl do |t, args|
+	puts cyan("Setup Variables")
 	args.with_defaults(:major => "0")
 	args.with_defaults(:minor => "0")
 	args.with_defaults(:patch => "0000")
+	args.with_defaults(:apikey => "")
+	args.with_defaults(:sourceurl => "")
 	$major_version = "#{args[:major]}"
 	$minor_version = "#{args[:minor]}"
 	$patch_version = "#{args[:patch]}"
+	$nuget_apikey = "#{args[:apikey]}"
+	$nuget_sourceurl = "#{args[:sourceurl]}"
 	$app_version = "#{$major_version}.#{$minor_version}.#{$patch_version}.0"
-	puts cyan("Assembly Version #{$app_version}")	
+	puts cyan("Assembly Version #{$app_version}")
+	puts cyan("Nuget key: #{$nuget_apikey} for: #{$nuget_sourceurl}")
+end
+
+
+desc "Restore Nuget Packages"
+task :restorepackages do
+	puts cyan('lib\nuget.exe restore '+"#{$solutionNuget}")
+	system 'lib\nuget.exe restore '+"#{$solutionNuget}"
 end
 
 task :set_assembly_version do
@@ -129,32 +121,44 @@ end
 
 desc "Install nuget packages"
 getnugetpackages :installNugetPackages do |ip|
-    ip.package_names = ["Habanero.Base.#{$nuget_habanero_version}",  
-						"Habanero.BO.#{$nuget_habanero_version}",  
-						"Habanero.Smooth.#{$nuget_smooth_version}",
-						"nunit.trunk"]
+	puts cyan("Install local nuget packages, Version : #{$nuget_publish_version}")
+    ip.package_names = ["Habanero.Base.#{$nuget_publish_version}",  
+						"Habanero.BO.#{$nuget_publish_version}",  
+						"Habanero.Smooth.#{$nuget_publish_version}"]
+	ip.SourceUrl = "#{$nuget_sourceurl}/nuget"
 end
 
+desc "Pushes Testability to Nuget"
+task :nugetpush => [:publishTestabilityNugetPackage, 
+					:publishTestabilityHelpersNugetPackage, 
+					:publishTestabilityTestersNugetPackage ]
+				
 desc "Publish the Habanero.Testability nuget package"
-pushnugetpackages :publishTestabilityNugetPackage do |package|
+pushnugetpackagesonline :publishTestabilityNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.dll"
   package.Nugetid = "Habanero.Testability.#{$nuget_publish_version}"
-  package.Version = $nuget_publish_version_id
+  package.Version = $app_version
   package.Description = "Testability"
+  package.ApiKey = "#{$nuget_apikey}"
+  package.SourceUrl = "#{$nuget_sourceurl}"
 end
 
 desc "Publish the Habanero.Testability.Helpers nuget package"
-pushnugetpackages :publishTestabilityHelpersNugetPackage do |package|
+pushnugetpackagesonline :publishTestabilityHelpersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Helpers.dll"
   package.Nugetid = "Habanero.Testability.Helpers.#{$nuget_publish_version}"
-  package.Version = $nuget_publish_version_id
+  package.Version = $app_version
   package.Description = "Habanero.Testability.Helpers"
+  package.ApiKey = "#{$nuget_apikey}"
+  package.SourceUrl = "#{$nuget_sourceurl}"
 end
 
 desc "Publish the Habanero.Testability.Testers nuget package"
-pushnugetpackages :publishTestabilityTestersNugetPackage do |package|
+pushnugetpackagesonline :publishTestabilityTestersNugetPackage do |package|
   package.InputFileWithPath = "bin/Habanero.Testability.Testers.dll"
   package.Nugetid = "Habanero.Testability.Testers.#{$nuget_publish_version}"
-  package.Version = $nuget_publish_version_id
+  package.Version = $app_version
   package.Description = "Habanero.Testability.Testers"
+  package.ApiKey = "#{$nuget_apikey}"
+  package.SourceUrl = "#{$nuget_sourceurl}"
 end
