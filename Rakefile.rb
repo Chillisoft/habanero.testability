@@ -41,10 +41,10 @@ $nuget_publish_version = 'Trunk'
 #______________________________________________________________________________
 #---------------------------------TASKS----------------------------------------
 desc "Runs the build all task"
-task :default, [:major, :minor, :patch] => [:setupvars, :build]
+task :default, [:major, :minor, :patch] => [:updatesubmodules,:setupvars, :build]
 
 desc "Pulls habanero deps from local nuget, builds , tests and pushes testability"
-task :build_test_push_internal, [:major, :minor, :patch, :apikey, :sourceurl] => [:setupvars, :installNugetPackages, :build, :nugetpush]
+task :build_test_push_internal, [:major, :minor, :patch, :apikey, :sourceurl] => [:updatesubmodules,:setupvars, :installNugetPackages, :build, :nugetpush]
 
 desc "Builds Testability, including tests"
 task :build, [:major, :minor, :patch]  => [:clean, :restorepackages, :setupvars, :set_assembly_version, :msbuild, :copy_to_nuget, :test]
@@ -68,11 +68,17 @@ task :setupvars,:major ,:minor,:patch, :apikey, :sourceurl do |t, args|
 	puts cyan("Nuget key: #{$nuget_apikey} for: #{$nuget_sourceurl}")
 end
 
-
 desc "Restore Nuget Packages"
 task :restorepackages do
 	puts cyan('lib\nuget.exe restore '+"#{$solutionNuget}")
 	system 'lib\nuget.exe restore '+"#{$solutionNuget}"
+end
+
+desc "Update Submodules"
+task :updatesubmodules do
+	puts cyan("Updating Git Submodules")
+	system 'git submodule foreach git checkout master'
+	system 'git submodule foreach git pull'
 end
 
 task :set_assembly_version do
@@ -126,6 +132,7 @@ getnugetpackages :installNugetPackages do |ip|
 						"Habanero.BO.#{$nuget_publish_version}",  
 						"Habanero.Smooth.#{$nuget_publish_version}"]
 	ip.SourceUrl = "#{$nuget_sourceurl}/nuget"
+	ip.Version = $app_version
 end
 
 desc "Pushes Testability to Nuget"
