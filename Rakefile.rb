@@ -11,7 +11,7 @@ $app_version ='9.9.9.999'
 msbuild_settings = {
     :properties => {:configuration => :release},
     :targets => [:clean, :rebuild],
-    :verbosity => :quiet,
+    :verbosity => :minimal,
     #:use => :net35  ;uncomment to use .net 3.5 - default is 4.0
 }
 
@@ -32,14 +32,17 @@ desc "Runs the build all task"
 task :default, [:major, :minor, :patch] => [:setupvars, :build]
 
 desc "Pulls habanero deps from local nuget, builds, tests and pushes testability"
-task :build_test_push_internal, [:major, :minor, :patch, :apikey, :sourceurl] => [:setupvars, :installNugetPackages, :build, :nugetpush]
+task :build_test_push_internal, [:major, :minor, :patch, :apikey, :sourceurl] => [:build_internal, :nugetpush]
+
+desc "Pulls habanero deps from local nuget, builds and tests"
+task :build_internal, [:major, :minor, :patch, :sourceurl] => [:setupvars, :installNugetPackages, :build]
 
 desc "Builds Testability, including tests"
-task :build, [:major, :minor, :patch]  => [:clean, :update_packages, :setupvars, :set_assembly_version, :msbuild, :copy_to_nuget, :test]
+task :build, [:major, :minor, :patch]  => [:clean, :update_packages, :set_assembly_version, :msbuild, :copy_to_nuget, :test]
 
 #------------------------Setup Versions---------
 desc "Setup Variables"
-task :setupvars,:major ,:minor,:patch, :apikey, :sourceurl do |t, args|
+task :setupvars, :major, :minor, :patch, :apikey, :sourceurl do |t, args|
     puts cyan("Setup Variables")
     args.with_defaults(:major => "0")
     args.with_defaults(:minor => "0")
@@ -70,14 +73,14 @@ task :set_assembly_version do
         out << outdata
     end
 end
-#------------------------build Faces  --------------------
+
+#------------------------build Testability--------------------
 
 desc "Cleans the bin folder"
 task :clean do
     puts cyan("Cleaning bin folder")
     FileUtils.rm_rf 'bin'
     FileUtils.rm_rf $nuget_baselocation
-    FileSystem.ensure_dir_exists $nuget_baselocation
 end
 
 desc "Builds the solution with msbuild"
@@ -94,8 +97,8 @@ nunit :test do |nunit|
                      'bin\Habanero.Testability.Testers.Tests.dll'
 end
 
-
 def copy_nuget_files_to location
+    FileSystem.ensure_dir_exists "#{location}/"
     FileUtils.cp "#{$binaries_baselocation}/Habanero.Testability.dll", location
     FileUtils.cp "#{$binaries_baselocation}/Habanero.Testability.Helpers.dll", location
     FileUtils.cp "#{$binaries_baselocation}/Habanero.Testability.Testers.dll", location

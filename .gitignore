@@ -6,3 +6,5 @@
 **/obj/**
 /source/packages/**
 /nugetArtifacts/**
+*.DotSettings.user
+*.suo
