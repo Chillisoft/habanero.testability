@@ -60,7 +60,7 @@ namespace Habanero.Testability.Testers.Tests
             SingleValueDef.PropertyName = GetRandomString();
             var tester = new SingleValueTesterTestDouble(SingleValueDef);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(SingleValueDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(SingleValueDef.PropertyName);
             //---------------Execute Test ----------------------
             var returnedPropertyName = tester.PropertyName;
             //---------------Test Result -----------------------

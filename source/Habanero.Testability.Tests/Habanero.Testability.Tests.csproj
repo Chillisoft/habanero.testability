@@ -52,9 +52,9 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework, Version=3.0.5813.39032, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net40\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -106,6 +106,10 @@
     <ProjectReference Include="..\Habanero.Testability.Helpers\Habanero.Testability.Helpers.csproj">
       <Project>{B0BBF7BB-9F01-4871-82D9-781E069AD210}</Project>
       <Name>Habanero.Testability.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Habanero.Testability.Testers.Tests\Habanero.Testability.Testers.Tests.csproj">
+      <Project>{1EA1C82F-EDFD-4B17-9514-AA8BA9C61C37}</Project>
+      <Name>Habanero.Testability.Testers.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Habanero.Testability.Tests.Base\Habanero.Testability.Tests.Base.csproj">
       <Project>{BFAD5080-8107-4DDF-AEF2-D8C713A5F527}</Project>

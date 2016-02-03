@@ -95,7 +95,7 @@ namespace Habanero.Testability.Testers.Tests
             singleRelationshipDef.Stub(def => def.RelationshipName).Return(GetRandomString());
             var tester = new SingleRelDefTester(singleRelationshipDef);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(singleRelationshipDef.RelationshipName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(singleRelationshipDef.RelationshipName);
             //---------------Execute Test ----------------------
             var returnedRelationshipName = tester.RelationshipName;
             //---------------Test Result -----------------------

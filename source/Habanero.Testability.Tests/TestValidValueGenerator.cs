@@ -18,6 +18,8 @@
 //      along with the Habanero framework.  If not, see <http://www.gnu.org/licenses/>.
 // ---------------------------------------------------------------------------------
 #endregion
+
+using Habanero.Testability.Testers.Tests;
 using Habanero.Testability.Tests.Base;
 
 namespace Habanero.Testability.Tests
@@ -166,7 +168,7 @@ namespace Habanero.Testability.Tests
             ValidValueGeneratorString valueGenerator = new ValidValueGeneratorString(def);
             object value = valueGenerator.GenerateValidValue();
             Assert.IsNotNull(value);
-            Assert.IsNotNullOrEmpty(value.ToString());
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(value.ToString());
             Assert.IsInstanceOf(typeof(string), value);
             Assert.AreNotEqual(valueGenerator.GenerateValidValue(), value);
         }

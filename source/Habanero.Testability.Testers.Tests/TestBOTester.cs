@@ -488,7 +488,7 @@ namespace Habanero.Testability.Testers.Tests
             const string propName = "DefaultProp";
             //---------------Assert Precondition----------------
             IPropDef propDef = classDef.GetPropDef(propName);
-            Assert.IsNotNullOrEmpty(propDef.DefaultValueString);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.DefaultValueString);
             Assert.AreNotEqual(defaultValueString, propDef.DefaultValueString);
             //---------------Test Result -----------------------
             try
@@ -517,7 +517,7 @@ namespace Habanero.Testability.Testers.Tests
             const string defaultValueString = "SomeValue";
             //---------------Assert Precondition----------------
             IPropDef propDef = classDef.GetPropDef(propName);
-            Assert.IsNotNullOrEmpty(propDef.DefaultValueString);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.DefaultValueString);
             Assert.AreEqual(defaultValueString, propDef.DefaultValueString);
             //---------------Execute Test ----------------------
             boTester.ShouldHaveDefault(propName, defaultValueString);
@@ -783,19 +783,6 @@ namespace Habanero.Testability.Testers.Tests
             Assert.IsTrue(true, "If it has got here then passed");
         }
 
-        [Ignore("To Implement tests for Composite")] //TODO Brett 01 Oct 2010: Ignored Test - To Implement tests for Composite
-        [Test]
-        public void Test_ShouldBeUniqueConstraint_WithMultiProps_WhenHasCompositeUC()
-        {
-            //---------------Set up test pack-------------------
-            
-            //---------------Assert Precondition----------------
-
-            //---------------Execute Test ----------------------
-
-            //---------------Test Result -----------------------
-            Assert.Fail("Not Yet Implemented");
-        }
         #endregion
 
         #region Relationship

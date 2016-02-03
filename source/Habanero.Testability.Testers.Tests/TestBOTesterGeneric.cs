@@ -321,7 +321,7 @@ namespace Habanero.Testability.Testers.Tests
             const string defaultValueString = "SomeOtherValue";
             BOTester<BOFakeWithDefault> boTester = CreateGenericTester<BOFakeWithDefault>();
             //---------------Assert Precondition----------------
-            Assert.IsNullOrEmpty(propDef.DefaultValueString);
+            NUnit3AssertsPolyFill.IsNullOrEmpty(propDef.DefaultValueString);
             Assert.AreNotEqual(defaultValueString, propDef.DefaultValueString);
             //---------------Test Result -----------------------
             try
@@ -347,7 +347,7 @@ namespace Habanero.Testability.Testers.Tests
             const string defaultValueString = "SomeValue";
             IPropDef propDef = classDef.GetPropDef(propName);
             //---------------Assert Precondition----------------
-            Assert.IsNullOrEmpty(propDef.DefaultValueString);
+            NUnit3AssertsPolyFill.IsNullOrEmpty(propDef.DefaultValueString);
             //---------------Execute Test ----------------------
             boTester.ShouldNotHaveDefault(bo => bo.NonDefaultProp, defaultValueString);
             //---------------Test Result -----------------------
@@ -387,7 +387,7 @@ namespace Habanero.Testability.Testers.Tests
             const string defaultValueString = "SomeValue";
             IPropDef propDef = classDef.GetPropDef(propName);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(propDef.DefaultValueString);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.DefaultValueString);
             Assert.AreEqual(defaultValueString, propDef.DefaultValueString);
             //---------------Execute Test ----------------------
             boTester.ShouldHaveDefault(bo => bo.DefaultProp, defaultValueString);
@@ -630,23 +630,6 @@ namespace Habanero.Testability.Testers.Tests
             }
         }
 
-        [Ignore("To Implement tests for Composite")] //TODO Brett 01 Oct 2010: Ignored Test - To Implement tests for Composite
-        [Test]
-        public void Test_ShouldBeUniqueConstraint_WithLambda_WithMultiProps_WhenHasCompositeUC()
-        {
-            //---------------Set up test pack-------------------
-
-            //---------------Assert Precondition----------------
-
-            //---------------Execute Test ----------------------
-
-            //---------------Test Result -----------------------
-            Assert.Fail("Not Yet Implemented");
-        }
         #endregion
-
-
-
-
     }
 }

@@ -21,6 +21,7 @@
 using System.Collections;
 using Habanero.Smooth;
 using Habanero.Testability.Helpers;
+using Habanero.Testability.Testers.Tests;
 using Habanero.Testability.Tests.Base;
 
 namespace Habanero.Testability.Tests
@@ -322,23 +323,6 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.IsNotNull(prop.Value);
             Assert.IsInstanceOf(typeof (int), prop.Value);
-        }
-
-        [Test]
-        public void Test_SetPropValue_WhenShort_ShouldSetToShort()
-        {
-            //---------------Set up test pack-------------------
-            IPropDef def = new PropDefFake {PropertyType = typeof (short)};
-            IBOProp prop = new BOProp(def);
-            //---------------Assert Precondition----------------
-            Assert.IsNull(prop.Value);
-            Assert.AreSame(typeof (short), prop.PropertyType);
-            //---------------Execute Test ----------------------
-            var factory = new BOTestFactory<FakeBO>();
-            factory.SetPropValueToValidValue(prop);
-            //---------------Test Result -----------------------
-            Assert.IsNotNull(prop.Value);
-            Assert.IsInstanceOf(typeof (short), prop.Value);
         }
 
         [Test]
@@ -1383,27 +1367,6 @@ namespace Habanero.Testability.Tests
             Assert.IsFalse(bo.BoolPropWithDefault.GetValueOrDefault());
         }
 
-        [Ignore("This should be easy to implement")]
-        //TODO Brett 14 May 2010: Ignored Test - This should be easy to implement
-        [Test]
-        public void
-            Test_CreateValidBusinessObject_WhenSetValueFor_WhenPropNotForABOPropOrRelationship_ShouldSetValueForViaPropInfo
-            ()
-        {
-            //---------------Set up test pack-------------------
-            var boWithReflectiveProp = new BOTestFactory<FakeBOWithReflectiveProp>();
-            //---------------Assert Precondition----------------
-            Assert.IsNullOrEmpty(boWithReflectiveProp.CreateValidBusinessObject().ReflectiveProp);
-            //---------------Execute Test ----------------------
-            var randomString = RandomValueGen.GetRandomString();
-            boWithReflectiveProp.SetValueFor(alert => alert.ReflectiveProp, randomString);
-            var bo = boWithReflectiveProp.CreateValidBusinessObject();
-            //---------------Test Result -----------------------
-            Assert.IsNotNull(bo);
-            Assert.IsNotNullOrEmpty(bo.ReflectiveProp);
-            Assert.AreEqual(randomString, bo.ReflectiveProp);
-        }
-
         [Test]
         public void Test_CreateSavedBusinessObject_ShouldReturnSavedValidBO()
         {
@@ -1425,7 +1388,7 @@ namespace Habanero.Testability.Tests
             //---------------Execute Test ----------------------
             FakeBO validBusinessObject = factory.CreateSavedBusinessObject();
             //---------------Test Result -----------------------
-            Assert.IsNullOrEmpty(validBusinessObject.NonCompulsoryString);
+            NUnit3AssertsPolyFill.IsNullOrEmpty(validBusinessObject.NonCompulsoryString);
         }
 
         /// <summary>
@@ -1440,7 +1403,7 @@ namespace Habanero.Testability.Tests
             //---------------Execute Test ----------------------
             var validBusinessObject = factory.CreateSavedBusinessObject();
             //---------------Test Result -----------------------
-            Assert.IsNotNullOrEmpty(validBusinessObject.NonCompulsoryString);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(validBusinessObject.NonCompulsoryString);
         }
 
         /// <summary>
@@ -1774,24 +1737,6 @@ namespace Habanero.Testability.Tests
             Assert.AreEqual(MANY, fakeParent2.OtherRelatedFakeBos.Count, "Many Children should have been created");
         }
 
-        [Ignore("Working on this bug")] //TODO Brett 02 Nov 2010: Ignored Test - REASON
-        [Test]
-        public void Test_CreateValidBusinessObjectAndSave_Twice_WhenWithManyChildren_ShouldCreateManyChildrenforBothParents_FIXBUG1077()
-        {
-            //---------------Set up test pack-------------------
-            var boTestFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-            boTestFactory = boTestFactory.WithMany(company => company.OtherRelatedFakeBos);
-            //---------------Assert Precondition----------------
-            //---------------Execute Test ----------------------
-            var fakeParent1 = boTestFactory.CreateValidBusinessObject();
-            fakeParent1.Save();
-            var fakeParent2 = boTestFactory.CreateValidBusinessObject();
-            fakeParent2.Save();
-            //---------------Test Result -----------------------
-            Assert.AreEqual(MANY, fakeParent2.OtherRelatedFakeBos.Count, "FakeParent2: Many Children should have been created");
-            Assert.AreEqual(MANY, fakeParent1.OtherRelatedFakeBos.Count, "FakeParent1: Many Children should have been created");
-        }
-
         [Test]
         public void Test_CreateManyValidBusinesObjects_With1_WhenWithManyChildren_ShouldCreateManyChildrenforEachParent_FIXBUG1077()
         {
@@ -1808,22 +1753,6 @@ namespace Habanero.Testability.Tests
             Assert.AreEqual(MANY, fakeParent.OtherRelatedFakeBos.Count, "Many Children should have been created");
         }
 
-        [Ignore("Working on this bug")] //TODO Brett 02 Nov 2010: Ignored Test - REASON
-        [Test]
-        public void Test_CreateManyValidBusinesObjects_WhenWithManyChildren_ShouldCreateManyChildrenforEachParent_FIXBUG1077()
-        {
-            //---------------Set up test pack-------------------
-            var boTestFactory = new BOTestFactory<FakeBOWithManyRelationship>();
-            //---------------Assert Precondition----------------
-            //---------------Execute Test ----------------------
-            var fakeParents = boTestFactory
-                .WithMany(fakeParent1 => fakeParent1.OtherRelatedFakeBos)
-                .CreateManySavedBusinessObject();
-            //---------------Test Result -----------------------
-            Assert.AreEqual(MANY, fakeParents.Count, "Many companies should have been created");
-            AssertAllParentsHaveManyChildren(fakeParents);
-        }
-
         [Test]
         public void Test_WithValuesForAllProps_ShouldConstructBoWithValuesForNonCompulsoryProps()
         {
@@ -1837,8 +1766,8 @@ namespace Habanero.Testability.Tests
                 .WithValueForAllProps()
                 .CreateValidBusinessObject();
             //---------------Test Result -----------------------
-            Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString, "Should have set value");
-            Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2, "Should have set value");
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(fakeBO.NonCompulsoryString);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2);
         }
         [Test]
         public void Test_WithValuesForAllProps_WhenValueIsRegisterd_ShouldConstructWithRegisteredValue()
@@ -1855,7 +1784,7 @@ namespace Habanero.Testability.Tests
                 .WithValue(bo => bo.NonCompulsoryString, expectedNonCompulsoryStringValue )
                 .CreateValidBusinessObject();
             //---------------Test Result -----------------------
-            Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2, "Should have set value");
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2);
         }
         [Test]
         public void Test_WithValuesForAllProps_WhenPropHasDefaultValue_ShouldConstructWithDefaultValue()
@@ -1874,7 +1803,7 @@ namespace Habanero.Testability.Tests
             //---------------Test Result -----------------------
             Assert.AreEqual("SomeDefaultValue", fakeBO.NonCompulsoryDefaultProp, "Should be set to Registerd Value");
             Assert.AreEqual(expectedNonCompulsoryStringValue, fakeBO.NonCompulsoryString, "Should have set value");
-            Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2, "Should have set value");
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2);
         }
         [Test]
         public void Test_WithValuesForAllProps_WhenHasValueGeneratorRegistered_ShouldConstructWithValueFromRegisteredValueGen()
@@ -1891,7 +1820,7 @@ namespace Habanero.Testability.Tests
                 .CreateValidBusinessObject();
             //---------------Test Result -----------------------
             Assert.AreEqual("ValueFromValueValueGeneratorFake", fakeBO.NonCompulsoryString, "Should have set value");
-            Assert.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2, "Should have set value");
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(fakeBO.NonCompulsoryString2);
         }
         [Test]
         public void Test_WithValuesForAllProps_PropIsWriteNotNew_ShouldNotSetValueForProp()

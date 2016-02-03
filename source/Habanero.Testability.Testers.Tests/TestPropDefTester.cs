@@ -102,7 +102,7 @@ namespace Habanero.Testability.Testers.Tests
             propDef.PropertyName = GetRandomString();
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
             //---------------Execute Test ----------------------
             var returnedPropertyName = tester.PropertyName;
             //---------------Test Result -----------------------
@@ -219,8 +219,8 @@ namespace Habanero.Testability.Testers.Tests
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsFalse(propDef.Compulsory);
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             //---------------Execute Test ----------------------
             try
             {
@@ -549,8 +549,8 @@ namespace Habanero.Testability.Testers.Tests
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNull(propDef.DefaultValueString);
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             //---------------Test Result -----------------------
             try
             {
@@ -592,8 +592,8 @@ namespace Habanero.Testability.Testers.Tests
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNull(propDef.DefaultValueString);
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             //---------------Test Result -----------------------
             try
             {
@@ -618,8 +618,8 @@ namespace Habanero.Testability.Testers.Tests
             propDef.DefaultValueString = "Today";
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             Assert.AreNotEqual(defaultValueString, propDef.DefaultValueString);
             //---------------Test Result -----------------------
             try
@@ -646,8 +646,8 @@ namespace Habanero.Testability.Testers.Tests
             propDef.DefaultValueString = "Today";
             
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             Assert.AreNotEqual(defaultValueString, propDef.DefaultValueString);
             //---------------Test Result -----------------------
             try
@@ -687,7 +687,7 @@ namespace Habanero.Testability.Testers.Tests
             propDef.DefaultValueString = "Fdafasdfasdfasd";
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(propDef.DefaultValueString);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.DefaultValueString);
             //---------------Test Result -----------------------
             try
             {
@@ -867,8 +867,8 @@ namespace Habanero.Testability.Testers.Tests
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
             Assert.IsNull(propDef.DisplayName);
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             //---------------Test Result -----------------------
             try
             {
@@ -896,8 +896,8 @@ namespace Habanero.Testability.Testers.Tests
             propDef.Stub(def => def.DisplayName).Return(actualDisplayName);
             var tester = new PropDefTester(propDef);
             //---------------Assert Precondition----------------
-            Assert.IsNotNullOrEmpty(propDef.PropertyName);
-            Assert.IsNotNullOrEmpty(propDef.ClassName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.PropertyName);
+            NUnit3AssertsPolyFill.IsNotNullOrEmpty(propDef.ClassName);
             Assert.AreNotEqual(expectedDisplayName, propDef.DisplayName);
             //---------------Test Result -----------------------
             try
