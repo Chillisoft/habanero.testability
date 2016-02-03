@@ -169,20 +169,6 @@ namespace Habanero.Testability.Tests
         }
 
         [Test]
-        public void Test_Resolve_WithShort_ShouldReturnValidValueGeneratorShort()
-        {
-            //---------------Set up test pack-------------------
-            var registry = new ValidValueGeneratorRegistry();
-            var propDef = new PropDefFake {PropertyType = typeof (short)};
-
-            //---------------Execute Test ----------------------
-            var validValueGenerator = registry.Resolve(propDef);
-            //---------------Test Result -----------------------
-            Assert.IsNotNull(validValueGenerator);
-            Assert.IsInstanceOf<ValidValueGeneratorShort>(validValueGenerator);
-        }
-
-        [Test]
         public void Test_Registry_ShouldReturnSingletonRegistry()
         {
             //---------------Set up test pack-------------------

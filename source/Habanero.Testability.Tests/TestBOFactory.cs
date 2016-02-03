@@ -28,7 +28,7 @@ namespace Habanero.Testability.Tests
 {
     using Habanero.Base;
     using Habanero.Base.Exceptions;
-    using Habanero.Testability;
+    using Testability;
     using NUnit.Framework;
     using System;
 
@@ -132,21 +132,6 @@ namespace Habanero.Testability.Tests
             Assert.IsInstanceOf<ValidValueGeneratorDouble>(generator);
         }
 
-        [Test]
-        public void Test_GetValidValueGenerator_WhenShort_ShouldRetShortGenerator()
-        {
-            //---------------Set up test pack-------------------
-            IPropDef def = new PropDefFake 
-                    {
-                        PropertyType = typeof(short)
-                    };
-            //---------------Assert Precondition----------------
-            //---------------Execute Test ----------------------
-            var generator = new BOTestFactory<FakeBOWithRules>().GetValidValueGenerator(def);
-            //---------------Test Result -----------------------
-            Assert.IsNotNull(generator);
-            Assert.IsInstanceOf<ValidValueGeneratorShort>(generator);
-        }
         [Test]
         public void Test_GetValidValueGenerator_WhenEnum_ShouldRetEnumGenerator()
         {
